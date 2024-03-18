@@ -1,4 +1,4 @@
-Game Schedule Tracker 프로젝트
+<strong align = "center">Game Schedule Tracker 프로젝트</strong>
 
 <div align=center> 
 <br>
