@@ -1,4 +1,4 @@
-Game Event Tracker 프로젝트
+Game Schedule Tracker 프로젝트
 
 <div align=center> 
 <br>
