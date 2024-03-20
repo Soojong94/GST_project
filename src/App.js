@@ -3,7 +3,7 @@ import './App.css';
 import './modal';
 
 
-{/* 주석???} 다는 법 */}
+
 function App() {
 
   let post = 'Testing';
@@ -17,5 +17,5 @@ function App() {
     </div>
   );
 }
-zz
+
 export default App;
