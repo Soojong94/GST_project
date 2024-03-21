@@ -1,20 +1,13 @@
-import logo from './logo.svg';
 import './App.css';
+import Sidebar3Script from './sidebar-03/sidebar3_script2';
 import './modal';
 
-
-
 function App() {
-
-  let post = 'Testing';
-
   return (
     <div className="App">
-      <div className="black-nav">
-        <h4>Test</h4>
-      </div>
-      <h4>{post}</h4> 
+      <Sidebar3Script/>
     </div>
   );
 }
+
 export default App;
