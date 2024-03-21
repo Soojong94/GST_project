@@ -19,11 +19,14 @@ function Sidebar() {
     });
   };
 
+  const imgpath = "../assets/images.png"
+  
   return (
+    
     <nav className={collapsed ? 'collapsed' : ''}>
       <div className="sidebar-top">
         <a href="#" className="logo__wrapper">
-          <img src="../sidebar-03/images.png" alt="Logo" className="logo" />
+          <img src={imgpath} alt="Logo" className="logo" />
           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHrvVPiqQMIIcwCM-b_rEkwt-m8JMa0NbGAg&usqp=CAU" alt="Logo" className="logo-small" />
         </a>
       </div>
