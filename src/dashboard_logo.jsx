@@ -1,6 +1,6 @@
 import React from 'react';
 import dashboardImage from './dashboardImg/KakaoTalk_20240318_165848557.png'; 
-import './dashboard.css';
+import './dashboard_logo.css';
 
 export default function GSTMenu() {
   return (

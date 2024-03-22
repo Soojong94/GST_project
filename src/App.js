@@ -1,6 +1,6 @@
 import './App.css';
 import Modal from './modal';
-import Dashboard from './dashboard';
+import Dashboard from './dashboard_logo';
 
 
 function App() {
