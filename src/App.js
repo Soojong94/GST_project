@@ -1,12 +1,19 @@
 import './App.css';
-import Sidebar3Script from './sidebar-03/sidebar3_script2';
 import Modal from './modal';
+import Dashboard from './dashboard';
+
 
 function App() {
   return (
     <>
-      <div className='Modal'>
-        <Modal></Modal>
+      <div>
+      
+        <div className = 'dashboardDiv'>
+          <Dashboard></Dashboard>
+        </div>
+        <div className='Modal'>
+          <Modal></Modal>
+        </div >
       </div>
     </>
   );
