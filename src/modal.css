@@ -1,3 +1,8 @@
+#mdbtn{
+    width: 300px;
+    height: 300px;
+}
+
 .modal {
     position: fixed;
     z-index: 1;
