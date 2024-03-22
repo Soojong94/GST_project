@@ -1,12 +1,14 @@
 import './App.css';
 import Sidebar3Script from './sidebar-03/sidebar3_script2';
-import './modal';
+import Modal from './modal';
 
 function App() {
   return (
-    <div className="App">
-      <Sidebar3Script/>
-    </div>
+    <>
+      <div className='Modal'>
+        <Modal></Modal>
+      </div>
+    </>
   );
 }
 
