@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+.dashboardDiv{
+
+  margin-right: 500px;
+}
+
 .black-nav{
   display: flex;
   background: black;
