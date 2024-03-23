@@ -1,51 +1,153 @@
-.App {
-  text-align: center;
+/* App.css */
+
+.logo {
+  width: 350px;
+  background-color: whitesmoke;
+  padding: 20px;
 }
 
-.dashboardDiv{
-
-  margin-right: 500px;
+.content {
+  flex: 1;
+  padding: 20px;
 }
 
-.black-nav{
-  display: flex;
-  background: black;
-  width: 100%;
-  color: white;
-  padding-left: 20px;
+/* 나머지 스타일들은 동일하게 유지합니다 */
+a {
+  text-decoration: none;
+  color: #333;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.dashboard-text {
+  padding-left: 31px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.dashboard_menu:hover,
+.dashboard_menu:focus {
+  background-color: lightblue;
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+  }
+
+  .logo {
+    width: 100%;
+
+    margin-bottom: 20px;
+  }
+
+  .content {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+  }
+
+  .calendar {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+#body {
+  background: #b71c1c;
+  color: black;
 }
 
-.App-link {
-  color: #61dafb;
+h1::before {
+  content: '1. '
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+h1::after {
+  content: ' - 기본'
+}
+
+/* 화면 너비가 0 ~ 1280px : 데스크탑 */
+@media (max-width: 1280px) {
+  #body {
+    background: #880e4f;
+
+    .container {
+      width: 100%;
+      height: 100%;
+      flex-direction: column;
+    }
   }
-  to {
-    transform: rotate(360deg);
+
+  h1::before {
+    content: '2. '
+  }
+
+  h1::after {
+    content: ' - 1025px ~ 1280px'
+  }
+}
+
+/* 화면 너비가 0 ~ 1024px : 데스크탑 */
+@media (max-width: 1024px) {
+  #body {
+    background: #4a148c;
+  }
+
+  h1::before {
+    content: '3. '
+  }
+
+  h1::after {
+    content: ' - 961px ~ 1024px'
+  }
+}
+
+/* 화면 너비가 0 ~ 960px : 노트북 */
+@media (max-width: 960px) {
+  #body {
+    background: #311b92;
+  }
+
+  h1::before {
+    content: '4. '
+  }
+
+  h1::after {
+    content: ' - 769px ~ 960px'
+  }
+}
+
+/* 화면 너비가 0 ~ 768 : 타블렛 */
+@media (max-width: 768px) {
+  #body {
+    background: #4a148c;
+  }
+
+  h1::before {
+    content: '5. '
+  }
+
+  h1::after {
+    content: ' - 577px ~ 768px'
+  }
+}
+
+/* 화면 너비가 0 ~ 576 : 모바일 */
+@media (max-width: 576px) {
+  #body {
+    background: #004D40;
+  }
+
+  h1::before {
+    content: '6. '
+  }
+
+  h1::after {
+    content: ' - 0px ~ 576px'
+  }
+
+  .container {
+    width: 30%;
+    height: 100%;
+    flex-direction: column;
   }
 }
