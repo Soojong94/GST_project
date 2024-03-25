@@ -1,23 +1,26 @@
+// App.js
+
+import React from 'react';
 import './App.css';
-import Modal from './modal';
 import Dashboard from './dashboard_logo';
-import AppBar from './appbar';
 import MyCalendar from './calendar';
+import Sidebar from '../src/sidebar-02/sidebar_01';
+
 
 function App() {
   return (
-    <div id='body'>
-      <div className='container'>
-        <div className='logo'>
-          <Dashboard />
-          <AppBar />
-        </div>
-        <div className='content'>
-          <MyCalendar className='calendar' />
-        </div>
+    <div className="container">
+      <div id="sidebar" >
+        <Dashboard />
+        <Sidebar />
+      </div>
+      <div id="myCalendar">
+        <MyCalendar />
+
       </div>
     </div>
   );
 }
+
 
 export default App;
