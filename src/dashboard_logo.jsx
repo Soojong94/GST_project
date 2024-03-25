@@ -1,5 +1,4 @@
-import React from 'react';
-import dashboardImage from './dashboardImg/KakaoTalk_20240318_165848557.png'; 
+import React from 'react'; 
 import dashboardImage2 from './dashboardImg/KakaoTalk_20240318_165848557_01.png'; 
 import './App.css';
 

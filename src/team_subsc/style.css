@@ -17,7 +17,7 @@ body {
     font-size: 16px;
     font-family: Poppins, sans-serif;
     height: 100vh;
-    padding: 6rem 2rem;
+    padding-top: 3px;
     background: var(--background);
 }
 
@@ -26,12 +26,13 @@ body {
     flex-wrap: wrap;
     margin: 0 auto;
     justify-content: center;
-    max-width: 1200px;
+    max-width: 2000px;
     gap: 1.5rem;
 }
 
 .articles article {
-    max-width: 20rem;
+    max-width: 15rem;
+    max-height: 25rem;
     width: 100%;
     cursor: pointer;
     position: relative;
@@ -40,6 +41,8 @@ body {
     overflow: hidden;
     border-radius: 1rem;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    opacity: 1;
+    text-align: center;
 }
 
 .articles article h2 {
