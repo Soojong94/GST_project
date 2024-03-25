@@ -18,7 +18,11 @@
     "material-ui-popup-state": "^5.1.0",
     "mysql": "^2.18.1",
     "mysql2": "^3.9.2",
+<<<<<<< HEAD
     "npm": "^10.5.0",
+=======
+    "puppeteer": "^22.6.0",
+>>>>>>> 1851f7e0577277e8e821ce1c7434daa811a1eb0e
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "^3.0.1",
