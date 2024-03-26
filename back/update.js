@@ -26,7 +26,7 @@ async function update(connection) {
 
                     connection.query(query, (err, results) => {
                         if (err) {
-                            console.log('데이터베이스 쿼리 실행 실패:', err);
+                            console.log('UD데이터베이스 쿼리 실행 실패:', err);
                         }
 
                         // 모든 쿼리가 완료되면 데이터베이스 연결 종료

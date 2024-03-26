@@ -18,7 +18,7 @@ async function createJson(connection) {
     return new Promise((resolve, reject) => {
         connection.query('SELECT team_idx, team_name FROM teams', async (err, results) => {
             if (err) {
-                console.log('데이터베이스 쿼리 실행 실패:', err);
+                console.log('CJ데이터베이스 쿼리 실행 실패:', err);
                 reject(err);
                 return;
             }
