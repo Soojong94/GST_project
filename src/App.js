@@ -6,6 +6,7 @@ import Calendar from './calendar';
 import TeamSubsc from './team_subsc/team_logo';
 import Board from '../src/board/board'
 import BoardContent from '../src/boardContent/boardContent'
+import Team_info from './team_info/team_info'
 
 
 function App() {
@@ -29,8 +30,12 @@ function App() {
         <Board />
       </div> */}
 
-      <div id='BoardContent'>
+      {/* <div id='BoardContent'>
         <BoardContent />
+      </div> */}
+
+      <div id = 'team_info'>
+        <Team_info />
       </div>
       
     </div>
