@@ -1,12 +1,13 @@
 /* App.css */
 
 #sidebar{
-  height: 100vh;
+  height: 100%;
+  height: auto;
 }
 
 .container {
   display: flex;
-  height: 100vh;
+  height: auto;
   
 }
 
@@ -17,8 +18,9 @@
 }
 
 #team_subsc {
-  flex-grow: 0.5; /* team_subsc 너비 조정 */
-  max-height: 100%; /* team_subsc 높이를 부모 컨테이너의 높이와 동일하게 설정 */
+  flex-grow: 0.5;
+  max-height: 100%; 
+
   
 }
 
@@ -32,7 +34,7 @@
     height: auto;
   }
 
-  .team_subsc {
+  #team_subsc {
     height: auto;
   }
 }
