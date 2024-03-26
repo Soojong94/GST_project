@@ -48,6 +48,7 @@
     min-width: 30%;
     max-width: 2%;
     align-items: center;
+    
 }
 
 .board_content_content {
@@ -58,6 +59,7 @@
     border: 1px solid var(--primary-light);
     border-radius: 0.75rem;
     box-shadow: 0 24px 72px 0 rgba(96, 93, 255, .1);
+    
 }
 
 .board_content_background img {
@@ -71,6 +73,7 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    
 }
 
 .board_content_blog-author {

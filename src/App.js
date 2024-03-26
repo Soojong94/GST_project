@@ -37,6 +37,7 @@ function App() {
       <div id = 'team_info'>
         <Team_info />
       </div>
+
       
     </div>
 

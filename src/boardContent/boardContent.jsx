@@ -40,7 +40,7 @@ const Board_content = () => {
           </div>
         </article>
         <div className="board_content_content">
-          <div className="board_content_card-content">
+          <div className="board_content_card-content ">
             <h2>현재 글 제목입니다</h2>
             <p>
               현재 글 내용입니다
