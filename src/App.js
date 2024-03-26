@@ -29,9 +29,9 @@ function App() {
         <Board />
       </div> */}
 
-      <div id='BoardContent'>
+      {/* <div id='BoardContent'>
         <BoardContent />
-      </div>
+      </div> */}
       
     </div>
 
