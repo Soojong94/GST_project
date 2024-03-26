@@ -1,23 +1,43 @@
+// App.js
+import React from 'react';
 import './App.css';
-import Modal from './modal';
-import Dashboard from './dashboard_logo';
-import AppBar from './appbar';
-import MyCalendar from './calendar';
+import Sidebar from '../src/sidebar-02/sidebar'
+import Calendar from './calendar';
+import TeamSubsc from './team_subsc/team_logo';
+
+
 
 function App() {
   return (
-    <div id='body'>
-      <div className='container'>
-        <div className='logo'>
-          <Dashboard />
-          <AppBar />
-        </div>
-        <div className='content'>
-          <MyCalendar className='calendar' />
-        </div>
+    <div className="container">
+      <div id="sidebar" >
+
+        <Sidebar />
+
+      </div>
+      {/* <div className='calendar'>
+        <Calendar />
+
+      </div> */}
+      <div id = "team_subsc">
+        <TeamSubsc />
       </div>
     </div>
+
   );
 }
+// function TeamSubsc(props){
+//   return(
+//     <>
+//     <div id='sidebar'>
+//       <Sidebar />
+//     </div>
+//     <div>
+//       <TeamSubsc />
+//     </div>
+//     </>
+//   )
+// }
+
 
 export default App;
