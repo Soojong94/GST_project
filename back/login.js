@@ -16,7 +16,6 @@ app.use(session({
     saveUninitialized: true,
 }));
 
-
 const connection = mysqlConnection.init();
 mysqlConnection.open(connection);
 
@@ -26,18 +25,11 @@ app.use(bodyParser.urlencoded({extended:false}));
 
 const GOOGLE_CLIENT_ID = ''; // YOUR GOOGLE_CLIENT_ID
 const GOOGLE_CLIENT_SECRET = '' // YOUR GOOGLE_CLIENT_SECRET;
-const GOOGLE_LOGIN_REDIRECT_URI = 'http://localhost:3000/login/redirect';
-const GOOGLE_SIGNUP_REDIRECT_URI = 'http://localhost:3000/signup/redirect';
+const GOOGLE_LOGIN_REDIRECT_URI = 'http://localhost:5000/login/redirect';
+const GOOGLE_SIGNUP_REDIRECT_URI = 'http://localhost:5000/signup/redirect';
 const GOOGLE_TOKEN_URL = 'https://oauth2.googleapis.com/token';
 const GOOGLE_USERINFO_URL = 'https://www.googleapis.com/oauth2/v2/userinfo';
 
-app.get('/', (req, res) => {
-    res.send(`
-        <h1>OAuth</h1>
-        <a href="/login">Log in</a>
-        <a href="/signup">Sign up</a>
-    `);
-});
 
 
 app.get('/login', (req, res) => {
@@ -82,19 +74,21 @@ app.get('/login/redirect', async (req, res) => {
     req.session.google_id = google_info.email; // 세션에 구글 아이디 저장
 
     // 디비에서 코드값과 일치하는 구글 아이디를 조회하는 쿼리 실행
-    const sql = `SELECT user_id FROM users WHERE user_id = '${google_info.email}'`;
+    const sql = `SELECT user_id, user_nick FROM users WHERE user_id = '${google_info.email}'`;
     connection.query(sql, function(err, result) {
         if (err) throw err;
 
         if (result.length > 0) {
             const user_id = result[0].user_id;
+            const user_nick = result[0].user_nick;
 
             // 세션에 구글 아이디 저장
             req.session.user_id = user_id;
-            console.log(`Google ID (${user_id}) stored in session.`);
+            req.session.user_nick = user_nick;
+            console.log(`Google ID (${user_id}) and nickname (${user_nick}) stored in session.`);
         }
         
-        res.render('main');
+        res.send("<script>alert('로그인 성공'); location.href='http://localhost:3000'</script>");
     });
 });
 
@@ -137,8 +131,18 @@ app.post('/first/login.js', (req, res) => {
 
     mysqlConnection.close;
 
-    res.send("<script>alert('회원등록 완료 되었습니다.'); location.href='/'</script>");
+    res.send("<script>alert('회원등록 완료 되었습니다.'); location.href='http://localhost:3000?'</script>");
 });
 
+// 세션 리액트로 전송
+// app.get('/session', (req, res) => {
+//     if (req.session.user_id && req.session.user_nick) {
+//       res.json({ user_id: req.session.user_id, user_nick: req.session.user_nick });
+//     } else {
+//       res.json(null);
+//     }
+//   });
+
+
 app.listen(port, () => {
-    console.log('server is running at 3000');});
+    console.log('server is running at 5000');});
