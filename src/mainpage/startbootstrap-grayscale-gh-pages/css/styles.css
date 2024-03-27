@@ -12909,7 +12909,7 @@ body {
   line-height: 2.5rem;
   letter-spacing: 0.8rem;
   background: linear-gradient(rgb(255, 255, 255), rgb(255, 255, 255));
-  
+
   -webkit-background-clip: text;
   background-clip: text;
 }
@@ -13066,7 +13066,8 @@ body {
   font-size: 40px;
 
 }
-#Personal_Schedule_text:hover{
+
+#Personal_Schedule_text:hover {
   color: #00d9ff;
 }
 
@@ -13076,9 +13077,10 @@ body {
   color: #fff;
   font-weight: 1000;
   font-size: 40px !important;
-  
+
 }
-#LOL_Pro_Team_Subscribe_text:hover{
+
+#LOL_Pro_Team_Subscribe_text:hover {
   color: #00d9ff;
 }
 
@@ -13088,22 +13090,23 @@ body {
   font-weight: 1000;
   font-size: 40px !important;
 }
-#Clan_Schedule_text:hover{
+
+#Clan_Schedule_text:hover {
   color: #00d9ff;
 }
 
-#GST_Start_text{
+#GST_Start_text {
   text-align: center !important;
 }
 
-#Game_Schedule_Tracker_text{
+#Game_Schedule_Tracker_text {
   color: snow !important;
 }
 
-#img_test{
+#img_test {
   position: absolute;
 }
 
-.nav-link:hover{
+.nav-link:hover {
   color: #00d9ff !important;
 }

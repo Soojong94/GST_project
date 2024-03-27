@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './style.css'; // Assuming your CSS is in the same directory
+import { Link, useLocation } from 'react-router-dom';
+import './style.css'; 
 import logo from '../dashboardImg/KakaoTalk_20240318_165848557_01.png';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
@@ -8,19 +9,15 @@ import AnalyticsIcon from '@mui/icons-material/Analytics';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SettingsIcon from '@mui/icons-material/Settings';
 
-
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [activeLink, setActiveLink] = useState('');
+  const [activeLink, setActiveLink] = useState(''); 
+
+  const location = useLocation();
 
   useEffect(() => {
-    const current = window.location.href;
-    setActiveLink(current);
-  }, []);
-
-  const handleExpandClick = () => {
-    setIsCollapsed(!isCollapsed);
-  };
+    setActiveLink(location.pathname);
+  }, [location.pathname]);
 
   const handleLinkClick = (href) => {
     setActiveLink(href);
@@ -29,40 +26,36 @@ const Sidebar = () => {
   return (
     <nav className={isCollapsed ? 'collapsed' : ''}>
       <div className="sidebar-top">
-        <a href="#" className="logo__wrapper">
+        <Link to="/" className="logo__wrapper">
           <img src={logo} alt="Logo" className="logo" />
           <h1 className="hide">Game Schedule Tracker</h1>
-        </a>
-   
+        </Link>
       </div>
       <div className="sidebar-links">
         <ul>
           <li>
-            <a href="#dashboard" title="Dashboard" className="tooltip" onClick={() => handleLinkClick('#dashboard')}>
+            <Link to="/Calendar" title="Dashboard" className={`tooltip ${activeLink === '/Calendar' ? 'active' : ''}`} onClick={() => handleLinkClick('/Calendar')}>
               <CalendarMonthIcon />
               <span className="link hide">캘린더</span>
-              
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#project" title="Project" className="tooltip" onClick={() => handleLinkClick('#project')}>
+            <Link to="/TeamSubscriptions" title="Project" className={`tooltip ${activeLink === '/TeamSubscriptions' ? 'active' : ''}`} onClick={() => handleLinkClick('/TeamSubscriptions')}>
               <SubscriptionsIcon />
               <span className="link hide">팀 구독 게시판</span>
-              
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#performance" title="Performance" className="tooltip" onClick={() => handleLinkClick('#performance')}>
+            <Link to="/ClanBoard" title="Performance" className={`tooltip ${activeLink === '/ClanBoard' ? 'active' : ''}`} onClick={() => handleLinkClick('/ClanBoard')}>
               <VideogameAssetIcon />
               <span className="link hide">클랜 게시판</span>
-              
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#funds" title="Funds" className="tooltip" onClick={() => handleLinkClick('#funds')}>
+            <Link to="/funds" title="Funds" className={`tooltip ${activeLink === '/funds' ? 'active' : ''}`} onClick={() => handleLinkClick('/funds')}>
               <AnalyticsIcon />
               <span className="link hide">경기 분석 게시판 <br></br>(오픈 예정)</span>
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
@@ -70,18 +63,16 @@ const Sidebar = () => {
         <div className="sidebar-links">
           <ul>
             <li>
-              <a href="#help" title="Help" className="tooltip" onClick={() => handleLinkClick('#help')}>
+              <Link to="/help" title="Help" className={`tooltip ${activeLink === '/help' ? 'active' : ''}`} onClick={() => handleLinkClick('/help')}>
                 <LogoutIcon />
                 <span className="link hide">Logout</span>
-                
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#settings" title="Settings" className="tooltip" onClick={() => handleLinkClick('#settings')}>
+              <Link to="/settings" title="Settings" className={`tooltip ${activeLink === '/settings' ? 'active' : ''}`} onClick={() => handleLinkClick('/settings')}>
                 <SettingsIcon />
                 <span className="link hide">Settings</span>
-                
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

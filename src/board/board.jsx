@@ -11,7 +11,7 @@ import KDF from '../team_subsc/logo/KDF.PNG';
 import KT from '../team_subsc/logo/KT.PNG';
 import './style.css'
 
-function TeamSubscCard({ imgSrc, altText, title, content }) {
+function BoardCard({ imgSrc, altText, title, content }) {
   return (
     <article>
       <figure>
@@ -25,9 +25,247 @@ function TeamSubscCard({ imgSrc, altText, title, content }) {
   );
 }
 
-function TeamSubsc() {
+function Board() {
   const teams = [
     {
+      imgSrc: BRO,
+      altText: "Lavender Fields",
+      title: "게시판1",
+      content: "게시판1 내용"
+    },
+    {
+      imgSrc: DK,
+      altText: "Snowy Mountains",
+      title: "게시판2",
+      content: "게시판2 내용"
+    },
+    {
+      imgSrc: DRX,
+      altText: "Wooden Bridge",
+      title: "게시판3",
+      content: "게시판3 내용"
+    },
+    {
+      imgSrc: T1,
+      altText: "Autumn Forest",
+      title: "게시판4",
+      content: "게시판4 내용"
+    },
+    {
+      imgSrc: NS,
+      altText: "Freezing Forest",
+      title: "게시판5",
+      content: "게시판5 내용"
+    },
+    {
+      imgSrc: Fearx,
+      altText: "Fearx",
+      title: "게시판6",
+      content: "게시판6 내용"
+    },
+    {
+      imgSrc: GenG,
+      altText: "GenG",
+      title: "게시판7",
+      content: "게시판7 내용"
+    },
+    {
+      imgSrc: HLE,
+      altText: "Hanwha Life Esports",
+      title: "게시판8",
+      content: "게시판8 내용"
+    },
+    {
+      imgSrc: KDF,
+      altText: "Kwangdong Freecs",
+      title: "게시판9",
+      content: "게시판9 내용"
+    },
+    {
+      imgSrc: KT,
+      altText: "KT Rolster",
+      title: "게시판10",
+      content: "게시판10 내용"
+    },
+    {
+      imgSrc: BRO,
+      altText: "Lavender Fields",
+      title: "게시판1",
+      content: "게시판1 내용"
+    },
+    {
+      imgSrc: DK,
+      altText: "Snowy Mountains",
+      title: "게시판2",
+      content: "게시판2 내용"
+    },
+    {
+      imgSrc: DRX,
+      altText: "Wooden Bridge",
+      title: "게시판3",
+      content: "게시판3 내용"
+    },
+    {
+      imgSrc: T1,
+      altText: "Autumn Forest",
+      title: "게시판4",
+      content: "게시판4 내용"
+    },
+    {
+      imgSrc: NS,
+      altText: "Freezing Forest",
+      title: "게시판5",
+      content: "게시판5 내용"
+    },
+    {
+      imgSrc: Fearx,
+      altText: "Fearx",
+      title: "게시판6",
+      content: "게시판6 내용"
+    },
+    {
+      imgSrc: GenG,
+      altText: "GenG",
+      title: "게시판7",
+      content: "게시판7 내용"
+    },
+    {
+      imgSrc: HLE,
+      altText: "Hanwha Life Esports",
+      title: "게시판8",
+      content: "게시판8 내용"
+    },
+    {
+      imgSrc: KDF,
+      altText: "Kwangdong Freecs",
+      title: "게시판9",
+      content: "게시판9 내용"
+    },
+    {
+      imgSrc: KT,
+      altText: "KT Rolster",
+      title: "게시판10",
+      content: "게시판10 내용"
+    },{
+      imgSrc: BRO,
+      altText: "Lavender Fields",
+      title: "게시판1",
+      content: "게시판1 내용"
+    },
+    {
+      imgSrc: DK,
+      altText: "Snowy Mountains",
+      title: "게시판2",
+      content: "게시판2 내용"
+    },
+    {
+      imgSrc: DRX,
+      altText: "Wooden Bridge",
+      title: "게시판3",
+      content: "게시판3 내용"
+    },
+    {
+      imgSrc: T1,
+      altText: "Autumn Forest",
+      title: "게시판4",
+      content: "게시판4 내용"
+    },
+    {
+      imgSrc: NS,
+      altText: "Freezing Forest",
+      title: "게시판5",
+      content: "게시판5 내용"
+    },
+    {
+      imgSrc: Fearx,
+      altText: "Fearx",
+      title: "게시판6",
+      content: "게시판6 내용"
+    },
+    {
+      imgSrc: GenG,
+      altText: "GenG",
+      title: "게시판7",
+      content: "게시판7 내용"
+    },
+    {
+      imgSrc: HLE,
+      altText: "Hanwha Life Esports",
+      title: "게시판8",
+      content: "게시판8 내용"
+    },
+    {
+      imgSrc: KDF,
+      altText: "Kwangdong Freecs",
+      title: "게시판9",
+      content: "게시판9 내용"
+    },
+    {
+      imgSrc: KT,
+      altText: "KT Rolster",
+      title: "게시판10",
+      content: "게시판10 내용"
+    },
+    {
+      imgSrc: BRO,
+      altText: "Lavender Fields",
+      title: "게시판1",
+      content: "게시판1 내용"
+    },
+    {
+      imgSrc: DK,
+      altText: "Snowy Mountains",
+      title: "게시판2",
+      content: "게시판2 내용"
+    },
+    {
+      imgSrc: DRX,
+      altText: "Wooden Bridge",
+      title: "게시판3",
+      content: "게시판3 내용"
+    },
+    {
+      imgSrc: T1,
+      altText: "Autumn Forest",
+      title: "게시판4",
+      content: "게시판4 내용"
+    },
+    {
+      imgSrc: NS,
+      altText: "Freezing Forest",
+      title: "게시판5",
+      content: "게시판5 내용"
+    },
+    {
+      imgSrc: Fearx,
+      altText: "Fearx",
+      title: "게시판6",
+      content: "게시판6 내용"
+    },
+    {
+      imgSrc: GenG,
+      altText: "GenG",
+      title: "게시판7",
+      content: "게시판7 내용"
+    },
+    {
+      imgSrc: HLE,
+      altText: "Hanwha Life Esports",
+      title: "게시판8",
+      content: "게시판8 내용"
+    },
+    {
+      imgSrc: KDF,
+      altText: "Kwangdong Freecs",
+      title: "게시판9",
+      content: "게시판9 내용"
+    },
+    {
+      imgSrc: KT,
+      altText: "KT Rolster",
+      title: "게시판10",
+      content: "게시판10 내용"
+    },{
       imgSrc: BRO,
       altText: "Lavender Fields",
       title: "게시판1",
@@ -155,7 +393,7 @@ function TeamSubsc() {
   return (
     <div className="articles">
       {teams.map((team, index) => (
-        <TeamSubscCard
+        <BoardCard
           key={index}
           imgSrc={team.imgSrc}
           altText={team.altText}
@@ -167,4 +405,4 @@ function TeamSubsc() {
   );
 }
 
-export default TeamSubsc;
+export default Board;

@@ -15,7 +15,7 @@ function TeamSubscCard({ imgSrc, altText, title, content }) {
   return (
     <article>
       <figure>
-        <img src={imgSrc} alt={altText} />
+        <img id = "team_logo_img" src={imgSrc} alt={altText} />
       </figure>
       <div className="article-preview">
         <h2>{title}</h2>
@@ -90,7 +90,7 @@ function TeamSubsc() {
   ];
 
   return (
-    <div className="articles">
+    <div className="articles" id = "team_subsc">
       {teams.map((team, index) => (
         <TeamSubscCard
           key={index}
