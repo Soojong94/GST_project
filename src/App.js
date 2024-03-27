@@ -26,17 +26,17 @@ function App() {
         <TeamSubsc />
       </div> */}
       
-      {/* <div id = "board">
+      <div id = "board">
         <Board />
-      </div> */}
+      </div>
 
       {/* <div id='BoardContent'>
         <BoardContent />
       </div> */}
 
-      <div id = 'team_info'>
+      {/* <div id = 'team_info'>
         <Team_info />
-      </div>
+      </div> */}
 
       
     </div>
