@@ -7,7 +7,7 @@ const mysqlConnection = require('./mysql')
 const cors = require('cors'); // cor 패키지
 const http = require('http') // cor와 함께 사용할 아이
 const app = express();
-const port = 3000;
+const port = 5000;
 
 app.use(cors());
 app.use(session({
