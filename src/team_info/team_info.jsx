@@ -1,8 +1,16 @@
-import React from 'react';
+import React,{useState} from 'react';
 import './style.css';
 import preview from './assets/preview.png'
 
 const team_info = () => {
+
+  // const [isToggle,setIsToggle] = useState(false);
+
+  // const togglebutton = () => {
+  //   setIsToggle(!isToggle);
+  // }
+
+
  return (
 
      <div className='team-info'>
