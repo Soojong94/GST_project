@@ -1,49 +1,28 @@
-.container {
+.main_container {
   display: flex;
   margin-left: 300px;
   height: 100%;
 }
 
-.calendar {
+.main_calendar {
   
   flex-grow: 0.65;
   height: 100vh;
   margin: auto;
 }
 
-#team_subsc {
-  flex-grow: 0.5;
-  max-height: 100%; 
 
-}
-#BoardContent{
-  margin: auto;
-  flex-grow: 1.5;
-  max-height: 100%; 
-  max-width: 850px;
-  
-}
-
-#team_info{
-  margin: auto;
-  flex-grow: 1.5;
-  max-height: 100%; 
-  max-width: 850px;
-}
 
 
 @media screen and (max-width: 768px) {
-  .container {
+  .main_container {
     flex-direction: column;
   }
 
-  .calendar {
+  .main_calendar {
     height: auto;
   }
 
-  #team_subsc {
-    height: auto;
-  }
 
 
 }
