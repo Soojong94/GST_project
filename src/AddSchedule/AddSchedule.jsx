@@ -1,50 +1,57 @@
 import React, { useState } from 'react';
-import './AddSchedule.css'; // CSS 파일 import
-import { useParams, useNavigate } from 'react-router-dom'; // 라우터에서 날짜 정보를 가져오기 위해 useParams 사용
+import './AddSchedule.css'; 
+import { useParams, useNavigate } from 'react-router-dom'; 
 
-const AddSchedule = () => {
-  const { date } = useParams(); // 라우터에서 날짜 정보 가져오기
-  const navigate = useNavigate(); // useNavigate hook 사용하여 라우팅 처리
+const AddSchedule = ({ onScheduleAdded,testData }) => {
+  console.log('add schedule')
+  const { date } = useParams(); 
+  const navigate = useNavigate(); 
 
-  // 입력 필드의 값들을 상태로 관리합니다.
+
   const [formData, setFormData] = useState({
+    calendarType: '1', 
     title: '',
     startDate: '',
     endDate: '',
     time: '',
     location: '',
-    description: ''
+    description: '',
+    
   });
 
-  // 입력 필드 값이 변경될 때마다 상태 업데이트
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // 취소 버튼 클릭 시 캘린더 페이지로 이동하고 입력 정보 초기화
+
   const handleCancel = () => {
-    navigate(-1);
+    navigate('/calendar');
   };
 
-  // reset 버튼 클릭 시 입력 정보 초기화
+
   const handleReset = () => {
     setFormData({
+      calendarType: '1',
       title: '',
       startDate: '',
       endDate: '',
       time: '',
       location: '',
-      description: ''
+      description: '',
+      
     });
   };
 
-  // 일정 등록 폼 제출 시 처리
   const handleSubmit = (e) => {
     e.preventDefault();
-    // 여기에 서버에 일정 데이터를 전송하거나 다른 작업을 수행할 수 있습니다.
+
     console.log('일정 데이터:', formData);
-    // 일정 등록 후 이전 페이지로 이동
-    navigate(-1);
+    
+    navigate('/calendar'); 
+    
+    onScheduleAdded({ ...formData, calendarType: parseInt(formData.calendarType) });
+    
   };
 
   return (
@@ -54,6 +61,14 @@ const AddSchedule = () => {
           <h2 className="text-2xl font-bold">일정 등록</h2>
         </div>
         <form id="schedule-form" onSubmit={handleSubmit}>
+        <div className="input-group mb-4">
+            <label htmlFor="calendar-type" className="label">캘린더 종류</label>
+            <select id="calendar-type" name="calendarType" className="input" value={formData.calendarType} onChange={handleChange}>
+              <option value="1">개인 일정</option>
+              <option value="2">팀 일정</option>
+              <option value="3">클랜 일정</option>
+            </select>
+          </div>
           <input type="hidden" name="date" value={date} /> {/* 라우터에서 받은 날짜 정보를 숨겨진 필드로 전달 */}
           <div className="input-group mb-4">
             <label htmlFor="title" className="label">제목</label>
@@ -79,6 +94,7 @@ const AddSchedule = () => {
             <label htmlFor="description" className="label">내용</label>
             <textarea id="description" name="description" className="input" value={formData.description} onChange={handleChange}></textarea>
           </div>
+          
           <div className="button-group">
             <button type="submit" className="submit-btn">등록</button>
             <button type="button" className="reset-btn" onClick={handleReset}>리셋</button>
