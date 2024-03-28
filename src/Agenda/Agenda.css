@@ -1,0 +1,121 @@
+/* agenda.css */
+
+.agenda-container {
+    background-color: #f9f9f9; /* 배경색 적용 */
+    padding: 20px; /* 여백 추가 */
+  }
+  
+  .agenda {
+    width: 300px; /* Agenda의 너비 */
+    margin: 0 auto; /* 가운데 정렬을 위한 마진 */
+  }
+  
+  .agenda-group {
+    background-color: #fff; /* Agenda 그룹 배경색 */
+    padding: 10px; /* 내부 여백 */
+    border-radius: 5px; /* 둥근 테두리 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* box shadow 추가 */
+  }
+  
+  .agenda-item {
+    padding: 10px; /* 내부 여백 */
+    margin-bottom: 10px; /* 아이템 간격 */
+    border: 2px solid #ccc; /* 테두리 추가 */
+    border-radius: 5px; /* 둥근 테두리 */
+    cursor: pointer;
+  }
+  
+  .agenda-item:nth-child(1) {
+    border-color: #1e40af; /* 첫 번째 아이템 테두리 색상 */
+  }
+  
+  .agenda-item:nth-child(2) {
+    border-color: #ff6347; /* 두 번째 아이템 테두리 색상 */
+  }
+  
+  .agenda-item:nth-child(3) {
+    border-color: #32cd32; /* 세 번째 아이템 테두리 색상 */
+  }
+  
+  .agenda-title {
+    margin-top: 0; /* 제목의 상단 마진 제거 */
+    margin-bottom: 5px; /* 제목과 설명 사이 여백 */
+    color: #333; /* 제목 색상 */
+  }
+  
+  .agenda-description {
+    margin-top: 0; /* 설명의 상단 마진 제거 */
+    color: #666; /* 설명 색상 */
+  }
+  .agenda-modal {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+.agenda-modal-content {
+    position: relative;
+    top: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-color: #fff;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 20vh;
+    height: 5vh; /* 조정된 높이 */
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    outline: 1px solid var(--GRAY100A);
+}
+
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    display: block; /* 버튼을 보이도록 함 */
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+.button-group{
+    display: flex;
+    justify-content: center; 
+    gap: 15px;
+}
+
+/* 수정 버튼 */
+.edit-btn {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* 삭제 버튼 */
+.delete-btn {
+    background-color: #f44336;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}

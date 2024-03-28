@@ -1,0 +1,73 @@
+.clanCreate-Btn{
+    background-color: #ff7715;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 2rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-left: 1rem;
+}
+
+.clanCreate-Btn:hover {
+    cursor: pointer;
+}
+
+
+.clanCreate-content{
+    display: flex;
+    flex-direction: column;
+    color: black;
+    text-align: left;
+    margin: 0;
+
+}
+
+.clanCreate-inputs{
+    display: flex;
+}
+
+.clanCreateTitle{
+    left: 0px;
+}
+#clanCreateNames{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100px;
+}
+#clanName-input{
+    width: 100%;
+    font-size: 22px;
+    height: 30px;
+}
+
+
+#clanCreate-file{
+    left: 0;
+}
+#clanText{
+    width: 100%;
+    height: 100px;
+}
+#clanMembers{
+    width: 100px;
+    height: 30px;
+}
+#clanCreateButtons{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+    
+}
+#clanCreateSub-Btn{
+    background-color: #4175ef;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
