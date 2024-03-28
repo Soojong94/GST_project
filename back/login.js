@@ -9,16 +9,18 @@ const http = require('http') // cor와 함께 사용할 아이
 const app = express();
 const port = 5000;
 const multer = require('multer');
-
-
-
+const { match } = require('assert');
 
 app.use(cors());
+
 app.use(session({
-    secret: 'your secret key',
-    resave: false,
-    saveUninitialized: true,
-}));
+    secret: 'secret key',	// 암호화
+    resave: false,	
+    saveUninitialized: true,	
+    cookie: {	
+      httpOnly: true,
+    },
+  }));
 
 const connection = mysqlConnection.init();
 mysqlConnection.open(connection);
@@ -34,7 +36,7 @@ const GOOGLE_SIGNUP_REDIRECT_URI = 'http://localhost:5000/signup/redirect';
 const GOOGLE_TOKEN_URL = 'https://oauth2.googleapis.com/token';
 const GOOGLE_USERINFO_URL = 'https://www.googleapis.com/oauth2/v2/userinfo';
 
-
+let user = {} ;
 
 app.get('/login', (req, res) => {
     let url = 'https://accounts.google.com/o/oauth2/v2/auth';
@@ -78,21 +80,29 @@ app.get('/login/redirect', async (req, res) => {
     req.session.google_id = google_info.email; // 세션에 구글 아이디 저장
 
     // 디비에서 코드값과 일치하는 구글 아이디를 조회하는 쿼리 실행
-    const sql = `SELECT user_id, user_nick FROM users WHERE user_id = '${google_info.email}'`;
+    const sql = `SELECT * FROM users WHERE user_id = '${google_info.email}'`;
+    // const sql = `SELECT user_id, user_nick FROM users WHERE user_id = '${google_info.email}'`;
     connection.query(sql, function(err, result) {
         if (err) throw err;
 
         if (result.length > 0) {
+
+            console.log('result', result[0])
             const user_id = result[0].user_id;
             const user_nick = result[0].user_nick;
+
+            user = result[0]
 
             // 세션에 구글 아이디 저장
             req.session.user_id = user_id;
             req.session.user_nick = user_nick;
-            console.log(`Google ID (${user_id}) and nickname (${user_nick}) stored in session.`);
+            // console.log(`Google ID (${user_id}) and nickname (${user_nick}) stored in session.`);
+            console.log(`Google ID (${req.session.user_id}) and nickname (${req.session.user_nick}) stored in session.`);
+            req.session.save(()=>{
+                res.send("<script>alert('로그인 성공'); location.href='http://210.183.87.94:3000'</script>");
+            })
         }
         
-        res.send("<script>alert('로그인 성공'); location.href='http://localhost:3000'</script>");
     });
 });
 
@@ -117,7 +127,7 @@ app.get('/signup/redirect', async (req, res) => {
     const google_info = resp2.data;
 
     console.log(google_info);
-    req.session.email = google_info.email; // 세션에 이메일 주소 저장
+    // req.session.email = google_info.email; // 세션에 이메일 주소 저장
     
 
     res.render('npForm');
@@ -133,19 +143,30 @@ app.post('/first/login.js', (req, res) => {
         console.log('자료 1개를 반환하였습니다.'); 
     });
 
+
     mysqlConnection.close;
 
-    res.send("<script>alert('회원등록 완료 되었습니다.'); location.href='http://localhost:3000?'</script>");
+    res.send("<script>alert('회원등록 완료 되었습니다.'); location.href='http://210.183.87.94:3000'</script>");
 });
 
 // 세션 리액트로 전송
-// app.get('/session', (req, res) => {
-//     if (req.session.user_id && req.session.user_nick) {
-//       res.json({ user_id: req.session.user_id, user_nick: req.session.user_nick });
-//     } else {
-//       res.json(null);
-//     }
-//   });
+app.get('/session', (req, res) => {
+
+
+    console.log('session back 도착',user)
+      const {user_id, user_nick, clan_boss}  = user; 
+      let sessionObj = {
+        user_id : user_id,
+        user_nick : user_nick,
+        clan_boss : clan_boss
+      }
+      res.json(sessionObj);
+
+  });
+
+
+//=======================================================
+
 
 // 파일 저장을 위한 multer 설정
 const storage = multer.diskStorage({
@@ -188,8 +209,9 @@ const storage = multer.diskStorage({
     });
   });
   
-  // 서버 실행
- 
 
+
+  
+  // 서버 실행
 app.listen(port, () => {
     console.log('server is running at 5000');});
