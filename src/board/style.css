@@ -48,7 +48,7 @@ body {
 .articles article h2 {
     margin: 0 0 0.5rem 0;
     font-size: 1.6rem;
-    color: var(--text);
+    color: black;
     transition: color 0.3s ease-out;
 }
 

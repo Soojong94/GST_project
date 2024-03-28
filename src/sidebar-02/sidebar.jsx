@@ -52,7 +52,7 @@ const Sidebar = () => {
             </Link>
           </li>
           <li>
-            <Link to="/funds" title="Funds" className={`tooltip ${activeLink === '/funds' ? 'active' : ''}`} onClick={() => handleLinkClick('/funds')}>
+            <Link to="/Analysis" title="Analysis" className={`tooltip ${activeLink === '/funds' ? 'active' : ''}`} onClick={() => handleLinkClick('/Analysis')}>
               <AnalyticsIcon />
               <span className="link hide">경기 분석 게시판 <br></br>(오픈 예정)</span>
             </Link>
@@ -63,7 +63,7 @@ const Sidebar = () => {
         <div className="sidebar-links">
           <ul>
             <li>
-              <Link to="/help" title="Help" className={`tooltip ${activeLink === '/help' ? 'active' : ''}`} onClick={() => handleLinkClick('/help')}>
+              <Link to="/Logout" title="Logout" className={`tooltip ${activeLink === '/help' ? 'active' : ''}`} onClick={() => handleLinkClick('/Logout')}>
                 <LogoutIcon />
                 <span className="link hide">Logout</span>
               </Link>

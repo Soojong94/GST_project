@@ -12,16 +12,20 @@ import KT from '../team_subsc/logo/KT.PNG';
 import './style.css'
 
 function TeamSubscCard({ imgSrc, altText, title, content }) {
+
+  
   return (
+    
     <article>
       <figure>
         <img id = "team_logo_img" src={imgSrc} alt={altText} />
       </figure>
       <div className="article-preview">
-        <h2>{title}</h2>
+        <h2 >{title}</h2>
         <p>{content}</p>
       </div>
     </article>
+    
   );
 }
 

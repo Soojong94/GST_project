@@ -1,0 +1,100 @@
+/* Add your custom styles here */
+
+/* Form container */
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Form */
+.form {
+    width: 100%;
+    max-width: 28rem;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Form header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.header h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.back-btn {
+    background-color: #e9e9e9;
+    color: #333;
+    padding: 0.25rem 0.25rem; /* 크기를 줄임 */
+    border: none;
+    border-radius: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.back-btn:hover {
+    background-color: #999;
+}
+
+/* Form input group */
+.input-group {
+    margin-bottom: 1rem;
+}
+
+.label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    outline: none;
+}
+
+/* Form submit button */
+.submit-btn {
+    background-color: #3766ff;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 1rem;
+}
+
+.submit-btn:hover {
+    background-color: #1e3a8a;
+}
+
+/* Cancel button */
+.cancel-btn {
+    background-color: #f44336; /* 빨간색 */
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 1rem;
+}
+
+.cancel-btn:hover {
+    background-color: #cc0000; /* 진한 빨간색 */
+}
