@@ -6,12 +6,11 @@ import MyCalendar from './calendar';
 
 function App() {
   return (
-    <div className="container">
-      <div id='sidebar'>
-        <Sidebar />
-      </div>
-      <div className='calendar'>
+    <div className="main_container">
+      <div className='main_calendar'>
+        <Calendar2 />
         <Routing />
+
       </div>
     </div>
   );
