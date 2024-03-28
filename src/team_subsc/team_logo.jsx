@@ -1,4 +1,5 @@
 import React from 'react';
+import {  useNavigate } from 'react-router-dom';
 import BRO from '../team_subsc/logo/BRO.PNG';
 import DK from '../team_subsc/logo/DK.PNG';
 import DRX from '../team_subsc/logo/DRX.PNG';
@@ -11,12 +12,21 @@ import KDF from '../team_subsc/logo/KDF.PNG';
 import KT from '../team_subsc/logo/KT.PNG';
 import './style.css'
 
-function TeamSubscCard({ imgSrc, altText, title, content }) {
 
-  
+
+function TeamSubscCard({ imgSrc, altText, title, content,link }) {
+
+  const navigate = useNavigate(); // useNavigate 훅 사용하여 navigate 함수 가져오기
+
+  const handleClick = () => {
+    if (link) {
+      navigate(link); // 클릭 시 지정된 링크로 이동
+    }
+  }
+
   return (
     
-    <article>
+    <article onClick={handleClick}>
       <figure>
         <img id = "team_logo_img" src={imgSrc} alt={altText} />
       </figure>
@@ -35,7 +45,8 @@ function TeamSubsc() {
       imgSrc: BRO,
       altText: "Lavender Fields",
       title: "BRION",
-      content: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent in mauris eu tortor porttitor accumsan."
+      content: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent in mauris eu tortor porttitor accumsan.",
+      link: "/Teaminfo"// 여기에 인덱스 까지 추가하면 팀에 맞는 경로로 들어가짐
     },
     {
       imgSrc: DK,
@@ -102,6 +113,7 @@ function TeamSubsc() {
           altText={team.altText}
           title={team.title}
           content={team.content}
+          link={team.link}
         />
       ))}
     </div>
