@@ -1,0 +1,22 @@
+/* replystyle.css */
+
+.comments_section {
+    margin-top: 20px;
+  }
+  
+  .comment_item {
+    background-color: #f0f0f0;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .comment_item_body {
+    font-size: 14px;
+  }
+  
+  .comment_author {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  

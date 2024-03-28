@@ -1,20 +1,39 @@
+import React, { useState } from 'react';
 import './App.css';
-import Modal from './modal';
-import Dashboard from './dashboard_logo';
-import AppBar from './appbar';
-import MyCalendar from './calendar';
+import Routing from './routing/Routing';
+import BoardWrite from './boardwrite/boardwrite';
 
 function App() {
+
+  const [events, setEvents] = useState([
+    { title: 'Event 1', start: '2022-03-01' },
+    { title: 'Event 2', start: '2022-03-02' }
+  ]);
+
+  const handleNewSchedule = (newEvent) => {
+    console.log('handle New Schedule Fuc',events)
+    const { calendarType, title, startDate, endDate, time, location, description } = newEvent;
+    const start = `${startDate}T${time || '00:00'}`;
+    const end = endDate ? `${endDate}T${time || '00:00'}` : null;
+
+    const event = {
+      title,
+      start,
+      end,
+      calendarType,
+      location,
+      description
+    };
+
+    setEvents([...events, event]);
+  };
+
   return (
-    <div id='body'>
-      <div className='container'>
-        <div className='logo'>
-          <Dashboard />
-          <AppBar />
-        </div>
-        <div className='content'>
-          <MyCalendar className='calendar' />
-        </div>
+    <div className="main_container">
+      <div className='main_calendar'>
+
+        <Routing events={events} handleNewSchedule={handleNewSchedule}/>
+
       </div>
     </div>
   );
