@@ -10,7 +10,7 @@ function Routing() {
   return (
     <Routes>
 
-   
+      
       <Route path="/TeamSubscriptions" element={<TeamSubscriptions />} />
       <Route path="/ClanBoard" element={<ClanBoard />} />
       <Route path="/TeamInfo" element={<TeamInfo />} />

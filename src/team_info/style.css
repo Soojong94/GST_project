@@ -1,26 +1,56 @@
 .team-info {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start;
-    max-width: 800px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 800px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .team-info {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .team-info-img {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+
+  .team-info-text {
+    max-width: none;
     text-align: center;
   }
+}
+
+.subscribe-area {
+  position: fixed;
+  top: 85px;
+  right: 60vh;
+  z-index: 999;
   
-  @media (max-width: 768px) {
-    .team-info {
-      flex-direction: column;
-      align-items: center;
-    }
-  
-    .team-info-img {
-      margin-right: 0;
-      margin-bottom: 20px;
-    }
-  
-    .team-info-text {
-      max-width: none;
-      text-align: center;
-    }
-  }
-  
+}
+
+.subscribe-button {
+  background-color: #3841E6;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+}
+
+.subscribe-button:hover {
+  background-color: #232bba;
+}
+
+.subscribed {
+  background-color: #CCCCCC;
+  color: #333333;
+}
+
+.subscribed:hover {
+  background-color: #949494;
+}
