@@ -2,7 +2,7 @@ import React from 'react';
 import './style.css';
 import preview from './assets/preview.png'
 
-const BoardContent = () => {
+const team_info = () => {
  return (
 
      <div className='team-info'>
@@ -38,4 +38,4 @@ const BoardContent = () => {
  );
 };
 
-export default BoardContent;
+export default team_info;

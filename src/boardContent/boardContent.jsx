@@ -76,6 +76,7 @@
 
 
 
+
 //         {/* ------------------------------------------------------------------------ */}
 
 
@@ -86,6 +87,19 @@
 //             <img src={preview} alt="Fetch API GraphQL Preview" />
 //           </div>
 //         </article>
+
+
+
+
+        {/* ------------------------------------------------------------------------ */}
+
+      </div>
+      <div id='next_content'>
+        <article className="board_content_card">
+          <div className="board_content_background">
+            <img src={preview} alt="Fetch API GraphQL Preview" />
+          </div>
+        </article>
 
 //         <div className="board_content_content">
 //           <div className="board_content_card-content">

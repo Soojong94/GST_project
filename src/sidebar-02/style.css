@@ -20,7 +20,7 @@ html {
 }
 
 nav {
-    position: sticky;
+    position: fixed;
     top: 0;
     left: 0;
     height: 100vh;
@@ -39,15 +39,7 @@ main {
   flex-direction: column;
 }
 
-body.collapsed nav {
-  width: 5rem;
-}
 
-body.collapsed .hide {
-  position: absolute;
-  display: none;
-  pointer-events: none;
-}
 
 /*? sidebar top */
 .sidebar-top {
@@ -60,11 +52,7 @@ body.collapsed .hide {
   padding: 1rem 0;
 }
 
-body.collapsed .sidebar-top {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+
 
 .logo__wrapper {
   display: flex;
@@ -105,9 +93,6 @@ body.collapsed .sidebar-top {
 }
 
 
-body.collapsed .expand-btn img {
-  transform: rotate(360deg);
-}
 
 .sidebar-links {
   padding: 0.5rem 0;
