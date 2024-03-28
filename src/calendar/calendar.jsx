@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin from '@fullcalendar/interaction'; // for selectable
+import interactionPlugin from '@fullcalendar/interaction';
+import AddSchedule from '..AddSchedule/AddSchedule'; // AddSchedule 컴포넌트를 import 합니다.
+import { useNavigate } from 'react-router-dom';
 
 const MyCalendar = () => {
   const calendarRef = useRef(null);
@@ -9,19 +11,17 @@ const MyCalendar = () => {
     { title: 'Event 1', date: '2022-03-01' },
     { title: 'Event 2', date: '2022-03-02' }
   ]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (calendarRef.current) {
-      const calendar = calendarRef.current.getApi(); 
+      const calendar = calendarRef.current.getApi();
       calendar.render();
     }
   }, [calendarRef]);
 
-  const handleDateClick = (arg) => { // bind with an arrow function
-    const title = prompt('Enter Event Title');
-    if (title) {
-      setEvents([...events, { title, date: arg.date }]);
-    }
+  const handleSelect = (selectInfo) => {
+    navigate(`/AddSchedule/${selectInfo.startStr}`);
   }
 
   const handleEventClick = (arg) => {
@@ -30,16 +30,23 @@ const MyCalendar = () => {
     }
   }
 
+  const handleAddSchedule = (newEvent) => {
+    setEvents([...events, newEvent]);
+  };
+
   return (
-    <FullCalendar
-      ref={calendarRef} 
-      plugins={[dayGridPlugin, interactionPlugin]}
-      initialView='dayGridMonth'
-      events={events}
-      dateClick={handleDateClick}
-      eventClick={handleEventClick}
-      selectable={true}
-    />
+    <div>
+      <AddSchedule onAddSchedule={handleAddSchedule} /> {/* AddSchedule 컴포넌트를 렌더링합니다. */}
+      <FullCalendar
+        ref={calendarRef}
+        plugins={[dayGridPlugin, interactionPlugin]}
+        initialView='dayGridMonth'
+        events={events}
+        select={handleSelect}
+        eventClick={handleEventClick}
+        selectable={true}
+      />
+    </div>
   );
 };
 

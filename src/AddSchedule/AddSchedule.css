@@ -69,13 +69,13 @@
 .submit-btn {
     background-color: #3766ff;
     color: #fff;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 2rem;
     border: none;
     border-radius: 2rem;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-right: 1rem;
+    margin-right: 2rem;
 }
 
 .submit-btn:hover {
@@ -86,7 +86,7 @@
 .cancel-btn {
     background-color: #f44336; /* 빨간색 */
     color: #fff;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 2rem;
     border: none;
     border-radius: 2rem;
     font-weight: bold;
@@ -97,4 +97,16 @@
 
 .cancel-btn:hover {
     background-color: #cc0000; /* 진한 빨간색 */
+}
+
+.reset-btn {
+    background-color: green;
+    color: #fff;
+    padding: 0.5rem 2rem;
+    border: none;
+    border-radius: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 1rem;
 }
