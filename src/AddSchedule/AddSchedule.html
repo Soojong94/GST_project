@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>캘린더 입력</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="AddSchedule.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+  <div class="form-container">
+    <div class="form p-4 md:p-8 mx-auto md:max-w-md">
+      <div class="header mb-4 md:mb-6">
+        <h2 class="text-2xl font-bold">일정 등록</h2>
+        <button class="back-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+      </div>
+      <form id="schedule-form">
+        <div class="input-group mb-4">
+          <label for="calendar-type" class="label">캘린더 종류</label>
+          <select id="calendar-type" name="calendar-type" class="input">
+            <option value="1">개인 일정</option>
+            <option value="2">팀 일정</option>
+            <option value="3">클랜</option>
+          </select>
+        </div>
+        <div class="input-group mb-4">
+          <label for="start-date" class="label">시작일</label>
+          <input type="date" id="start-date" name="start-date" class="input">
+        </div>
+        <div class="input-group mb-4">
+          <label for="end-date" class="label">종료일</label>
+          <input type="date" id="end-date" name="end-date" class="input">
+        </div>
+        <div class="input-group mb-4">
+          <label for="time" class="label">시간</label>
+          <input type="time" id="time" name="time" class="input">
+        </div>
+        <div class="input-group mb-4">
+          <label for="location" class="label">장소</label>
+          <input type="text" id="location" name="location" class="input">
+        </div>
+        <div class="input-group mb-4">
+          <label for="description" class="label">내용</label>
+          <textarea id="description" name="description" class="input"></textarea>
+        </div>
+        <div class="button-group">
+          <button type="submit" class="submit-btn">등록</button>
+          <button type="button" class="cancel-btn">취소</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const backBtn = document.querySelector('.back-btn');
+    const cancelBtn = document.querySelector('.cancel-btn');
+    const scheduleForm = document.getElementById('schedule-form');
+
+    backBtn.addEventListener('click', function() {
+      history.back();
+    });
+
+    cancelBtn.addEventListener('click', function() {
+      scheduleForm.reset();
+    });
+  </script>
+</body>
+
+</html>
