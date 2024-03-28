@@ -1,5 +1,5 @@
+import React from 'react';
 import './App.css';
-import Modal from './modal';
 import Dashboard from './dashboard_logo';
 import AppBar from './appbar';
 import MyCalendar from './calendar';
