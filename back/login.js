@@ -8,6 +8,10 @@ const cors = require('cors'); // cor 패키지
 const http = require('http') // cor와 함께 사용할 아이
 const app = express();
 const port = 5000;
+const multer = require('multer');
+
+
+
 
 app.use(cors());
 app.use(session({
@@ -143,6 +147,49 @@ app.post('/first/login.js', (req, res) => {
 //     }
 //   });
 
+// 파일 저장을 위한 multer 설정
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'uploads/') // 파일이 저장될 경로
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now())
+    }
+  });
+  
+  const upload = multer({ storage: storage });
+  
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
+  
+  // '/api/boardInsert' 경로에 대한 POST 요청 처리
+  app.post('/api/boardInsert', upload.single('file'), (req, res) => {
+    const nick = req.session.user_nick; // 세션에서 사용자 닉네임 가져오기 (사용자 인증 구현 필요)
+    const user_id = req.body.user_id; // 사용자 ID 처리 (사용자 인증 구현 필요)
+    const b_title = req.body.title;
+    const b_content = req.body.content;
+    const b_file = req.file ? req.file.path : ''; // 파일이 있다면 파일 경로 저장
+    const b_created_at = new Date();
+  
+    // 데이터베이스 연결 및 쿼리 실행 코드 (여기서는 예시로만 표시)
+    const sql = `INSERT INTO boards (b_title, b_content, b_file, created_at, user_id) 
+                 VALUES (?, ?, ?, ?, ?)`;
+    const values = [b_title, b_content, b_file, b_created_at, user_id];
+  
+    // 데이터베이스 쿼리 실행 (예시 코드)
+    connection.query(sql, values, (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Error inserting data');
+      } else {
+        console.log('Data inserted successfully');
+        res.sendStatus(200);
+      }
+    });
+  });
+  
+  // 서버 실행
+ 
 
 app.listen(port, () => {
     console.log('server is running at 5000');});
