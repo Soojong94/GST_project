@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import Routing from './routing/Routing';
-
+import BoardWrite from './boardwrite/boardwrite';
 
 function App() {
 

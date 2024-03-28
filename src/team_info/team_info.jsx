@@ -2,14 +2,13 @@ import React,{useState} from 'react';
 import './style.css';
 import preview from './assets/preview.png'
 
-const team_info = () => {
+const Team_info = () => {
 
-  // const [isToggle,setIsToggle] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState(false);
 
-  // const togglebutton = () => {
-  //   setIsToggle(!isToggle);
-  // }
-
+  const toggleSubscription = () => {
+    setIsSubscribed(!isSubscribed);
+  };
 
  return (
 
@@ -40,10 +39,16 @@ const team_info = () => {
              팀 페이스북 url
            </h3>
          </div>
+         <div className='subscribe-area'>
+          <button
+          className={`subscribe-button ${isSubscribed ? 'subscribed' : ''}`}
+          onClick={toggleSubscription}
+          >{isSubscribed ? '구독 취소' : '구독하기'}</button>
+          </div>
        </div>
      </div>
 
  );
 };
 
-export default team_info;
+export default Team_info;
