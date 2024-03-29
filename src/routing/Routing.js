@@ -5,6 +5,7 @@ import ClanBoard from '../board/board';
 import TeamInfo from '../team_info/team_info';
 import AddSchedule from '../AddSchedule/AddSchedule';
 import Calendar from '../calendar/calendar';
+import Mypage from './../Mypage/Mypage';
 
 function Routing({handleNewSchedule, events}) {
   return (
@@ -16,6 +17,7 @@ function Routing({handleNewSchedule, events}) {
       <Route path="/ClanBoard" element={<ClanBoard />} />
       <Route path="/TeamInfo" element={<TeamInfo />} />
       <Route path="/AddSchedule/:date" element={<AddSchedule onScheduleAdded={handleNewSchedule} />} />
+      <Route path='/Mypage' element={<Mypage />} />
 
 
     </Routes>

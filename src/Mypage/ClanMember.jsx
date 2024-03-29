@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Data from '../Data.json';
+import Data from './Data.json';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function ClanMember() {

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import './Mypage.css';
-import ClanMember from './ClanMember';
+// import ClanMember from './ClanMember';
 
 
 function Mypage() {
@@ -58,7 +58,7 @@ function Mypage() {
 
   const clanName = ""
   
-  const clanBoss = "123"
+  const clanBoss = "1"
 
   return (
     <div className="tabs-container">
@@ -122,14 +122,14 @@ function Mypage() {
           </p>
           
         </section>
-        {!clanBoss ? "" : (
+        {/* {!clanBoss ? "" : (
             <section id="tab3-content" className="tab-content">
             <h2>클랜원</h2>
             <div className='clanMember'><ClanMember/></div>
             <button>클랜 삭제</button>
             
           </section>
-         )}
+         )} */}
         {/* 위부분과 똑같이 작성하면 추가 가능 */}
       </div>
     </div>
