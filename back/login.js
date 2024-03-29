@@ -11,9 +11,9 @@ const app = express();
 const port = 5000;
 const multer = require('multer');
 const { match } = require('assert');
-
+app.use(bodyParser.json());
 app.use(cors());
-
+const promisePool = pool.promise();
 app.use(session({
     secret: 'secret key',	// 암호화
     resave: false,	
@@ -209,8 +209,20 @@ const storage = multer.diskStorage({
       }
     });
   });
-  
+// 댓글 등록 API 엔드포인트
+app.post('/api/commentInsert', (req, res) => {
+  const { b_idx, cmt_content, created_at, user_id } = req.body; // 클라이언트로부터 받은 데이터
+  const query = 'INSERT INTO comments (b_idx, cmt_content, created_at, user_id) VALUES (?, ?, ?, ?)';
 
+  db.query(query, [b_idx, cmt_content, created_at, user_id], (err, result) => {
+      if (err) {
+          console.error('댓글 등록 중 에러 발생:', err);
+          res.status(500).send('서버 에러');
+      } else {
+          res.send('댓글이 성공적으로 등록되었습니다.');
+      }
+  });
+});
 
   
   // 서버 실행
