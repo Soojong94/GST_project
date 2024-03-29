@@ -8,12 +8,11 @@ import Sidebar from './sidebar-02/sidebar';
 
 
 ReactDOM.render(
-  <React.StrictMode>
     <BrowserRouter>
       <App />
       <Sidebar />
     </BrowserRouter>
-  </React.StrictMode>,
+  ,
   document.getElementById('root')
 );
 
