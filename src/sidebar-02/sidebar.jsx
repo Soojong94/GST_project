@@ -69,7 +69,7 @@ const Sidebar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/settings" title="Settings" className={`tooltip ${activeLink === '/settings' ? 'active' : ''}`} onClick={() => handleLinkClick('/settings')}>
+              <Link to="/Mypage" title="Mypage" className={`tooltip ${activeLink === '/Mypage' ? 'active' : ''}`} onClick={() => handleLinkClick('/Mypage')}>
                 <SettingsIcon />
                 <span className="link hide">Settings</span>
               </Link>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Data from '../Data.json';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import Data from './Data.json';
+
 
 function ClanMember() {
     const [currentPage, setCurrentPage] = useState(1);
