@@ -1,14 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
 import Routing from './routing/Routing';
-<<<<<<< HEAD
-
-=======
-import BoardWrite from './boardwrite/boardwrite';
-import comments from './Comment/comments';
-import CommentWrite from './Comment/CommentWrite';
-import Board_content from './boardContent/boardContent';
->>>>>>> 1c36df2f45d1f924b13cfd80613844a4534d82c0
 
 function App() {
 
