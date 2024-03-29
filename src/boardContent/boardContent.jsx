@@ -4,6 +4,7 @@ import React from 'react';
 import './style.css';
 import preview from './assets/preview.png'
 
+
 const Board_content = () => {
   return (
     <div className="board_content">

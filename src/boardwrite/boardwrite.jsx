@@ -31,12 +31,14 @@ const BoardWrite = () => {
       const formDataToSend = new FormData();
       formDataToSend.append('title', formData.title);
       formDataToSend.append('content', formData.content);
+      formDataToSend.append('user_id', sessionStorage.getItem('userId'));
+      formDataToSend.append('user_nick', sessionStorage.getItem('userNick'));
       if (formData.file) {
         formDataToSend.append('file', formData.file);
       }
   
       try {
-        await axios.post('/api/boardInsert', formDataToSend, {
+        await axios.post('http://localhost:5000/api/boardInsert', formDataToSend, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -49,43 +51,42 @@ const BoardWrite = () => {
       }
     };
   
-  return (
-    <div className="form-container">
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>
-            제목:
-            <input
-              type="text"
-              name="title"
-              value={formData.title}
-              onChange={handleInputChange}
-            />
-          </label>
-        </div>
-        <div className="form-group">
-          <label>
-            내용:
-            <textarea
-              name="content"
-              value={formData.content}
-              onChange={handleInputChange}
-            />
-          </label>
-        </div>
-        <div className="form-group">
-          <label>
-            파일:
-            <input
-              type="file"
-              name="file"
-              onChange={handleFileChange}
-            />
-          </label>
-        </div>
-        <button type="submit">글 등록</button>
-      </form>
-    </div>
+    return (
+      <div className="form-container">
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label>
+              제목:
+              <input
+                type="text"
+                name="title"
+                value={formData.title}
+                onChange={handleInputChange}
+              />
+            </label>
+          </div>
+          <div className="form-group">
+            <label>
+              <input
+                type="file"
+                name="file"
+                onChange={handleFileChange}
+              />
+            </label>
+          </div>
+          <div className="form-group">
+            <label>
+              내용:
+              <textarea
+                name="content"
+                value={formData.content}
+                onChange={handleInputChange}
+              />
+            </label>
+          </div>
+          <button type="submit">글 등록</button>
+        </form>
+      </div>
   );
 };
 

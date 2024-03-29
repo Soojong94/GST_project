@@ -1,7 +1,7 @@
 // Reply.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './replystyle.css'; // 댓글 컴포넌트 전용 스타일 시트
+// import './replystyle.css'; // 댓글 컴포넌트 전용 스타일 시트
 
 const Reply = () => {
   const [commentList, setCommentList] = useState([]);
