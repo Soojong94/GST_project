@@ -37,10 +37,10 @@ function App() {
 
         <Routing events={events} handleNewSchedule={handleNewSchedule}/>
         <CommentWrite />
+        <BoardWrite />
         <comments />
         <Routing events={events} handleNewSchedule={handleNewSchedule} />
-        <Board_content />
-
+        {/* <Board_content /> */}
       </div>
     </div>
   );

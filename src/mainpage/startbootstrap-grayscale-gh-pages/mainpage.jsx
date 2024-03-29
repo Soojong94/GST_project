@@ -1,11 +1,11 @@
 // App.js
 import React from 'react';
-import './../mainpage/startbootstrap-grayscale-gh-pages/css/styles.css'; // Import your CSS just like you would in a regular .js file
-import Navbar from './startbootstrap-grayscale-gh-pages/js/Navbar'; // Assuming that Navbar.js is in the same directory
+import './css/styles.css'; // Import your CSS just like you would in a regular .js file
+import Navbar from './js/Navbar'; // Assuming that Navbar.js is in the same directory
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-function Mainpage() {
+// function Mainpage() {
 
 
     const signup = () => {
@@ -116,6 +116,6 @@ function Mainpage() {
 
   </div>
 );
-}
+
 
 export default Mainpage;
