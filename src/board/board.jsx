@@ -12,12 +12,13 @@ import KT from '../team_subsc/logo/KT.PNG';
 import './style.css'
 import Sidebar from '../sidebar-02/sidebar';
 import '../../src/App.css'
+import {Link} from 'react-router-dom'
 
 function BoardCard({ imgSrc, altText, title, content }) {
   return (
     <div className='main_container'>
       <Sidebar />
-      
+    <Link to = '/Board_1' className = "clan_board_card">
     <article>
       <figure>
         <img src={imgSrc} alt={altText} />
@@ -27,6 +28,7 @@ function BoardCard({ imgSrc, altText, title, content }) {
         <p>{content}</p>
       </div>
     </article>
+    </Link>
     </div>
   );
 }

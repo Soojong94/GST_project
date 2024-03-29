@@ -7,6 +7,7 @@ import preview from './assets/preview.png';
 import Sidebar from '../sidebar-02/sidebar'
 
 
+
 const Board_content = () => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
@@ -52,7 +53,6 @@ const Board_content = () => {
             </div>
           </div>
         </div>
-
 
 
 

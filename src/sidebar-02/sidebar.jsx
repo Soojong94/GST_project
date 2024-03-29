@@ -26,7 +26,7 @@ const Sidebar = () => {
   return (
     <nav className={isCollapsed ? 'collapsed' : ''}>
       <div className="sidebar-top">
-        <Link to="/" className="logo__wrapper">
+        <Link to="/Calendar" className="logo__wrapper">
           <img src={logo} alt="Logo" className="logo" />
           <h1 className="hide">Game Schedule Tracker</h1>
         </Link>
