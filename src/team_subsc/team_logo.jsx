@@ -57,6 +57,7 @@ function TeamSubsc() {
       title: "Dplus KIA",
       content: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent in mauris eu tortor porttitor accumsan.",
       link : "/Teaminfo"
+      
     },
     {
       imgSrc: DRX,
