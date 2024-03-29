@@ -99,7 +99,7 @@ app.get('/login/redirect', async (req, res) => {
             // console.log(`Google ID (${user_id}) and nickname (${user_nick}) stored in session.`);
             console.log(`Google ID (${req.session.user_id}) and nickname (${req.session.user_nick}) stored in session.`);
             req.session.save(()=>{
-                res.send("<script>alert('로그인 성공'); location.href='http://210.183.87.94:3000'</script>");
+                res.send("<script>alert('로그인 성공'); location.href='http://localhost:3000'</script>");
             })
         }
         
