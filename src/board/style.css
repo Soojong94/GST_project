@@ -27,7 +27,7 @@ body {
     margin: 0 auto;
     justify-content: center;
     max-width: 2000px;
-    gap: 1.5rem;
+    gap: 0rem;
 }
 
 .articles article {

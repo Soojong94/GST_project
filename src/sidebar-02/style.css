@@ -24,11 +24,11 @@ nav {
     top: 0;
     left: 0;
     height: 100vh;
-    background-color: var(--primary-color);
+    background-color: #3841E6;
     width: 18rem;
     padding: 0.25rem 0.75rem;
     display: flex;
-    color: var(--white);
+    color: #fff;
     flex-direction: column;
     transition: width 0.5s linear;
 }
@@ -49,7 +49,9 @@ main {
   justify-content: center;
   flex-direction: column;
   min-height: 2.5rem;
+  
   padding: 1rem 0;
+  
 }
 
 
@@ -59,8 +61,9 @@ main {
   justify-content: start;
   align-items: center;
   gap: 1.25rem;
-  color: var(--white);
+  color: #fff;
   text-decoration: none;
+  font-size: 10px;
 }
 
 .logo {
@@ -80,14 +83,14 @@ main {
   border-radius: 50%;
   width: 3rem;
   height: 3rem;
-  background: var(--white);
+  background: #fff;
   cursor: pointer;
   box-shadow: #6067EB50 0px 2px 8px 0px;
 }
 
 .expand-btn img {
   transform: rotate(180deg);
-  stroke: var(--primary-color);
+  stroke: #3841E6;
   width: 2.375rem;
   height: 2.375rem;
 }
@@ -96,7 +99,7 @@ main {
 
 .sidebar-links {
   padding: 0.5rem 0;
-  border-top: 1px solid var(--sidebar-gray-background);
+  border-top: 1px solid #6067EB;
 }
 
 /*? menu links */
@@ -112,7 +115,7 @@ main {
 .sidebar-links li a {
   padding: 0.875rem 0.675rem;
   margin: 0.5rem 0;
-  color: var(--sidebar-gray-light);
+  color: #F8F7FD;
   font-size: 1.25rem;
   display: flex;
   justify-content: start;
@@ -138,14 +141,14 @@ main {
 .sidebar-links .active {
   width: 100%;
   text-decoration: none;
-  background-color: var(--sidebar-gray-background);
+  background-color: #6067EB;
   border-radius: 0.675rem;
   outline: none;
-  color: var(--sidebar-gray-light);
+  color: #F8F7FD;
 }
 
 .sidebar-links .active {
-  color: var(--white);
+  color: #fff;
 }
 
 /*? bottom sidebar */
@@ -165,7 +168,7 @@ main {
   gap: 1.125rem;
   flex-direction: row;
   padding: 1.5rem 0.125rem;
-  border-top: 1px solid var(--sidebar-gray-background);
+  border-top: 1px solid #6067EB;
 }
 
 .avatar__wrapper {
@@ -211,7 +214,7 @@ main {
   width: 0.75rem;
   height: 0.75rem;
   border-radius: 50%;
-  background-color: var(--success);
+  background-color: #00C896;
   bottom: 0.1875rem;
   right: 0.1875rem;
 }
@@ -223,8 +226,8 @@ main {
 
 .tooltip .tooltip__content {
   visibility: hidden;
-  background-color: var(--sidebar-gray-background);
-  color: var(--white);
+  background-color: #6067EB;
+  color: #fff;
   text-align: center;
   border-radius: 0.375rem;
   padding: 0.375rem 0.75rem;
@@ -237,3 +240,4 @@ body.collapsed .tooltip:hover .tooltip__content,
 body.collapsed .tooltip:focus .tooltip__content {
   visibility: visible;
 }
+

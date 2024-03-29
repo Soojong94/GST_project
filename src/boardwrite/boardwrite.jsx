@@ -1,92 +1,65 @@
-// BoardWrite.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
-import './BoardWrite.css'; // CSS 파일 임포트
+import './BoardWrite.css';
 
-const BoardWrite = () => {
-    const [formData, setFormData] = useState({
-      title: '',
-      content: '',
-      file: null
-    });
-  
-    const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setFormData({
-        ...formData,
-        [name]: value
+function BoardWrite() {
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [file, setFile] = useState(null);
+
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+  };
+
+  const handleContentChange = (e) => {
+    setContent(e.target.value);
+  };
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('content', content);
+    if (file) {
+      formData.append('file', file);
+    }
+
+    try {
+      const response = await axios.post('/api/board', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
-    };
-  
-    const handleFileChange = (e) => {
-      setFormData({
-        ...formData,
-        file: e.target.files[0]
-      });
-    };
-  
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-  
-      const formDataToSend = new FormData();
-      formDataToSend.append('title', formData.title);
-      formDataToSend.append('content', formData.content);
-      if (formData.file) {
-        formDataToSend.append('file', formData.file);
-      }
-  
-      try {
-        await axios.post('/api/boardInsert', formDataToSend, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        });
-        alert('글이 성공적으로 등록되었습니다.');
-        // 성공 후 페이지 이동 또는 상태 초기화 등의 처리
-      } catch (error) {
-        console.error('글 등록 중 에러가 발생했습니다', error);
-        alert('글 등록에 실패했습니다.');
-      }
-    };
-  
+
+      handleSuccess(response.data);
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
+  const handleSuccess = (data) => {
+    console.log(data);
+    // 성공 후 처리 로직 추가 (폼 초기화, 성공 메시지 표시, 페이지 리다이렉션 등)
+  };
+
+  const handleError = (error) => {
+    console.error(error);
+    // 오류 처리 로직 추가 (알림 표시, 에러 메시지 표시 등)
+  };
+
   return (
-    <div className="form-container">
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>
-            제목:
-            <input
-              type="text"
-              name="title"
-              value={formData.title}
-              onChange={handleInputChange}
-            />
-          </label>
-        </div>
-        <div className="form-group">
-          <label>
-            내용:
-            <textarea
-              name="content"
-              value={formData.content}
-              onChange={handleInputChange}
-            />
-          </label>
-        </div>
-        <div className="form-group">
-          <label>
-            파일:
-            <input
-              type="file"
-              name="file"
-              onChange={handleFileChange}
-            />
-          </label>
-        </div>
-        <button type="submit">글 등록</button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <input type="text" value={title} onChange={handleTitleChange} placeholder="제목" />
+      <textarea value={content} onChange={handleContentChange} placeholder="내용" />
+      <input type="file" onChange={handleFileChange} />
+      <button type="submit">게시글 등록</button>
+    </form>
   );
-};
+}
 
 export default BoardWrite;

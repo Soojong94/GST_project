@@ -1,5 +1,6 @@
 // Navbar.js
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Navbar = ({ signup, login }) => {
   const [isShrinked, setIsShrinked] = useState(false);
@@ -40,7 +41,7 @@ const Navbar = ({ signup, login }) => {
             <li className="nav-item"><a className="nav-link" href="#projects">Projects</a></li>
             <li className="nav-item"><a className="nav-link" onClick={signup}>Join<br />with Google</a></li>
             <li className="nav-item"><a className="nav-link" onClick={login}>Login<br />with Google</a></li>
-            <li><a className="btn btn-primary" href="#about">GST Start</a></li>
+            <li><Link to="/calendar" className="btn btn-primary">GST Start</Link></li>
           </ul>
         </div>
       </div>

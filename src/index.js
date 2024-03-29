@@ -4,15 +4,12 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-import Sidebar from './sidebar-02/sidebar';
-
 
 ReactDOM.render(
-    <BrowserRouter>
-      <App />
-      <Sidebar />
-    </BrowserRouter>
-  ,
+  <BrowserRouter>
+    <App />
+
+  </BrowserRouter>,
   document.getElementById('root')
 );
 

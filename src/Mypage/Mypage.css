@@ -8,16 +8,6 @@
   --border: #E6E8F0;
 }
 
-body {
-  font-family: 'Poppins', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  padding: 1rem;
-  background-color: var(--body-background);
-}
-
 * {
   margin: 0;
   padding: 0;
