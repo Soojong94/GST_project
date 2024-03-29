@@ -34,27 +34,28 @@ const Sidebar = () => {
       <div className="sidebar-links">
         <ul>
           <li>
-            <Link to="/Calendar" title="Dashboard" className={`tooltip ${activeLink === '/Calendar' ? 'active' : ''}`} onClick={() => handleLinkClick('/Calendar')}>
+            <Link to="/Calendar" title="Dashboard"  onClick={() => handleLinkClick('/Calendar')}>
               <CalendarMonthIcon />
               <span className="link hide">캘린더</span>
             </Link>
           </li>
           <li>
-            <Link to="/TeamSubscriptions" title="Project" className={`tooltip ${activeLink === '/TeamSubscriptions' ? 'active' : ''}`} onClick={() => handleLinkClick('/TeamSubscriptions')}>
+            <Link to="/TeamSubscriptions" title="Project"  onClick={() => handleLinkClick('/TeamSubscriptions')}>
               <SubscriptionsIcon />
               <span className="link hide">팀 구독 게시판</span>
             </Link>
           </li>
           <li>
-            <Link to="/ClanBoard" title="Performance" className={`tooltip ${activeLink === '/ClanBoard' ? 'active' : ''}`} onClick={() => handleLinkClick('/ClanBoard')}>
+            <Link to="/ClanBoard" title="Performance" onClick={() => handleLinkClick('/ClanBoard')}>
               <VideogameAssetIcon />
               <span className="link hide">클랜 게시판</span>
             </Link>
           </li>
+     
           <li>
-            <Link to="/Analysis" title="Analysis" className={`tooltip ${activeLink === '/funds' ? 'active' : ''}`} onClick={() => handleLinkClick('/Analysis')}>
+            <Link title="freeBoard" >
               <AnalyticsIcon />
-              <span className="link hide">경기 분석 게시판 <br></br>(오픈 예정)</span>
+              <span className="link hide">자유 게시판<br></br>(오픈 예정)</span>
             </Link>
           </li>
         </ul>
@@ -63,15 +64,15 @@ const Sidebar = () => {
         <div className="sidebar-links">
           <ul>
             <li>
-              <Link to="/Logout" title="Logout" className={`tooltip ${activeLink === '/help' ? 'active' : ''}`} onClick={() => handleLinkClick('/Logout')}>
+              <Link to="/Logout" title="Logout"  onClick={() => handleLinkClick('/Logout')}>
                 <LogoutIcon />
-                <span className="link hide">Logout</span>
+                <span className="link hide">로그아웃</span>
               </Link>
             </li>
             <li>
-              <Link to="/Mypage" title="Mypage" className={`tooltip ${activeLink === '/Mypage' ? 'active' : ''}`} onClick={() => handleLinkClick('/Mypage')}>
+              <Link to="/Mypage" title="Mypage" onClick={() => handleLinkClick('/Mypage')}>
                 <SettingsIcon />
-                <span className="link hide">Settings</span>
+                <span className="link hide">세팅</span>
               </Link>
             </li>
           </ul>

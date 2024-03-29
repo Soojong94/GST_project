@@ -1,5 +1,5 @@
 import React from 'react';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import BRO from '../team_subsc/logo/BRO.PNG';
 import DK from '../team_subsc/logo/DK.PNG';
 import DRX from '../team_subsc/logo/DRX.PNG';
@@ -11,10 +11,13 @@ import HLE from '../team_subsc/logo/HLE.PNG';
 import KDF from '../team_subsc/logo/KDF.PNG';
 import KT from '../team_subsc/logo/KT.PNG';
 import './style.css'
+import Sidebar from '../sidebar-02/sidebar';
+import '../../src/App.css'
 
 
 
-function TeamSubscCard({ imgSrc, altText, title, content,link }) {
+
+function TeamSubscCard({ imgSrc, altText, title, content, link }) {
 
   const navigate = useNavigate(); // useNavigate 훅 사용하여 navigate 함수 가져오기
 
@@ -25,17 +28,17 @@ function TeamSubscCard({ imgSrc, altText, title, content,link }) {
   }
 
   return (
-    
+
     <article onClick={handleClick}>
-      <figure>
-        <img id = "team_logo_img" src={imgSrc} alt={altText} />
+      <figure id='team_logo'>
+        <img id="team_logo_img" src={imgSrc} alt={altText} />
       </figure>
       <div className="article-preview">
         <h2 >{title}</h2>
         <p>{content}</p>
       </div>
     </article>
-    
+
   );
 }
 
@@ -105,18 +108,23 @@ function TeamSubsc() {
   ];
 
   return (
-    <div className="articles" id = "team_subsc">
-      {teams.map((team, index) => (
-        <TeamSubscCard
-          key={index}
-          imgSrc={team.imgSrc}
-          altText={team.altText}
-          title={team.title}
-          content={team.content}
-          link={team.link}
-        />
-      ))}
+    <div className='main_container'>
+      <Sidebar />
+      <div className='main_calendar'></div>
+      <div className="articles" id="team_subsc">
+        {teams.map((team, index) => (
+          <TeamSubscCard
+            key={index}
+            imgSrc={team.imgSrc}
+            altText={team.altText}
+            title={team.title}
+            content={team.content}
+            link={team.link}
+          />
+        ))}
+      </div>
     </div>
+
   );
 }
 

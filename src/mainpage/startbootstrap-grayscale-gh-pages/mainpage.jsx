@@ -1,9 +1,10 @@
 // App.js
 import React from 'react';
-import './../mainpage/startbootstrap-grayscale-gh-pages/css/styles.css'; // Import your CSS just like you would in a regular .js file
-import Navbar from './startbootstrap-grayscale-gh-pages/js/Navbar'; // Assuming that Navbar.js is in the same directory
+import './css/styles.css'; // Import your CSS just like you would in a regular .js file
+import Navbar from './js/Navbar'; // Assuming that Navbar.js is in the same directory
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link, useLocation } from 'react-router-dom';
 
 function Mainpage() {
 
@@ -54,7 +55,7 @@ function Mainpage() {
             <h2 class="text-white-50 mx-auto mt-2 mb-5"> <a href="#Clan_Schedule" id="Clan_Schedule_text">Clan
                     Schedule</a></h2>
 
-            <a class="btn btn-primary" href="#about">GST Start</a>
+            <Link to="/calendar" class="btn btn-primary" href="#about">GST Start</Link>
 
         </div>
     </div>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import Routing from './routing/Routing';
-import Board_content from './boardContent/boardContent';
+
 
 function App() {
 
@@ -29,13 +29,11 @@ function App() {
   };
 
   return (
-    <div className="main_container">
-      <div className='main_calendar'>
+    <div>
 
-        <Routing events={events} handleNewSchedule={handleNewSchedule} />
-        <Board_content />
+        <Routing events={events} handleNewSchedule={handleNewSchedule}/>
 
-      </div>
+    
     </div>
   );
 }
