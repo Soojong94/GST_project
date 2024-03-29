@@ -5,6 +5,7 @@ import './style.css';
 import { Box, Typography, TextField, Button, Grid } from '@mui/material';
 import preview from './assets/preview.png';
 
+
 const Board_content = () => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
