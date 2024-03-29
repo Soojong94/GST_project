@@ -4,6 +4,7 @@ import Routing from './routing/Routing';
 import BoardWrite from './boardwrite/boardwrite';
 import comments from './Comment/comments';
 import CommentWrite from './Comment/CommentWrite';
+import Board_content from './boardContent/boardContent';
 
 function App() {
 
@@ -37,6 +38,9 @@ function App() {
         <Routing events={events} handleNewSchedule={handleNewSchedule}/>
         <CommentWrite />
         <comments />
+        <Routing events={events} handleNewSchedule={handleNewSchedule} />
+        <Board_content />
+
       </div>
     </div>
   );

@@ -5,23 +5,26 @@
     box-shadow: 0 24px 72px 0 rgba(96, 93, 255, .1);
     align-content: center;
     background-color: whitesmoke;
+    padding-bottom: 50px;
 }
 
 #previous_content {
     display: flex;
-    padding-bottom: 3%;
+    
     align-items: center !important;
     justify-content: center;
     overflow: hidden;
 }
 
 
+
 #next_content {
+    margin-top: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-bottom: 3%;
     overflow: hidden;
+    
 }
 
 #present_content{
@@ -30,13 +33,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-bottom: 3%;
+    font-size: 25px;
+    margin-right: 50px;
+   
 }
 
 #present_content_img{
-    max-width: 500px;
-    max-height: 500px;
-    
+    min-width: 150%;
+    min-height: 150%;
 }
 
 
@@ -55,16 +59,17 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding: 1rem;
+    
     border: 1px solid var(--primary-light);
     border-radius: 0.75rem;
     box-shadow: 0 24px 72px 0 rgba(96, 93, 255, .1);
+    
     
 }
 
 .board_content_background img {
     display: flex;
-    width: 100%;
+    width: 50%;
     height: 100%;
     flex-direction: column;
 }
@@ -80,7 +85,7 @@
     display: flex;
     align-items: center;
     width: fit-content;
-    padding: 0.25rem 1.25rem 0.25rem 0.4rem;
+    
     column-gap: 0.5rem;
     border: 2px solid #e6e5ff;
     background-color: #fff;
@@ -90,4 +95,11 @@
 
 .board_content_blog-author__name {
     font-weight: 700;
+}
+
+.board_comment{
+    align-items: center;
+    text-align: center;
+    width : 300px
+    align-items-center;
 }
