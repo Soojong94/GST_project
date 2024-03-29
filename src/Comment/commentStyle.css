@@ -1,0 +1,16 @@
+/* Comments.css */
+.comments-section {
+  margin-top: 20px;
+}
+
+.comments-list {
+  margin-top: 20px;
+}
+
+.comment-item {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+}

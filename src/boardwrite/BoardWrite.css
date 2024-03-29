@@ -1,56 +1,63 @@
-/* BoardWrite.css 최종 수정본 */
-.form-container {
-  margin: 20px;
+/* BoardWrite.css */
+.boardWrite {
+  max-width: 600px;
+  margin: 20px auto;
   padding: 20px;
-  border: 7.5px solid #4da6ff; /* 하늘색 테두리, 반으로 줄임 */
-  border-radius: 15px;
-}
-
-.form-group {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  }
+  
+  .boardWrite h2 {
   margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
+  text-align: center;
+  }
+  
+  .form-group {
   margin-bottom: 15px;
-}
-
-/* 제목 입력 필드 스타일 */
-.form-group input[type="text"] {
+  }
+  
+  .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  }
+  
+  .form-control {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  }
+  
+  .input-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  }
+  
+  .input-wrapper label {
+  font-weight: bold;
+  }
+  
+  .input-wrapper input[type="text"],
+  .input-wrapper textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  }
+  
+  .btn-submit {
+  display: block;
   width: 100%;
   padding: 10px;
-  border: 5px solid #007bff; /* 파란색 테두리, 반으로 줄임 */
-  border-radius: 5px;
-  box-sizing: border-box;
-}
-
-/* 내용 입력 필드 스타일 */
-.form-group textarea {
-  width: 100%;
-  padding: 80px; /* 패딩 조정 */
-  border: 5px solid #007bff; /* 파란색 테두리, 반으로 줄임 */
-  border-radius: 5px;
-  box-sizing: border-box;
-}
-
-/* 파일 입력 필드 스타일 조정 */
-.form-group input[type="file"] {
-  width: 100%; /* 너비를 100%로 설정하여 제목 입력 필드와 동일한 길이로 조정 */
-  padding: 5px;
-  border: 5px solid green; /* 파일 입력 필드에 경계선 추가, 반으로 줄임 */
-  border-radius: 5px;
-  box-sizing: border-box; /* 콘텐츠 박스 크기에 패딩과 테두리 포함 */
-}
-
-button[type="submit"] {
-  padding: 10px 20px;
-  background-color: #007bff; /* 파란색 배경 */
-  color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
   cursor: pointer;
-}
-
-button[type="submit"]:hover {
-  background-color: #0056b3; /* 마우스 오버 시 더 짙은 파란색으로 변경 */
-}
+  }
+  
+  .btn-submit:hover {
+  background-color: #0056b3;
+  }

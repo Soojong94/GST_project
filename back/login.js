@@ -12,7 +12,12 @@ const port = 5000;
 const multer = require('multer');
 const { match } = require('assert');
 
+
+app.use(bodyParser.json());
 app.use(cors());
+
+
+
 
 app.use(session({
     secret: 'secret key',	// 암호화
@@ -184,33 +189,44 @@ const storage = multer.diskStorage({
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   
-  // '/api/boardInsert' 경로에 대한 POST 요청 처리
-  app.post('/api/boardInsert', upload.single('file'), (req, res) => {
-    const nick = req.session.user_nick; // 세션에서 사용자 닉네임 가져오기 (사용자 인증 구현 필요)
-    const user_id = req.body.user_id; // 사용자 ID 처리 (사용자 인증 구현 필요)
-    const b_title = req.body.title;
-    const b_content = req.body.content;
-    const b_file = req.file ? req.file.path : ''; // 파일이 있다면 파일 경로 저장
-    const b_created_at = new Date();
+  app.post('/api/posts', upload.single('b_file'), async (req, res) => {
+    try {
+      // 요청 정보 출력
+      console.log('요청 정보:', req.body);
   
-    // 데이터베이스 연결 및 쿼리 실행 코드 (여기서는 예시로만 표시)
-    const sql = `INSERT INTO boards (b_title, b_content, b_file, created_at, user_id) 
-                 VALUES (?, ?, ?, ?, ?)`;
-    const values = [b_title, b_content, b_file, b_created_at, user_id];
+      const { b_title, b_content, created_at } = req.body;
+      const b_file = req.file ? req.file.path : '';
+      const user_id = req.session.user_id;
   
-    // 데이터베이스 쿼리 실행 (예시 코드)
-    connection.query(sql, values, (err, result) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send('Error inserting data');
-      } else {
-        console.log('Data inserted successfully');
-        res.sendStatus(200);
-      }
-    });
+      // SQL 쿼리 실행
+      const query = 'INSERT INTO posts (b_title, b_content, b_file, created_at, user_id) VALUES (?, ?, ?, ?, ?)';
+      const [result] = await pool.execute(query, [b_title, b_content, b_file, created_at, user_id]);
+  
+      // 응답 정보 출력
+      console.log('응답 정보:', { message: '게시글이 성공적으로 등록되었습니다.', postId: result.insertId });
+  
+      res.status(200).json({ message: '게시글이 성공적으로 등록되었습니다.', postId: result.insertId });
+    } catch (error) {
+      // 오류 정보 출력
+      console.error('오류 정보:', error);
+  
+      res.status(500).json({ message: '게시글 등록 중 오류가 발생했습니다.', error: error.message });
+    }
   });
-  
+// 댓글 등록 API 엔드포인트
+app.post('/api/commentInsert', (req, res) => {
+  const { b_idx, cmt_content, created_at, user_id } = req.body; // 클라이언트로부터 받은 데이터
+  const query = 'INSERT INTO comments (b_idx, cmt_content, created_at, user_id) VALUES (?, ?, ?, ?)';
 
+  connection.query(query, [b_idx, cmt_content, created_at, user_id], (err, result) => {
+      if (err) {
+          console.error('댓글 등록 중 에러 발생:', err);
+          res.status(500).send('서버 에러');
+      } else {
+          res.send('댓글이 성공적으로 등록되었습니다.');
+      }
+  });
+});
 
   
   // 서버 실행
