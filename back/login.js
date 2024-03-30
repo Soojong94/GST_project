@@ -379,6 +379,14 @@ app.get('/api/getSchedule', (req, res) => {
   });
 });
 
+// 클랜 보드 리스트
+app.get("/api/boardList", (req, res) => {
+  const q = "SELECT * FROM boards";
+  connection.query(q, (err, data) => {
+    if (err) return res.json(err);
+    return res.json(data);
+  });
+});
 
 // 서버 실행
 app.listen(port, () => {
