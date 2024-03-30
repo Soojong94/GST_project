@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './style.css'; 
-import logo from '../dashboardImg/KakaoTalk_20240318_165848557_01.png';
+import logo from '../signin_page/GST_logo.png';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';

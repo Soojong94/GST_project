@@ -1,6 +1,7 @@
 // Navbar.js
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import mainpage_logo from '../../../signin_page/GST_logo.png'
 
 const Navbar = ({ signup, login }) => {
   const [isShrinked, setIsShrinked] = useState(false);
@@ -27,8 +28,8 @@ const Navbar = ({ signup, login }) => {
   return (
     <nav className={`navbar navbar-expand-lg navbar-light fixed-top ${isShrinked ? 'navbar-shrink' : ''}`} id="mainNav">
       <div className="container px-4 px-lg-5">
-        <a className="navbar-brand" href="#page-top"><img id="team_logo"
-          src="./assets/img/KakaoTalk_20240318_165848557_01.png" /> </a>
+        <a className="navbar-brand" href="#page-top"><img id="mainpage_logo"
+          src={mainpage_logo} /> </a>
         <button className="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse"
           data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
           aria-label="Toggle navigation">
