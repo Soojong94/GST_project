@@ -20,7 +20,7 @@ function Routing({ handleNewSchedule, events }) {
       <Route path='/Calendar' element={<Calendar events={events} />} />
       <Route path="/TeamSubscriptions" element={<TeamSubscriptions />} />
       <Route path="/ClanBoard" element={<ClanBoard />} />
-      <Route path="/TeamInfo" element={<TeamInfo />} />
+      <Route path="/TeamInfo/:team_idx" element={<TeamInfo />} />
       <Route path="/AddSchedule/:date" element={<AddSchedule onScheduleAdded={handleNewSchedule} />} />
       <Route path="/Mypage" element={<Mypage />} />
       <Route path="/Board_1" element={<Board_1 />} />
