@@ -5,16 +5,17 @@ import axios from 'axios'; // axios를 추가합니다.
 
 const AddSchedule = ({ onScheduleAdded }) => {
   const { date } = useParams();
+  console.log(date);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     calendarType: '1',
-    title: '',
-    startDate: '',
-    endDate: '',
-    time: '',
-    location: '',
-    description: ''
+    st_dt: date,
+    ed_dt: '', 
+    st_tm: '', 
+    ed_tm: '',
+    sche_content: '',
+    sche_color: ''
   });
 
   const handleChange = (e) => {
@@ -28,12 +29,12 @@ const AddSchedule = ({ onScheduleAdded }) => {
   const handleReset = () => {
     setFormData({
       calendarType: '1',
-      title: '',
-      startDate: '',
-      endDate: '',
-      time: '',
-      location: '',
-      description: ''
+      st_dt: date,
+      ed_dt: '', 
+      st_tm: '', 
+      ed_tm: '',
+      sche_content: '',
+      sche_color: ''
     });
   };
 
@@ -81,15 +82,15 @@ const AddSchedule = ({ onScheduleAdded }) => {
           </div>
           <div className="input-group mb-4">
             <label htmlFor="startDate" className="label">시작일</label>
-            <input type="date" id="startDate" name="startDate" className="input" value={formData.startDate} onChange={handleChange} required />
+            <input type="date" id="st_dt" name="st_dt" className="input" value={formData.st_dt} onChange={handleChange} required />
           </div>
           <div className="input-group mb-4">
             <label htmlFor="endDate" className="label">종료일</label>
-            <input type="date" id="endDate" name="endDate" className="input" value={formData.endDate} onChange={handleChange} required />
+            <input type="date" id="ed_dt" name="ed_dt" className="input" value={formData.ed_dt} onChange={handleChange} required />
           </div>
           <div className="input-group mb-4">
             <label htmlFor="time" className="label">시간</label>
-            <input type="time" id="time" name="time" className="input" value={formData.time} onChange={handleChange} />
+            <input type="time" id="st_tm" name="st_tm" className="input" value={formData.st_tm} onChange={handleChange} />
           </div>
           <div className="input-group mb-4">
             <label htmlFor="location" className="label">장소</label>

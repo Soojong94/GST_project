@@ -311,7 +311,7 @@ app.get('/api/teaminfo/:team_idx', (req, res) => {
 })
 
 
-// 일정 공유 파트
+// 일정 등록
 
 // Route to receive new schedule data from client and insert into database
 app.post('/api/addSchedule', (req, res) => {
@@ -319,7 +319,8 @@ app.post('/api/addSchedule', (req, res) => {
   // 세션에서 사용자 ID 가져오기
   // const userId = req.session.userId;
 
-  // 세션에 저장된 사용자 ID를 이용해 데이터베이스에 새로운 일정 추가
+  // 세션에 저장된 사용자 ID를 이용해 데이터베이스에 새로운 일정 추가 calendarType에 따른 분류
+  
 
   const query = 'INSERT INTO schedule (calendarType, title, startDate, endDate, time, location, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
   const { calendarType, title, startDate, endDate, time, location, description } = req.body;
@@ -393,7 +394,7 @@ connection.query(`SELECT * FROM users WHERE user_id = ?`, [user_id], (error, res
 app.delete('/userDelete/:user_id', (req, res) => {
   const userId = req.params.user_id;
 
-  // Delete comments by the user from the 'comments' table
+  // 회원의 댓글 삭제
   const deleteCommentsQuery = 'DELETE FROM comments WHERE user_id = ?';
   connection.query(deleteCommentsQuery, [userId], (err, result) => {
     if (err) {
@@ -402,7 +403,7 @@ app.delete('/userDelete/:user_id', (req, res) => {
       return;
     }
 
-    // Delete posts by the user from the 'boards' table
+    // 회원의 게시글 삭제
     const deleteBoardQuery = 'DELETE FROM boards WHERE user_id = ?';
     connection.query(deleteBoardQuery, [userId], (err, result) => {
       if (err) {
@@ -411,7 +412,7 @@ app.delete('/userDelete/:user_id', (req, res) => {
         return;
       }
 
-      // Delete the user from the 'users' table
+      // 회원삭제
       const deleteUserQuery = 'DELETE FROM users WHERE user_id = ?';
       connection.query(deleteUserQuery, [userId], (err, result) => {
         if (err) {
@@ -422,6 +423,50 @@ app.delete('/userDelete/:user_id', (req, res) => {
         }
       });
     });
+  });
+});
+
+// 일정 공유 파트
+
+// Route to receive new schedule data from client and insert into database
+app.post('/api/addSchedule', (req, res) => {
+
+  // 세션에서 사용자 ID 가져오기
+  // const user_id = req.session.userId;
+
+  // 세션에 저장된 사용자 ID를 이용해 데이터베이스에 새로운 일정 추가
+
+  const query = 'INSERT INTO user_schedules (user_id, st_dt, ed_dt, st_tm, ed_tm, sche_content, sche_color, sche_is) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+  const { user_id, st_dt, ed_dt, st_tm, ed_tm, sche_content, sche_color, sche_is } = req.body;
+
+  connection.query(query, [ user_id, st_dt, ed_dt, st_tm, ed_tm, sche_content, sche_color, sche_is], (err, result) => {
+    if (err) {
+      console.error('일정 등록 중 에러 발생:', err);
+      res.status(500).send('서버 에러');
+    } else {
+      console.log('일정이 성공적으로 등록되었습니다.');
+      res.sendStatus(200);
+    }
+  });
+});
+
+// 일정 보여주는 코드
+
+app.get('/api/getSchedule', (req, res) => {
+  // 세션에서 사용자 ID 가져오기
+  const userId = req.session.userId;
+
+  // 데이터베이스에서 해당 사용자의 일정 가져오기
+  const query = 'SELECT * FROM user_schedules WHERE user_id = ?';
+  connection.query(query, [userId], (err, results) => {
+    if (err) {
+      console.error('일정 조회 중 에러 발생:', err);
+      res.status(500).send('서버 에러');
+    } else {
+      console.log('일정 조회 성공:', results);
+      // 클라이언트에게 일정 데이터 전송
+      res.status(200).json(results);
+    }
   });
 });
 
