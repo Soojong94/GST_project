@@ -1,23 +1,39 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import './Mypage.css';
 import Sidebar from '../sidebar-02/sidebar';
 import ClanMember from './ClanMember';
 
 
 
+
+
 function Mypage() {
 
   const [users, setUsers] = useState([
-    { id: "sapoon11@gmail.com", nickname: "User1", phoneNumber: "010-1234-5678", clanName: "Clan A", joinDate: "2024-03-29", clanBoss: true }
+    { id: "rbsgh0510@gmail.com", nickname: "User1", phoneNumber: "010-1234-5678", clanName: "Clan A", joinDate: "2024-03-29", clanBoss: true }
   ]);
+
+  // 회원 정보를 가져오기
+  useEffect(() => {
+    axios.get('http://localhost:5000/userinfo')
+    .then(response => {
+      setUsers(response.data);
+    })
+    .catch(error => {
+      console.error('Error fetching data: ', error);
+    });
+  }, []);
+
+
   const [editingUser, setEditingUser] = useState(null);
   const [editedNickname, setEditedNickname] = useState('');
   const [editedPhoneNumber, setEditedPhoneNumber] = useState('');
 
   // 닉네임과 폰 번호를 수정하는 함수
-  const handleEdit = async (userId) => {
+  const handleEdit = async (user_id) => {
     const updatedUsers = users.map(user => {
-      if (user.id === userId) {
+      if (user.id === user_id) {
         return {
           ...user,
           nickname: editedNickname.trim() !== '' ? editedNickname : user.nickname,
@@ -44,7 +60,7 @@ function Mypage() {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            userId: userId,
+            userId: user_id,
             updatedNickname: editedNickname,
             updatedPhoneNumber: editedPhoneNumber
           })
@@ -60,6 +76,23 @@ function Mypage() {
         console.error('Error updating user:', error.message);
       }
     };
+
+
+    const handleDelete = async (user_id) => {
+      try {
+          const response = await axios.delete(`http://localhost:5000/userDelete/${user_id}`);
+          console.log('회원 탈퇴 성공:', response.data);
+          // 성공적으로 회원 탈퇴한 경우, 사용자 목록에서 해당 사용자를 제거하는 작업 등을 수행할 수 있습니다.
+      } catch (error) {
+          console.error('회원 탈퇴 실패:', error);
+          // 회원 탈퇴에 실패한 경우, 사용자에게 알림을 표시하거나 다른 작업을 수행할 수 있습니다.
+      }
+  };
+  
+
+
+
+    // ====================================================================== 화면 부분
 
   useEffect(() => {
     const allLinks = document.querySelectorAll(".tabs a");
@@ -113,7 +146,10 @@ function Mypage() {
   }, []);
 
   return (
-    <div className="tabs-container">
+    <>
+    <div>
+    <div><Sidebar/></div>
+    <div className="tabs-container" id='tabsContainer'>
       <ul className="tabs">
         <li>
           <a id="tab1" title="Your Idea & Vision" href="#tab1">
@@ -165,7 +201,7 @@ function Mypage() {
             ) : (
               <button onClick={() => setEditingUser(user.id)}>수정</button>
             )}
-            <button>회원탈퇴</button>
+            <button onClick={() => handleDelete(user.id)}>회원 탈퇴</button>
           </section>
         ))}
         <section id="tab2-content" className="tab-content">
@@ -194,6 +230,8 @@ function Mypage() {
         {/* 위부분과 똑같이 작성하면 추가 가능 */}
       </div>
     </div>
+    </div>
+    </>
   );
 }
 

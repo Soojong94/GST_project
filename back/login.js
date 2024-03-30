@@ -172,62 +172,11 @@ app.get('/session', (req, res) => {
 
 // 파일 저장을 위한 multer 설정
 const storage = multer.diskStorage({
-<<<<<<< HEAD
     destination: function (req, file, cb) {
       cb(null, 'uploads/') // 파일이 저장될 경로
     },
     filename: function (req, file, cb) {
       cb(null, file.fieldname + '-' + Date.now())
-=======
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/') // 파일이 저장될 경로
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now())
-  }
-});
-
-const upload = multer({ storage: storage });
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-app.post('/api/board', upload.single('b_file'), async (req, res) => {
-  try {
-    // 요청 정보 출력
-    console.log('요청 정보:', req.body);
-
-    const { b_title, b_content, created_at } = req.body;
-    const b_file = req.file ? req.file.path : '';
-    const user_id = req.session.user_id;
-
-    // SQL 쿼리 실행
-    const query = 'INSERT INTO posts (b_title, b_content, b_file, created_at, user_id) VALUES (?, ?, ?, ?, ?)';
-    const [result] = await pool.execute(query, [b_title, b_content, b_file, created_at, user_id]);
-
-    // 응답 정보 출력
-    console.log('응답 정보:', { message: '게시글이 성공적으로 등록되었습니다.', postId: result.insertId });
-
-    res.status(200).json({ message: '게시글이 성공적으로 등록되었습니다.', postId: result.insertId });
-  } catch (error) {
-    // 오류 정보 출력
-    console.error('오류 정보:', error);
-
-    res.status(500).json({ message: '게시글 등록 중 오류가 발생했습니다.', error: error.message });
-  }
-});
-// 댓글 등록 API 엔드포인트
-app.post('/api/commentInsert', (req, res) => {
-  const { b_idx, cmt_content, created_at, user_id } = req.body; // 클라이언트로부터 받은 데이터
-  const query = 'INSERT INTO comments (b_idx, cmt_content, created_at, user_id) VALUES (?, ?, ?, ?)';
-
-  connection.query(query, [b_idx, cmt_content, created_at, user_id], (err, result) => {
-    if (err) {
-      console.error('댓글 등록 중 에러 발생:', err);
-      res.status(500).send('서버 에러');
-    } else {
-      res.send('댓글이 성공적으로 등록되었습니다.');
->>>>>>> fe21769dbfe5193c88e3b8a08262760340214b01
     }
   });
   
@@ -279,69 +228,51 @@ app.post('/api/commentInsert', (req, res) => {
     });
   });
 
+  // 로그인한 사용자의 정보를 가져오기
+app.get('/userinfo', (req, res) => {
+  const user_id = req.session.user_id; // 세션에서 사용자 ID 가져오기
+
+  if (!user_id) {
+      return res.status(401).json({ message: '로그인 되어있지 않습니다.' });
+  }
+
+  connection.query('SELECT * FROM users WHERE id = ?', [user_id], (error, results, fields) => {
+      if (error) throw error;
+
+      if (results.length > 0) {
+          const user = results[0];
+          res.json(user);
+      } else {
+          res.status(404).json({ message: '유저정보를 찾지 못했습니다' });
+      }
+  });
+});
+
+
+// 회원 탈퇴 엔드포인트
+app.delete('/userDelete/:userId', (req, res) => {
+  const userId = req.params.userId;
+
+  // 데이터베이스에서 해당 아이디를 가진 회원을 삭제하는 쿼리 수행
+  const deleteQuery = `DELETE FROM users WHERE id = ?`;
+  connection.query(deleteQuery, [userId], (err, result) => {
+      if (err) {
+          console.error('회원 삭제 오류:', err);
+          res.status(500).send({ error: '회원 삭제 중 오류가 발생했습니다.' });
+      } else {
+          if (result.affectedRows === 1) {
+              res.status(200).send({ message: '회원 탈퇴 성공' });
+          } else {
+              res.status(404).send({ error: '해당 아이디를 가진 회원을 찾을 수 없습니다.' });
+          }
+      }
+  });
+});
+
+
 
   // 서버 실행
 app.listen(port, () => {
     console.log('server is running at 5000');});
 
 
-<<<<<<< HEAD
-=======
-});
-
-
-// 댓글 리스트 API 앤드포인트
-app.get('/api/comments/:idx', (req, res) => {
-  const idx = req.params.idx;
-  console.log(idx)
-
-  const sql = ` SELECT c.*, u.user_nick
-    FROM comments c INNER JOIN users u ON c.user_id = u.user_id WHERE c.b_idx = ${idx}`;
-
-  connection.query(sql, (err, data) => {
-    if (err) return res.json(err);
-    return res.json(data)
-  })
-});
-
-// 노드 특정 idx게시판 보기 앤드포인트
-app.get('/api/board/:idx', (req, res) => {
-  const idx = req.params.idx;
-  console.log(idx)
-
-  const sql = `SELECT b.*, u.user_nick FROM boards b INNER JOIN users u ON b.user_id = u.user_id WHERE b.b_idx = ${idx}`;
-
-  connection.query(sql, (err, data) => {
-    if (err) return res.json(err);
-    return res.json(data)
-  })
-});
-
-
-
-// 팀 정보 요청 앤드포인트
-app.get('/api/teams',(req, res)=>{
-
-  const sql = "SElECT * FROM teams WHERE team_idx <= 10";
-  connection.query(sql,(err, data)=>{
-    if(err) return res.json(err);
-    return res.json(data)
-  })
-})
-
-// 노드 팀 idx에 따른 팀정보 앤드포인트
-app.get('/api/teaminfo/:team_idx', (req, res) => {
-  const idx = req.params.team_idx;
-  console.log(idx)
-  const sql = `SELECT * FROM teams WHERE team_idx = ${idx}`;
-  connection.query(sql, (err, data) => {
-    if (err) return res.json(err);
-    return res.json(data)
-  })
-})
-
-// 서버 실행
-app.listen(port, () => {
-  console.log('server is running at 5000');
-});
->>>>>>> fe21769dbfe5193c88e3b8a08262760340214b01
