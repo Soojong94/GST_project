@@ -139,7 +139,7 @@ app.get('/signup/redirect', async (req, res) => {
   res.render('npForm');
 });
 
-app.post('/first/login.js', (req, res) => {
+app.post('/back/login.js', (req, res) => {
   const email = req.session.email; // 세션에서 이메일 주소 추출
   const { nick, phone } = req.body;
 
@@ -152,7 +152,7 @@ app.post('/first/login.js', (req, res) => {
 
   mysqlConnection.close;
 
-  res.send("<script>alert('회원등록 완료 되었습니다.'); location.href='http://210.183.87.94:3000'</script>");
+  res.send("<script>alert('회원등록 완료 되었습니다.'); location.href='http://localhost:3000'</script>");
 });
 
 // 세션 리액트로 전송
@@ -256,9 +256,21 @@ app.get('/api/board/:idx', (req, res) => {
   })
 });
 
+
+
+// 팀 정보 요청 앤드포인트
+app.get('/api/teams',(req, res)=>{
+
+  const sql = "SElECT * FROM teams WHERE team_idx <= 10";
+  connection.query(sql,(err, data)=>{
+    if(err) return res.json(err);
+    return res.json(data)
+  })
+})
+
 // 노드 팀 idx에 따른 팀정보 앤드포인트
-app.get('/api/teaminfo/:idx', (req, res) => {
-  const idx = req.params.idx;
+app.get('/api/teaminfo/:team_idx', (req, res) => {
+  const idx = req.params.team_idx;
   console.log(idx)
   const sql = `SELECT * FROM teams WHERE team_idx = ${idx}`;
   connection.query(sql, (err, data) => {

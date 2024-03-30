@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import BRO from '../team_subsc/logo/BRO.PNG';
 import DK from '../team_subsc/logo/DK.PNG';
@@ -16,9 +17,21 @@ import '../../src/App.css'
 
 
 
+const teamImageMap = {
+  1: T1,
+  2: GenG,
+  3: DK,
+  4: HLE,
+  5: KT,
+  6: DRX,
+  7: NS,
+  8: KDF,
+  9: Fearx,
+  10:BRO
+};
 
-function TeamSubscCard({ imgSrc, altText, title, content, link }) {
-
+function TeamSubscCard({ teamIdx, altText, title, content, link }) {
+  const imgSrc = teamImageMap[teamIdx];
   const navigate = useNavigate(); // useNavigate 훅 사용하여 navigate 함수 가져오기
 
   const handleClick = () => {
@@ -43,84 +56,40 @@ function TeamSubscCard({ imgSrc, altText, title, content, link }) {
 }
 
 function TeamSubsc() {
-  const teams = [
-    {
-      imgSrc: BRO,
-      altText: "Lavender Fields",
-      title: "BRION",
-      content: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent in mauris eu tortor porttitor accumsan.",
-      link: "/Teaminfo"// 여기에 인덱스 까지 추가하면 팀에 맞는 경로로 들어가짐
-    },
-    {
-      imgSrc: DK,
-      altText: "Snowy Mountains",
-      title: "Dplus KIA",
-      content: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent in mauris eu tortor porttitor accumsan.",
-      link : "/Teaminfo"
-      
-    },
-    {
-      imgSrc: DRX,
-      altText: "Wooden Bridge",
-      title: "DRX",
-      content: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent in mauris eu tortor porttitor accumsan."
-    },
-    {
-      imgSrc: T1,
-      altText: "Autumn Forest",
-      title: "T1",
-      content: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent in mauris eu tortor porttitor accumsan."
-    },
-    {
-      imgSrc: NS,
-      altText: "Freezing Forest",
-      title: "Nongshim Red Force",
-      content: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent in mauris eu tortor porttitor accumsan."
-    },
-    {
-      imgSrc: Fearx,
-      altText: "Fearx",
-      title: "FearX",
-      content: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent in mauris eu tortor porttitor accumsan."
-    },
-    {
-      imgSrc: GenG,
-      altText: "GenG",
-      title: "GenG",
-      content: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent in mauris eu tortor porttitor accumsan."
-    },
-    {
-      imgSrc: HLE,
-      altText: "Hanwha Life Esports",
-      title: "Hanwha Life Esports",
-      content: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent in mauris eu tortor porttitor accumsan."
-    },
-    {
-      imgSrc: KDF,
-      altText: "Kwangdong Freecs",
-      title: "Kwangdong Freecs",
-      content: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent in mauris eu tortor porttitor accumsan."
-    },
-    {
-      imgSrc: KT,
-      altText: "KT Rolster",
-      title: "KT Rolster",
-      content: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent in mauris eu tortor porttitor accumsan."
-    }
-  ];
+  
+  const [teams, setTeams] = useState([]);
 
+  useEffect(() => {
+    const fetchTeams = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/teams'); // 서버의 경로에 맞게 수정
+        const teamwithImages = res.data.map((team)=>({
+          ...team,
+          imgSrc: teamImageMap[team.team_idx],
+          link: `/Teaminfo/${team.team_idx}`
+        }));
+          setTeams(teamwithImages);
+        } catch (err) {
+        console.error('팀 정보를 가져오는 중 에러가 발생했습니다:', err);
+      }
+    };
+
+    fetchTeams();
+  }, []);
+  
   return (
     <div className='main_container'>
       <Sidebar />
       <div className='main_calendar'></div>
       <div className="articles" id="team_subsc">
-        {teams.map((team, index) => (
+        {teams.map((team) => (
           <TeamSubscCard
-            key={index}
-            imgSrc={team.imgSrc}
-            altText={team.altText}
-            title={team.title}
-            content={team.content}
+            key={team.team_idx}
+            teamIdx={team.team_idx}
+            imgSrc={team.imgSrc} // 임포트한 이미지를 디비에서 받온 고유한 값과 일치 시켜 보여주고 싶어
+            altText={team.team_player}
+            title={team.team_name}
+            content={team.team_profile}
             link={team.link}
           />
         ))}
