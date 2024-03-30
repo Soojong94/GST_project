@@ -1,13 +1,6 @@
 import React, { useEffect } from 'react';
 import './Mypage.css';
-<<<<<<< HEAD
 // import ClanMember from './ClanMember';
-=======
-import ClanMember from './ClanMember';
-import Sidebar from '../sidebar-02/sidebar';
-import '../../src/App.css'
-
->>>>>>> 002167940934ea62201480b70274b76bb97dde66
 
 
 function Mypage() {

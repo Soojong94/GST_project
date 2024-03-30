@@ -24,10 +24,6 @@ function Routing({ handleNewSchedule, events }) {
       <Route path="/ClanBoard" element={<ClanBoard />} />
       <Route path="/TeamInfo" element={<TeamInfo />} />
       <Route path="/AddSchedule/:date" element={<AddSchedule onScheduleAdded={handleNewSchedule} />} />
-<<<<<<< HEAD
-      <Route path='/Mypage' element={<Mypage />} />
-
-=======
       <Route path="/Mypage" element={<Mypage />} />
       <Route path="/Board_1" element={<Board_1 />} />
 >>>>>>> 002167940934ea62201480b70274b76bb97dde66
