@@ -354,7 +354,7 @@ app.get('/api/getSchedule', (req, res) => {
   });
 });
 
- //   // 회원정보 수정
+  // 회원정보 수정
 
  app.post('/updateUser', (req, res) => {
   const { user_id, user_nick, user_phone } = req.body;
@@ -377,7 +377,7 @@ if (!user_id) {
     return res.status(401).json({ message: '로그인 되어있지 않습니다.' });
 }
 
-connection.query('SELECT * FROM users WHERE id = ?', [user_id], (error, results, fields) => {
+connection.query(`SELECT * FROM users WHERE user_id = ?`, [user_id], (error, results, fields) => {
     if (error) throw error;
 
     if (results.length > 0) {
@@ -389,26 +389,61 @@ connection.query('SELECT * FROM users WHERE id = ?', [user_id], (error, results,
 });
 });
 
-
 // 회원 탈퇴 엔드포인트
-app.delete('/userDelete/:userId', (req, res) => {
-const userId = req.params.userId;
+app.delete('/userDelete/:user_id', (req, res) => {
+  const userId = req.params.user_id;
 
-// 데이터베이스에서 해당 아이디를 가진 회원을 삭제하는 쿼리 수행
-const deleteQuery = `DELETE FROM users WHERE id = ?`;
-connection.query(deleteQuery, [userId], (err, result) => {
+  // Delete comments by the user from the 'comments' table
+  const deleteCommentsQuery = 'DELETE FROM comments WHERE user_id = ?';
+  connection.query(deleteCommentsQuery, [userId], (err, result) => {
     if (err) {
-        console.error('회원 삭제 오류:', err);
-        res.status(500).send({ error: '회원 삭제 중 오류가 발생했습니다.' });
-    } else {
-        if (result.affectedRows === 1) {
-            res.status(200).send({ message: '회원 탈퇴 성공' });
-        } else {
-            res.status(404).send({ error: '해당 아이디를 가진 회원을 찾을 수 없습니다.' });
-        }
+      console.error('Error deleting comments:', err);
+      res.status(500).send({ message: 'Error occurred while deleting comments.' });
+      return;
     }
+
+    // Delete posts by the user from the 'boards' table
+    const deleteBoardQuery = 'DELETE FROM boards WHERE user_id = ?';
+    connection.query(deleteBoardQuery, [userId], (err, result) => {
+      if (err) {
+        console.error('Error deleting posts:', err);
+        res.status(500).send({ message: 'Error occurred while deleting posts.' });
+        return;
+      }
+
+      // Delete the user from the 'users' table
+      const deleteUserQuery = 'DELETE FROM users WHERE user_id = ?';
+      connection.query(deleteUserQuery, [userId], (err, result) => {
+        if (err) {
+          console.error('Error deleting user:', err);
+          res.status(500).send({ message: 'Error occurred while deleting user.' });
+        } else {
+          res.status(200).send({ message: 'User deleted successfully.' });
+        }
+      });
+    });
+  });
 });
+
+
+
+app.get('/clanBossMembers/:clanName', (req, res) => {
+  const clanName = req.params.clanName;
+
+  const query = `SELECT user_nick FROM users WHERE clan = ? AND clan_boss = true`;
+
+  connection.query(query, [clanName], (err, results) => {
+    if (err) {
+      console.error('Error fetching clan boss members:', err);
+      res.status(500).send({ error: 'Failed to fetch clan boss members' });
+    } else {
+      const nicknames = results.map(result => result.nickname);
+      res.status(200).send(nicknames);
+    }
+  });
 });
+
+
 
 app.get("/api/boardList", (req, res) => {
   const q = "SELECT * FROM boards";
@@ -417,8 +452,6 @@ app.get("/api/boardList", (req, res) => {
     return res.json(data);
   });
 });
-
-
 
 
 // 서버 실행

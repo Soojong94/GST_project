@@ -4,13 +4,10 @@ import './Mypage.css';
 import Sidebar from '../sidebar-02/sidebar';
 import ClanMember from './ClanMember';
 
-
-
-
 function Mypage() {
 
   const [users, setUsers] = useState([
-    // { id: "sapoon11@gmail.com", nickname: "User1", phoneNumber: "010-1234-5678", clanName: "Clan A", joinDate: "2024-03-29", clanBoss: true }
+    { id: "sapoon11@gmail.com", nickname: "User1", phoneNumber: "010-1234-5678", clanName: "Clan A", joinDate: "2024-03-29", clanBoss: true }
   ]);
 
   // 회원 정보를 가져오기
@@ -23,7 +20,6 @@ function Mypage() {
       console.error('Error fetching data: ', error);
     });
   }, []);
-
 
   const [editingUser, setEditingUser] = useState(null);
   const [editedNickname, setEditedNickname] = useState('');
@@ -76,6 +72,29 @@ function Mypage() {
       }
     };
 
+// 클라이언트 측에서 회원 탈퇴 요청 보내는 함수
+const handleDelete = async (user_id) => {
+  try {
+      const response = await axios.delete(`http://localhost:5000/userDelete/${user_id}`);
+      console.log('회원 탈퇴 성공:', response.data);
+      // 성공적으로 회원 탈퇴한 경우, 사용자 목록에서 해당 사용자를 제거하는 작업 등을 수행할 수 있습니다.
+  } catch (error) {
+      console.error('회원 탈퇴 실패:', error);
+      // 회원 탈퇴에 실패한 경우, 사용자에게 알림을 표시하거나 다른 작업을 수행할 수 있습니다.
+  }
+};
+
+const getClanBossMembers = async (clanName) => {
+  try {
+    const response = await axios.get(`http://localhost:5000/clanBossMembers/${clanName}`);
+    console.log('Clan boss members:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching clan boss members:', error);
+    throw error;
+  }
+};
+
   useEffect(() => {
     const allLinks = document.querySelectorAll(".tabs a");
     const allTabs = document.querySelectorAll(".tab-content");
@@ -106,7 +125,6 @@ function Mypage() {
         shiftTabs(linkId);
       });
     });
-
 
     const currentHash = window.location.hash;
 
@@ -183,7 +201,8 @@ function Mypage() {
             ) : (
               <button onClick={() => setEditingUser(user.id)}>수정</button>
             )}
-            <button>회원탈퇴</button>
+            <button onClick={() => handleDelete(user.id)}>회원 탈퇴</button>
+
           </section>
         ))}
         <section id="tab2-content" className="tab-content">
