@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import './Mypage.css';
-// import ClanMember from './ClanMember';
+import Sidebar from '../sidebar-02/sidebar';
+import ClanMember from './ClanMember';
 
 
 function Mypage() {
@@ -57,13 +58,8 @@ function Mypage() {
   }, []);
 
   const clanName = ""
-<<<<<<< HEAD
   
   const clanBoss = "1"
-=======
-
-  const clanBoss = "123"
->>>>>>> 002167940934ea62201480b70274b76bb97dde66
 
   return (
     <div className='main_container'>
@@ -79,48 +75,6 @@ function Mypage() {
               계정 관리
             </a>
           </li>
-<<<<<<< HEAD
-        }
-
-
-        {/* 위부분과 똑같이 작성하면 추가 가능 */}
-      </ul>
-      <div className="tab-content-wrapper">
-        <section id="tab1-content" className="tab-content">
-          <h2>아이디</h2>
-          <p>pbk1234</p>    
-          <h2>닉네임</h2>
-          <p>짜장면</p>
-          <h2>연락처</h2>
-          <p>010-1234-5465</p>
-          <h2>클랜명</h2>
-          <p>{clanName ? clanName : "클랜없음"}</p>
-          <h2>회원 가입날짜</h2>
-          <p>2024년 3월 19일</p>
-        </section>
-        <section id="tab2-content" className="tab-content">
-          <h2>구독 목록</h2>
-          <p>
-            Gen.g
-          </p>
-          <p>
-            T1
-          </p>
-          <p>
-            DRX
-          </p>
-          
-        </section>
-        {/* {!clanBoss ? "" : (
-            <section id="tab3-content" className="tab-content">
-            <h2>클랜원</h2>
-            <div className='clanMember'><ClanMember/></div>
-            <button>클랜 삭제</button>
-            
-          </section>
-         )} */}
-        {/* 위부분과 똑같이 작성하면 추가 가능 */}
-=======
           <li>
             <a id="tab2" title="Product Specification" href="#tab2">
               <svg width="24px" height="24px" stroke-width="1.5" viewBox="0 0 24 24" fill="none"
@@ -174,7 +128,6 @@ function Mypage() {
           )}
           {/* 위부분과 똑같이 작성하면 추가 가능 */}
         </div>
->>>>>>> 002167940934ea62201480b70274b76bb97dde66
       </div>
     </div>
   );
