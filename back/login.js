@@ -211,9 +211,10 @@ app.post('/api/board', upload.single('b_file'), async (req, res) => {
   }
 });
 // 댓글 등록 API 엔드포인트
-app.post('/api/commentInsert', (req, res) => {
+app.post('/api/comment', (req, res) => {
   const { b_idx, cmt_content, created_at, user_id } = req.body; // 클라이언트로부터 받은 데이터
   const query = 'INSERT INTO comments (b_idx, cmt_content, created_at, user_id) VALUES (?, ?, ?, ?)';
+  console.log('댓글 등록',b_idx, cmt_content, created_at, user_id )
 
   connection.query(query, [b_idx, cmt_content, created_at, user_id], (err, result) => {
     if (err) {
@@ -262,9 +263,9 @@ app.post('/api/commentInsert', (req, res) => {
 
 
 // 댓글 리스트 API 앤드포인트
-app.get('/api/comments/:idx', (req, res) => {
-  const idx = req.params.idx;
-  console.log(idx)
+app.get('/api/comment/:idx', (req, res) => {
+  const { idx } = req.params;
+  console.log('댓글',idx)
 
   const sql = ` SELECT c.*, u.user_nick
     FROM comments c INNER JOIN users u ON c.user_id = u.user_id WHERE c.b_idx = ${idx}`;
@@ -439,7 +440,7 @@ app.get("/api/boardList", (req, res) => {
 // 특정 게시판 보기
   app.get('/api/board/:idx', (req, res)=>{
         const idx = req.params.idx;
-        console.log(idx)
+        console.log('게시판',idx);
     
         const sql = `SELECT b.*, u.user_nick
     FROM boards b

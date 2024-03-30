@@ -12,7 +12,7 @@ function BoardCard({ imgSrc, title, content, b_idx }) {
       <Link to={`/Board/${b_idx}`} className="clan_board_card">
     <article>
       <figure>
-        <img src={imgSrc}/>
+        <img src={imgSrc} alt=""/>
       </figure>
       <div className="article-preview" id={b_idx}>
         <h2>{title}</h2>

@@ -10,7 +10,7 @@ import Mypage from '../Mypage/Mypage';
 import Mainpage from '../mainpage/startbootstrap-grayscale-gh-pages/mainpage'
 import Board_1 from '../boardContent/boardContent';
 
-const b_idx = 6;
+
 
 function Routing({ handleNewSchedule, events }) {
   return (
