@@ -1,24 +1,4 @@
 
-
-:root {
-  --white: #FFF;
-  --primary: #645DFF;
-  --secondary: #2A2649;
-  --secondary-light: #777777;
-  --body-background: #efeefa;
-  --border: #E6E8F0;
-}
-
-body {
-  font-family: 'Poppins', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  padding: 1rem;
-  background-color: var(--body-background);
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -26,13 +6,20 @@ body {
 }
 
 .tabs-container {
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 1rem;
+  background-color: #efeefa;
   width: 100%;
   max-width: 50rem;
   display: flex;
 margin: 0.625rem;
   overflow: hidden;
 border-radius: 1rem;
-  background-color: var(--white);
+  background-color: #fff;
 box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;	
 }
 
@@ -41,14 +28,14 @@ box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   overflow-x: auto;
   height: 33.75rem;
   min-width: 18rem;
-  color: var(--secondary);
+  color: #2A2649;
   transition: all 0.45s ease-in-out;
   padding: 0.75rem 1.5rem;
   overflow: hidden;
 }
 
 .tab-content h2 {
-  color: var(--secondary);
+  color: #2A2649;
   font-size: 1.3rem;
   font-weight: 600;
   margin-top: 0;
@@ -86,7 +73,7 @@ box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   width: 100%;
   font-size: 1.125rem;
   font-weight: 600;
-  color: var(--secondary-light);
+  color: #777777;
   overflow: hidden;
   text-align: left;
   height: 5.5rem;
@@ -103,18 +90,18 @@ box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 .tabs .active, .tabs a:hover {
   font-weight: 700;
   outline: none;
-  color: var(--primary);
-  border-right: 3px solid var(--primary);
+  color: #645DFF;
+  border-right: 3px solid #645DFF;
 }
 
 .tabs a svg {
   width: 2.25rem;
   height: 2.25rem;
-  stroke: var(--secondary-light);
+  stroke: #777777;
 }
 
 .tabs .active svg, .tabs a:hover svg {
-  stroke: var(--primary);
+  stroke: #645DFF;
 }
 .tab-content>p{
   padding-bottom: 20px;
