@@ -54,21 +54,12 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/signup', (req, res) => {
-<<<<<<< HEAD
     let url = 'https://accounts.google.com/o/oauth2/v2/auth';
     url += `?client_id=${GOOGLE_CLIENT_ID}`
     url += `&redirect_uri=${GOOGLE_SIGNUP_REDIRECT_URI}`
     url += '&response_type=code'
     url += '&scope=email profile'
     res.redirect(url);
-=======
-  let url = 'https://accounts.google.com/o/oauth2/v2/auth';
-  url += `?client_id=${GOOGLE_CLIENT_ID}`
-  url += `&redirect_uri=${GOOGLE_SIGNUP_REDIRECT_URI}`
-  url += '&response_type=code'
-  url += '&scope=email profile'
-  res.redirect(url);
->>>>>>> 86d047101c196693f1d47753a5e78143691a0df1
 });
 
 
@@ -235,7 +226,6 @@ app.post('/api/commentInsert', (req, res) => {
       res.send('댓글이 성공적으로 등록되었습니다.');
     }
   });
-<<<<<<< HEAD
   
   const upload = multer({ storage: storage });
   
@@ -289,64 +279,3 @@ app.post('/api/commentInsert', (req, res) => {
   // 서버 실행
 app.listen(port, () => {
     console.log('server is running at 5000');});
-
-
-=======
-});
-
-
-// 댓글 리스트 API 앤드포인트
-app.get('/api/comments/:idx', (req, res) => {
-  const idx = req.params.idx;
-  console.log(idx)
-
-  const sql = ` SELECT c.*, u.user_nick
-    FROM comments c INNER JOIN users u ON c.user_id = u.user_id WHERE c.b_idx = ${idx}`;
-
-  connection.query(sql, (err, data) => {
-    if (err) return res.json(err);
-    return res.json(data)
-  })
-});
-
-// 노드 특정 idx게시판 보기 앤드포인트
-app.get('/api/board/:idx', (req, res) => {
-  const idx = req.params.idx;
-  console.log(idx)
-
-  const sql = `SELECT b.*, u.user_nick FROM boards b INNER JOIN users u ON b.user_id = u.user_id WHERE b.b_idx = ${idx}`;
-
-  connection.query(sql, (err, data) => {
-    if (err) return res.json(err);
-    return res.json(data)
-  })
-});
-
-
-
-// 팀 정보 요청 앤드포인트
-app.get('/api/teams',(req, res)=>{
-
-  const sql = "SElECT * FROM teams WHERE team_idx <= 10";
-  connection.query(sql,(err, data)=>{
-    if(err) return res.json(err);
-    return res.json(data)
-  })
-})
-
-// 노드 팀 idx에 따른 팀정보 앤드포인트
-app.get('/api/teaminfo/:team_idx', (req, res) => {
-  const idx = req.params.team_idx;
-  console.log(idx)
-  const sql = `SELECT * FROM teams WHERE team_idx = ${idx}`;
-  connection.query(sql, (err, data) => {
-    if (err) return res.json(err);
-    return res.json(data)
-  })
-})
-
-// 서버 실행
-app.listen(port, () => {
-  console.log('server is running at 5000');
-});
->>>>>>> 86d047101c196693f1d47753a5e78143691a0df1
