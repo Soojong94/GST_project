@@ -14,10 +14,10 @@ const { match } = require('assert');
 app.use(cors());
 
 app.use(session({
-    secret: 'secret key',	// 암호화
-    resave: false,	
-    saveUninitialized: true,	
-    cookie: {	
+    secret: 'secret key',   // 암호화
+    resave: false,   
+    saveUninitialized: true,   
+    cookie: {   
       httpOnly: true,
     },
   }));
@@ -77,6 +77,7 @@ app.get('/login/redirect', async (req, res) => {
     });
 
     const google_info = resp2.data;
+
 
     console.log(google_info);
     req.session.google_id = google_info.email; // 세션에 구글 아이디 저장
@@ -143,13 +144,9 @@ app.post('/first/login.js', (req, res) => {
         if(err) throw err;
         console.log('자료 1개를 반환하였습니다.'); 
     });
-
-
     mysqlConnection.close;
-
     res.send("<script>alert('회원등록 완료 되었습니다.'); location.href='http://210.183.87.94:3000'</script>");
 });
-
 
 // 세션 리액트로 전송
 app.get('/session', (req, res) => {
@@ -165,6 +162,8 @@ app.get('/session', (req, res) => {
       res.json(sessionObj);
 
   });
+
+
 
 
 //=======================================================
@@ -225,7 +224,6 @@ app.post('/api/commentInsert', (req, res) => {
 
     }
   });
-
   
   const upload = multer({ storage: storage });
   
@@ -259,27 +257,6 @@ app.post('/api/commentInsert', (req, res) => {
     });
   });
   
-  
-    //   // 회원정보 수정
-
-    app.post('/updateUser', (req, res) => {
-    const { user_id, user_nick, user_phone } = req.body;
-    const sql = "UPDATE users SET user_nick = ?, user_phone = ? WHERE user_id = ?";
-    const values = [user_nick, user_phone, user_id];
-
-    // 데이터베이스 라이브러리를 사용하여 쿼리 실행
-    connection.query(sql, values, (err, result) => {
-      if (err) throw err;
-      // 쿼리 실행 결과 처리
-      res.send('사용자 정보가 성공적으로 업데이트되었습니다.');
-    });
-  });
-
-
-  // 서버 실행
-app.listen(port, () => {
-    console.log('server is running at 5000');});
-
 
 });
 
@@ -315,7 +292,6 @@ app.get('/api/board/:idx', (req, res) => {
 
 // 팀 정보 요청 앤드포인트
 app.get('/api/teams',(req, res)=>{
-
   const sql = "SElECT * FROM teams WHERE team_idx <= 10";
   connection.query(sql,(err, data)=>{
     if(err) return res.json(err);
@@ -360,7 +336,6 @@ app.post('/api/addSchedule', (req, res) => {
 });
 
 // 일정 보여주는 코드
-
 app.get('/api/getSchedule', (req, res) => {
   // 세션에서 사용자 ID 가져오기
   const userId = req.session.userId;
@@ -379,9 +354,107 @@ app.get('/api/getSchedule', (req, res) => {
   });
 });
 
+  // 회원정보 수정
+
+ app.post('/updateUser', (req, res) => {
+  const { user_id, user_nick, user_phone } = req.body;
+  const sql = "UPDATE users SET user_nick = ?, user_phone = ? WHERE user_id = ?";
+  const values = [user_nick, user_phone, user_id];
+
+  // 데이터베이스 라이브러리를 사용하여 쿼리 실행
+  connection.query(sql, values, (err, result) => {
+    if (err) throw err;
+    // 쿼리 실행 결과 처리
+    res.send('사용자 정보가 성공적으로 업데이트되었습니다.');
+  });
+});
+
+// 로그인한 사용자의 정보를 가져오기
+app.get('/userinfo', (req, res) => {
+const user_id = req.session.user_id; // 세션에서 사용자 ID 가져오기
+
+if (!user_id) {
+    return res.status(401).json({ message: '로그인 되어있지 않습니다.' });
+}
+
+connection.query(`SELECT * FROM users WHERE user_id = ?`, [user_id], (error, results, fields) => {
+    if (error) throw error;
+
+    if (results.length > 0) {
+        const user = results[0];
+        res.json(user);
+    } else {
+        res.status(404).json({ message: '유저정보를 찾지 못했습니다' });
+    }
+});
+});
+
+// 회원 탈퇴 엔드포인트
+app.delete('/userDelete/:user_id', (req, res) => {
+  const userId = req.params.user_id;
+
+  // Delete comments by the user from the 'comments' table
+  const deleteCommentsQuery = 'DELETE FROM comments WHERE user_id = ?';
+  connection.query(deleteCommentsQuery, [userId], (err, result) => {
+    if (err) {
+      console.error('Error deleting comments:', err);
+      res.status(500).send({ message: 'Error occurred while deleting comments.' });
+      return;
+    }
+
+    // Delete posts by the user from the 'boards' table
+    const deleteBoardQuery = 'DELETE FROM boards WHERE user_id = ?';
+    connection.query(deleteBoardQuery, [userId], (err, result) => {
+      if (err) {
+        console.error('Error deleting posts:', err);
+        res.status(500).send({ message: 'Error occurred while deleting posts.' });
+        return;
+      }
+
+      // Delete the user from the 'users' table
+      const deleteUserQuery = 'DELETE FROM users WHERE user_id = ?';
+      connection.query(deleteUserQuery, [userId], (err, result) => {
+        if (err) {
+          console.error('Error deleting user:', err);
+          res.status(500).send({ message: 'Error occurred while deleting user.' });
+        } else {
+          res.status(200).send({ message: 'User deleted successfully.' });
+        }
+      });
+    });
+  });
+});
+
+
+
+app.get('/clanBossMembers/:clanName', (req, res) => {
+  const clanName = req.params.clanName;
+
+  const query = `SELECT user_nick FROM users WHERE clan = ? AND clan_boss = true`;
+
+  connection.query(query, [clanName], (err, results) => {
+    if (err) {
+      console.error('Error fetching clan boss members:', err);
+      res.status(500).send({ error: 'Failed to fetch clan boss members' });
+    } else {
+      const nicknames = results.map(result => result.nickname);
+      res.status(200).send(nicknames);
+    }
+  });
+});
+
+
+
+app.get("/api/boardList", (req, res) => {
+  const q = "SELECT * FROM boards";
+  connection.query(q, (err, data) => {
+    if (err) return res.json(err);
+    return res.json(data);
+  });
+});
+
 
 // 서버 실행
 app.listen(port, () => {
   console.log('server is running at 5000');
 });
-

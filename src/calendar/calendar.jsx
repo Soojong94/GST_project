@@ -6,6 +6,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../sidebar-02/sidebar';
 import '../../src/App.css'
+import Agenda from './../Agenda/Agenda';
 
 const Calendar = ({ events }) => {
   const navigate = useNavigate();
@@ -34,6 +35,7 @@ const Calendar = ({ events }) => {
           selectable={true}
         />
       </div>
+      <div className='calendar_agenda'><Agenda></Agenda></div>
     </div>
   );
 };
