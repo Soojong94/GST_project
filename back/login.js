@@ -16,9 +16,6 @@ const { match } = require('assert');
 app.use(bodyParser.json());
 app.use(cors());
 
-
-
-
 app.use(session({
   secret: 'secret key',	// 암호화
   resave: false,
@@ -30,6 +27,8 @@ app.use(session({
 
 const connection = mysqlConnection.init();
 mysqlConnection.open(connection);
+
+
 
 app.set('view engine', 'ejs'); // 보여주는 싯기를 ejs쓸거야 명시
 app.set('views', './views'); // views 라는 애들은, ./views 안에 있어
@@ -189,7 +188,7 @@ const upload = multer({ storage: storage });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.post('/api/posts', upload.single('b_file'), async (req, res) => {
+app.post('/api/board', upload.single('b_file'), async (req, res) => {
   try {
     // 요청 정보 출력
     console.log('요청 정보:', req.body);
