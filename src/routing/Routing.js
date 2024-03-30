@@ -11,6 +11,7 @@ import Mainpage from '../mainpage/startbootstrap-grayscale-gh-pages/mainpage'
 import Board_1 from '../boardContent/boardContent';
 
 
+
 function Routing({ handleNewSchedule, events }) {
   return (
     <Routes>
@@ -23,7 +24,7 @@ function Routing({ handleNewSchedule, events }) {
       <Route path="/TeamInfo/:team_idx" element={<TeamInfo />} />
       <Route path="/AddSchedule/:date" element={<AddSchedule onScheduleAdded={handleNewSchedule} />} />
       <Route path="/Mypage" element={<Mypage />} />
-      <Route path="/Board_1" element={<Board_1 />} />
+      <Route path="/Board/:b_idx" element={<Board_1 />} />
 
 
     </Routes>
