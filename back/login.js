@@ -54,21 +54,12 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/signup', (req, res) => {
-<<<<<<< HEAD
-    let url = 'https://accounts.google.com/o/oauth2/v2/auth';
-    url += `?client_id=${GOOGLE_CLIENT_ID}`
-    url += `&redirect_uri=${GOOGLE_SIGNUP_REDIRECT_URI}`
-    url += '&response_type=code'
-    url += '&scope=email profile'
-    res.redirect(url);
-=======
   let url = 'https://accounts.google.com/o/oauth2/v2/auth';
   url += `?client_id=${GOOGLE_CLIENT_ID}`
   url += `&redirect_uri=${GOOGLE_SIGNUP_REDIRECT_URI}`
   url += '&response_type=code'
   url += '&scope=email profile'
   res.redirect(url);
->>>>>>> 86d047101c196693f1d47753a5e78143691a0df1
 });
 
 
@@ -235,63 +226,6 @@ app.post('/api/commentInsert', (req, res) => {
       res.send('댓글이 성공적으로 등록되었습니다.');
     }
   });
-<<<<<<< HEAD
-  
-  const upload = multer({ storage: storage });
-  
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
-  
-  // '/api/boardInsert' 경로에 대한 POST 요청 처리
-  app.post('/api/boardInsert', upload.single('file'), (req, res) => {
-    const nick = req.session.user_nick; // 세션에서 사용자 닉네임 가져오기 (사용자 인증 구현 필요)
-    const user_id = req.body.user_id; // 사용자 ID 처리 (사용자 인증 구현 필요)
-    const b_title = req.body.title;
-    const b_content = req.body.content;
-    const b_file = req.file ? req.file.path : ''; // 파일이 있다면 파일 경로 저장
-    const b_created_at = new Date();
-
-  
-    // 데이터베이스 연결 및 쿼리 실행 코드 (여기서는 예시로만 표시)
-    const sql = `INSERT INTO boards (b_title, b_content, b_file, created_at, user_id) 
-                 VALUES (?, ?, ?, ?, ?)`;
-    const values = [b_title, b_content, b_file, b_created_at, user_id];
-  
-    // 데이터베이스 쿼리 실행 (예시 코드)
-    connection.query(sql, values, (err, result) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send('Error inserting data');
-      } else {
-        console.log('Data inserted successfully');
-        res.sendStatus(200);
-      }
-    });
-  });
-  
-  
-    //   // 회원정보 수정
-
-    app.post('/updateUser', (req, res) => {
-    const { user_id, user_nick, user_phone } = req.body;
-    const sql = "UPDATE users SET user_nick = ?, user_phone = ? WHERE user_id = ?";
-    const values = [user_nick, user_phone, user_id];
-
-    // 데이터베이스 라이브러리를 사용하여 쿼리 실행
-    connection.query(sql, values, (err, result) => {
-      if (err) throw err;
-      // 쿼리 실행 결과 처리
-      res.send('사용자 정보가 성공적으로 업데이트되었습니다.');
-    });
-  });
-
-
-  // 서버 실행
-app.listen(port, () => {
-    console.log('server is running at 5000');});
-
-
-=======
 });
 
 
@@ -345,8 +279,57 @@ app.get('/api/teaminfo/:team_idx', (req, res) => {
   })
 })
 
+
+// 일정 공유 파트
+
+// Route to receive new schedule data from client and insert into database
+app.post('/api/addSchedule', (req, res) => {
+
+  // 세션에서 사용자 ID 가져오기
+  // const userId = req.session.userId;
+
+  // 세션에 저장된 사용자 ID를 이용해 데이터베이스에 새로운 일정 추가
+
+  const query = 'INSERT INTO schedule (calendarType, title, startDate, endDate, time, location, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+  const { calendarType, title, startDate, endDate, time, location, description } = req.body;
+
+  connection.query(query, [ calendarType, title, startDate, endDate, time, location, description], (err, result) => {
+    if (err) {
+      console.error('일정 등록 중 에러 발생:', err);
+      res.status(500).send('서버 에러');
+    } else {
+      console.log('일정이 성공적으로 등록되었습니다.');
+      res.sendStatus(200);
+    }
+  });
+});
+
+// 일정 보여주는 코드
+
+app.get('/api/getSchedule', (req, res) => {
+  // 세션에서 사용자 ID 가져오기
+  const userId = req.session.userId;
+
+  // 데이터베이스에서 해당 사용자의 일정 가져오기
+  const query = 'SELECT * FROM schedule WHERE userId = ?';
+  connection.query(query, [userId], (err, results) => {
+    if (err) {
+      console.error('일정 조회 중 에러 발생:', err);
+      res.status(500).send('서버 에러');
+    } else {
+      console.log('일정 조회 성공:', results);
+      // 클라이언트에게 일정 데이터 전송
+      res.status(200).json(results);
+    }
+  });
+});
+
+
 // 서버 실행
 app.listen(port, () => {
   console.log('server is running at 5000');
 });
->>>>>>> 86d047101c196693f1d47753a5e78143691a0df1
+
+
+
+

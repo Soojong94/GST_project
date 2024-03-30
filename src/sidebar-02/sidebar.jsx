@@ -64,7 +64,7 @@ const Sidebar = () => {
         <div className="sidebar-links">
           <ul>
             <li>
-              <Link to="/Logout" title="Logout"  onClick={() => handleLinkClick('/Logout')}>
+              <Link to="/Mainpage" title="Logout"  onClick={() => handleLinkClick('/Mainpage')}>
                 <LogoutIcon />
                 <span className="link hide">로그아웃</span>
               </Link>
