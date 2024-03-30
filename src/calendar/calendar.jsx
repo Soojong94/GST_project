@@ -4,6 +4,8 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { useNavigate } from 'react-router-dom';
+import Sidebar from '../sidebar-02/sidebar';
+import '../../src/App.css'
 
 const Calendar = ({ events }) => {
   const navigate = useNavigate();
@@ -19,14 +21,20 @@ const Calendar = ({ events }) => {
   }
 
   return (
-    <FullCalendar
-      plugins={[dayGridPlugin, interactionPlugin]}
-      initialView='dayGridMonth'
-      events={events}
-      select={handleSelect}
-      eventClick={handleEventClick}
-      selectable={true}
-    />
+    <div className='main_container'>
+      <Sidebar />
+      <div className = 'main_calendar'>
+
+        <FullCalendar
+          plugins={[dayGridPlugin, interactionPlugin]}
+          initialView='dayGridMonth'
+          events={events}
+          select={handleSelect}
+          eventClick={handleEventClick}
+          selectable={true}
+        />
+      </div>
+    </div>
   );
 };
 

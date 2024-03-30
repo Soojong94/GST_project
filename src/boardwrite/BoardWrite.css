@@ -1,42 +1,63 @@
 /* BoardWrite.css */
-.form-container {
-    margin: 20px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+.boardWrite {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  }
+  
+  .boardWrite h2 {
+  margin-bottom: 20px;
+  text-align: center;
   }
   
   .form-group {
-    margin-bottom: 20px;
+  margin-bottom: 15px;
   }
   
   .form-group label {
-    display: block;
-    margin-bottom: 5px;
+  display: block;
+  margin-bottom: 5px;
   }
   
-  .form-group input[type="text"],
-  .form-group textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+  .form-control {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
   }
   
-  .form-group input[type="file"] {
-    border: none;
+  .input-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
   }
   
-  button[type="submit"] {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  .input-wrapper label {
+  font-weight: bold;
   }
   
-  button[type="submit"]:hover {
-    background-color: #0056b3;
+  .input-wrapper input[type="text"],
+  .input-wrapper textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
   }
   
+  .btn-submit {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  }
+  
+  .btn-submit:hover {
+  background-color: #0056b3;
+  }

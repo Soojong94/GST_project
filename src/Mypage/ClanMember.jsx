@@ -48,7 +48,7 @@ function ClanMember() {
                 </tbody>
             </table>
             <div>
-            <nav>
+            <navigator>
                 <ul className='pagination'>
                     <li className='page-item'>
                         <a href='#' className='page-link'
@@ -67,7 +67,7 @@ function ClanMember() {
                             onClick={nextPage}>Next</a>
                     </li>
                 </ul>
-            </nav>
+            </navigator>
             </div>
         </div>
     );

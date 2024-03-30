@@ -1,4 +1,16 @@
 
+<<<<<<< HEAD
+=======
+:root {
+  --white: #FFF;
+  --primary: #645DFF;
+  --secondary: #2A2649;
+  --secondary-light: #777777;
+  --body-background: #efeefa;
+  --border: #E6E8F0;
+}
+
+>>>>>>> 86d047101c196693f1d47753a5e78143691a0df1
 * {
   margin: 0;
   padding: 0;

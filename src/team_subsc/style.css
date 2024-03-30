@@ -28,6 +28,7 @@ body {
     justify-content: center;
     max-width: 2000px;
     gap: 1.5rem;
+    
 }
 
 .articles article {
@@ -46,7 +47,7 @@ body {
     text-align: center;
     margin-bottom: 25px;
     margin-top: 25px;
-
+    margin-right: 80px !important;
 }
 
 .articles article h2 {
