@@ -42,7 +42,7 @@ margin: 0.625rem;
   overflow: hidden;
 border-radius: 1rem;
   background-color: #fff;
-box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;	
+box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;   
 }
 
 .tab-content-wrapper {
@@ -134,4 +134,7 @@ box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   margin-left: 400px;
   
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8905752b5feaf272cd145e569c2e66315a0761c7
