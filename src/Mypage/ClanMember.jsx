@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import Data from './Data.json';
+<<<<<<< HEAD
+import 'bootstrap/dist/css/bootstrap.min.css';
+=======
 
+>>>>>>> 002167940934ea62201480b70274b76bb97dde66
 
 function ClanMember() {
     const [currentPage, setCurrentPage] = useState(1);
