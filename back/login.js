@@ -453,6 +453,8 @@ app.get("/api/boardList", (req, res) => {
         })
       });
 
+    
+
 // 서버 실행
 app.listen(port, () => {
   console.log('server is running at 5000');
