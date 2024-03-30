@@ -1,6 +1,5 @@
 
-<<<<<<< HEAD
-=======
+
 :root {
   --white: #FFF;
   --primary: #645DFF;
@@ -10,11 +9,22 @@
   --border: #E6E8F0;
 }
 
->>>>>>> 86d047101c196693f1d47753a5e78143691a0df1
+
 * {
+  
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+.top_container{
+  display: flex;
+  
+}
+.sidebar_container{
+  display: flex;
+  justify-content: left;
+ 
 }
 
 .tabs-container {
@@ -119,3 +129,9 @@ box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   padding-bottom: 20px;
   font-size: 18px;
 }
+
+#tabsContainer{
+  margin-left: 400px;
+  
+}
+

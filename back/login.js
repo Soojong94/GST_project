@@ -80,6 +80,8 @@ app.get('/login/redirect', async (req, res) => {
     },
   });
 
+
+
   const google_info = resp2.data;
 
   console.log(google_info);
@@ -171,6 +173,8 @@ app.get('/session', (req, res) => {
 });
 
 
+
+
 //=======================================================
 
 
@@ -260,7 +264,7 @@ app.post('/api/commentInsert', (req, res) => {
   });
   
   
-    //   // 회원정보 수정
+    // 회원정보 수정
 
     app.post('/updateUser', (req, res) => {
     const { user_id, user_nick, user_phone } = req.body;
@@ -275,7 +279,28 @@ app.post('/api/commentInsert', (req, res) => {
     });
   });
 
+  // 마이페이지 회원정보 가져오기
+  app.get('/user', (req, res) => {
+    const user_id = req.session.user_id; // 세션에서 사용자 ID 가져오기
+
+    if (!user_id) {
+        return res.status(401).json({ message: 'Unauthorized' }); // 로그인되지 않은 상태라면 401 상태 코드 반환
+    }
+
+    connection.query('SELECT * FROM users WHERE id = ?', [user_id], (error, results, fields) => { // 연결되면 쿼리문 실행
+        if (error) throw error;
+
+        if (results.length > 0) { // 쿼리 실행 시 오류나면 오류 던짐 사용자정보를 json 형식으로 받아옴
+            const user = results[0];
+            res.json(user);
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    });
+});
+
 
   // 서버 실행
 app.listen(port, () => {
     console.log('server is running at 5000');});
+})

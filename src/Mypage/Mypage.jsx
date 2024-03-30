@@ -1,15 +1,30 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import './Mypage.css';
 import Sidebar from '../sidebar-02/sidebar';
 import ClanMember from './ClanMember';
 
 
 
+
 function Mypage() {
 
   const [users, setUsers] = useState([
-    { id: "sapoon11@gmail.com", nickname: "User1", phoneNumber: "010-1234-5678", clanName: "Clan A", joinDate: "2024-03-29", clanBoss: true }
+    // { id: "sapoon11@gmail.com", nickname: "User1", phoneNumber: "010-1234-5678", clanName: "Clan A", joinDate: "2024-03-29", clanBoss: true }
   ]);
+
+  // 회원 정보를 가져오기
+  useEffect(() => {
+    axios.get('http://localhost:5000/users')
+    .then(response => {
+      setUsers(response.data);
+    })
+    .catch(error => {
+      console.error('Error fetching data: ', error);
+    });
+  }, []);
+
+
   const [editingUser, setEditingUser] = useState(null);
   const [editedNickname, setEditedNickname] = useState('');
   const [editedPhoneNumber, setEditedPhoneNumber] = useState('');
@@ -113,7 +128,10 @@ function Mypage() {
   }, []);
 
   return (
-    <div className="tabs-container">
+    <>
+    <div>
+    <div><Sidebar/></div>
+    <div className="tabs-container" id='tabsContainer'>
       <ul className="tabs">
         <li>
           <a id="tab1" title="Your Idea & Vision" href="#tab1">
@@ -194,6 +212,8 @@ function Mypage() {
         {/* 위부분과 똑같이 작성하면 추가 가능 */}
       </div>
     </div>
+    </div>
+    </>
   );
 }
 
