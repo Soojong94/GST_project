@@ -1,34 +1,29 @@
 import React, { useState } from 'react';
-import './AddSchedule.css'; 
-import { useParams, useNavigate } from 'react-router-dom'; 
+import './AddSchedule.css';
+import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios'; // axios를 추가합니다.
 
-const AddSchedule = ({ onScheduleAdded,testData }) => {
-  console.log('add schedule')
-  const { date } = useParams(); 
-  const navigate = useNavigate(); 
-
+const AddSchedule = ({ onScheduleAdded }) => {
+  const { date } = useParams();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    calendarType: '1', 
+    calendarType: '1',
     title: '',
     startDate: '',
     endDate: '',
     time: '',
     location: '',
-    description: '',
-    
+    description: ''
   });
-
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-
   const handleCancel = () => {
     navigate('/calendar');
   };
-
 
   const handleReset = () => {
     setFormData({
@@ -38,20 +33,30 @@ const AddSchedule = ({ onScheduleAdded,testData }) => {
       endDate: '',
       time: '',
       location: '',
-      description: '',
-      
+      description: ''
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log('일정 데이터:', formData);
-    
-    navigate('/calendar'); 
-    
-    onScheduleAdded({ ...formData, calendarType: parseInt(formData.calendarType) });
-    
+    try {
+      const response = await axios.post('http://localhost:5000/api/addSchedule', formData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.status === 200) {
+        console.log('Schedule added successfully!');
+        onScheduleAdded({ ...formData, calendarType: parseInt(formData.calendarType) });
+        navigate('/calendar');
+      } else {
+        console.error('Failed to add schedule');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   return (
