@@ -53,21 +53,12 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/signup', (req, res) => {
-<<<<<<< HEAD
     let url = 'https://accounts.google.com/o/oauth2/v2/auth';
     url += `?client_id=${GOOGLE_CLIENT_ID}`
     url += `&redirect_uri=${GOOGLE_SIGNUP_REDIRECT_URI}`
     url += '&response_type=code'
     url += '&scope=email profile'
     res.redirect(url);
-=======
-  let url = 'https://accounts.google.com/o/oauth2/v2/auth';
-  url += `?client_id=${GOOGLE_CLIENT_ID}`
-  url += `&redirect_uri=${GOOGLE_SIGNUP_REDIRECT_URI}`
-  url += '&response_type=code'
-  url += '&scope=email profile'
-  res.redirect(url);
->>>>>>> 86d047101c196693f1d47753a5e78143691a0df1
 });
 
 
@@ -234,7 +225,6 @@ app.post('/api/commentInsert', (req, res) => {
       res.send('댓글이 성공적으로 등록되었습니다.');
     }
   });
-<<<<<<< HEAD
   
   const upload = multer({ storage: storage });
   
@@ -290,7 +280,6 @@ app.listen(port, () => {
     console.log('server is running at 5000');});
 
 
-=======
 });
 
 
@@ -348,4 +337,3 @@ app.get('/api/teaminfo/:team_idx', (req, res) => {
 app.listen(port, () => {
   console.log('server is running at 5000');
 });
->>>>>>> 86d047101c196693f1d47753a5e78143691a0df1
