@@ -9,7 +9,7 @@ function BoardCard({ imgSrc, title, content, b_idx }) {
   return (
     <div className='main_container'>
       <Sidebar />
-    <Link to = '/Board_1' className = "clan_board_card">
+      <Link to={`/Board/${b_idx}`} className="clan_board_card">
     <article>
       <figure>
         <img src={imgSrc}/>

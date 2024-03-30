@@ -275,21 +275,6 @@ app.get('/api/comments/:idx', (req, res) => {
   })
 });
 
-// 노드 특정 idx게시판 보기 앤드포인트
-app.get('/api/board/:idx', (req, res) => {
-  const idx = req.params.idx;
-  console.log(idx)
-
-  const sql = `SELECT b.*, u.user_nick FROM boards b INNER JOIN users u ON b.user_id = u.user_id WHERE b.b_idx = ${idx}`;
-
-  connection.query(sql, (err, data) => {
-    if (err) return res.json(err);
-    return res.json(data)
-  })
-});
-
-
-
 // 팀 정보 요청 앤드포인트
 app.get('/api/teams',(req, res)=>{
   const sql = "SElECT * FROM teams WHERE team_idx <= 10";
@@ -442,9 +427,7 @@ app.get('/clanBossMembers/:clanName', (req, res) => {
     }
   });
 });
-
-
-
+// 게시판 리스트
 app.get("/api/boardList", (req, res) => {
   const q = "SELECT * FROM boards";
   connection.query(q, (err, data) => {
@@ -453,6 +436,21 @@ app.get("/api/boardList", (req, res) => {
   });
 });
 
+// 특정 게시판 보기
+  app.get('/api/board/:idx', (req, res)=>{
+        const idx = req.params.idx;
+        console.log(idx)
+    
+        const sql = `SELECT b.*, u.user_nick
+    FROM boards b
+    INNER JOIN users u ON b.user_id = u.user_id
+    WHERE b.b_idx = ${idx}` ;
+
+        connection.query(sql,(err,data)=>{
+            if(err) return res.json(err);
+            return res.json(data)
+        })
+      });
 
 // 서버 실행
 app.listen(port, () => {
