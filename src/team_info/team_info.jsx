@@ -28,36 +28,49 @@ const Team_info = () => {
     fetchTeam();
   }, [team_idx]);
 
+  useEffect(() => {
+    const fetchSubscription = async () => {
+      try {
+        //const userId = req.session.userId; // 세션에서 아이디 가져오기
+        const userId = 'rbsgh0510@gmail.com'
+        const res = await axios.get(`http://localhost:5000/api/subscription/${team_idx}/${userId}`);
+        const subscription = res.data; // 서버에서 받은 구독 정보
+        setIsSubscribed(subscription.isSubscribed); // 구독 정보를 상태에 저장
+      } catch (err) {
+        console.error('구독 정보를 가져오는 중 에러가 발생했습니다:', err);
+      }
+    };
+
+    fetchSubscription();
+  }, []);
   
   const toggleSubscription = () => {
     setIsSubscribed(!isSubscribed);
-
-
+  
     const subscriptionData = {
+      //userId: req.session.userId, // 실제 사용자 아이디로 변경
+      userId: 'rbsgh0510@gmail.com',
+      teamIdx: team.team_idx,
       isSubscribed: !isSubscribed
     };
-    // 실제 사용할 땐 아래 주석을 해제하고 콘솔 로그 2줄 삭제
-    console.log('구독 상태가 서버에 전송되었습니다.');
-    console.log(subscriptionData);
-
-    //  // JSON 형식으로 변환된 데이터를 서버에 전송
-    //   fetch('/api/subscribe', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(subscriptionData)
-    //   })
-    //   .then(response => {
-    //     if (!response.ok) {
-    //       throw new Error('Failed to toggle subscription');
-    //     }
-    //     console.log('구독 상태가 서버에 전송되었습니다.');
-    //   })
-    //   .catch(error => {
-    //     console.error('Error toggling subscription:', error);
-    //   });
-    // };
+  
+    // JSON 형식으로 변환된 데이터를 서버에 전송
+    fetch('/api/subscribe', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(subscriptionData)
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to toggle subscription');
+      }
+      console.log('구독 상태가 서버에 전송되었습니다.');
+    })
+    .catch(error => {
+      console.error('Error toggling subscription:', error);
+    });
   };
 
   return (
