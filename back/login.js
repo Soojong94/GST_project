@@ -9,6 +9,7 @@ const app = express();
 const port = 5000;
 const multer = require('multer');
 const { match } = require('assert');
+const scheduleMatches = require('./scheduleMatches'); // 문자서비스 코드
 
 app.use(cors());
 
@@ -381,4 +382,5 @@ app.get("/api/boardList", (req, res) => {
 // 서버 실행
 app.listen(port, () => {
   console.log('server is running at 5000');
+  //scheduleMatches(); 문자서비스 코드_살리지 말것.
 });
