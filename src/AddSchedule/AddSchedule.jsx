@@ -16,7 +16,7 @@ const AddSchedule = ({ onScheduleAdded }) => {
     ed_tm: '',
     sche_content: '',
     // user_id: sessionStorage.getItem('user_id')
-    user_id: 'rbsgh0510@gmail.com'
+    user_id: 'testHB'
   });
 
   const handleChange = (e) => {

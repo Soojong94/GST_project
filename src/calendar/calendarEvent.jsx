@@ -9,17 +9,17 @@ const useCalendarEvent = () => {
 
   const handleNewSchedule = (newEvent) => {
     console.log('handle New Schedule Func', events);
-    const { calendarType, title, startDate, endDate, time, location, description } = newEvent;
-    const start = `${startDate}T${time || '00:00'}`;
-    const end = endDate ? `${endDate}T${time || '00:00'}` : null;
+    const { calendarType, st_dt, ed_dt, st_tm ,ed_tm, sche_content} = newEvent;
+    const start = `${st_dt}T${st_tm || '00:00'}`;
+    const end = ed_dt ? `${ed_dt}T${ed_tm || '00:00'}` : null;
 
     const event = {
-      title,
-      start,
-      end,
       calendarType,
-      location,
-      description
+      start,
+      end, 
+      st_tm, 
+      ed_tm,
+      sche_content
     };
 
     setEvents([...events, event]);

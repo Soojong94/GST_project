@@ -7,6 +7,7 @@ import ClanMember from './ClanMember';
 function Mypage() {
 
   const [users, setUsers] = useState([]);
+  const [userSubscriptions, setUserSubscriptions] = useState([]);
 
   // 회원 정보를 가져오기
   useEffect(() => {
@@ -28,88 +29,116 @@ function Mypage() {
   const [editedPhoneNumber, setEditedPhoneNumber] = useState('');
 
   // 닉네임과 폰 번호를 수정하는 함수
-  const handleEdit = async (userId) => {
-    const updatedUsers = users.map(user => {
-      if (user.id === userId) {
-        return {
-          ...user,
-          nickname: editedNickname.trim() !== '' ? editedNickname : user.nickname,
-          phoneNumber: editedPhoneNumber.trim() !== '' ? editedPhoneNumber : user.phoneNumber
-        };
-      }
-      return user;
-    });
-    setUsers(updatedUsers);
-    setEditingUser(null);
-    setEditedNickname('');
-    setEditedPhoneNumber('');
+// 닉네임과 폰 번호를 수정하는 함수
+const handleEdit = async (userId) => {
+  const updatedUsers = users.map(user => {
+    if (user.id === userId) {
+      return {
+        ...user,
+        nickname: editedNickname.trim() !== '' ? editedNickname : user.nickname,
+        phoneNumber: editedPhoneNumber.trim() !== '' ? editedPhoneNumber : user.phoneNumber
+      };
+    }
+    return user;
+  });
+  setUsers(updatedUsers);
+  setEditingUser(null);
+  setEditedNickname('');
+  setEditedPhoneNumber('');
 
-    // 수정된 회원 정보를 콘솔에 출력
-    const updateUsers = JSON.stringify(updatedUsers);
-    console.log(updateUsers);
+  // 수정된 회원 정보를 콘솔에 출력
+  const updateUsers = JSON.stringify(updatedUsers);
+  console.log(updateUsers);
 
-    // 수정된 회원정보 node.js 서버로 http 포스트 요청을 보냄
-    try {
-      // if (editedNickname !== '' || editedPhoneNumber !== '') {
-        const response = await fetch('http://localhost:5000/updateUser', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            userId: userId,
-            updatedNickname: editedNickname,
-            updatedPhoneNumber: editedPhoneNumber
-          })
-        });
-    
-        if (!response.ok) {
-          throw new Error('Failed to update user');
-        }
-    
-        const updatedUser = await response.json();
-        console.log('Updated user:', updatedUser);
-      } catch (error) {
-        console.error('Error updating user:', error.message);
-      }
+  // 수정된 회원정보 node.js 서버로 http 포스트 요청을 보냄
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const user_id = sessionStorage.getItem('user_id'); // 세션 스토리지에서 사용자 ID 가져오기
+    const userNick = editedNickname; // userNick 정의
+    const userPhone = editedPhoneNumber; // userPhone 정의
+
+    if (!user_id) {
+      alert('세션에 사용자 ID가 없습니다.');
+      return;
+    }
+
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user_id, user_nick: userNick, user_phone: userPhone })
     };
 
-// 클라이언트 측에서 회원 탈퇴 요청 보내는 함수
-const handleDelete = async (user_id) => {
-  try {
-      const response = await axios.delete(`http://localhost:5000/userDelete/${user_id}`);
-      console.log('회원 탈퇴 성공:', response.data);
-      // 성공적으로 회원 탈퇴한 경우, 사용자 목록에서 해당 사용자를 제거하는 작업 등을 수행할 수 있습니다.
-  } catch (error) {
-      console.error('회원 탈퇴 실패:', error);
-      // 회원 탈퇴에 실패한 경우, 사용자에게 알림을 표시하거나 다른 작업을 수행할 수 있습니다.
-  }
+    try {
+      const response = await fetch('/updateUser', requestOptions);
+      const data = await response.json();
+      alert(data); // 서버로부터 받은 응답 메시지를 알림으로 표시
+    } catch (error) {
+      console.error('회원정보 업데이트 중 오류 발생:', error);
+      alert('회원정보 업데이트 중 오류가 발생했습니다.');
+    }
+  };
 };
 
-const getClanBossMembers = async (clanName) => {
-  try {
-    const response = await axios.get(`http://localhost:5000/clanBossMembers/${clanName}`);
-    console.log('Clan boss members:', response.data);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching clan boss members:', error);
-    throw error;
-  }
-};
+  // 클라이언트 측에서 회원 탈퇴 요청 보내는 함수
+  const handleDelete = async (user_id) => {
+    try {
+        const response = await axios.delete(`http://localhost:5000/userDelete/${user_id}`);
+        console.log('회원 탈퇴 성공:', response.data);
+        // 성공적으로 회원 탈퇴한 경우, 사용자 목록에서 해당 사용자를 제거하는 작업 등을 수행할 수 있습니다.
+    } catch (error) {
+        console.error('회원 탈퇴 실패:', error);
+        // 회원 탈퇴에 실패한 경우, 사용자에게 알림을 표시하거나 다른 작업을 수행할 수 있습니다.
+    }
+  };
+
+  const getClanBossMembers = async (clanName) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/clanBossMembers/${clanName}`);
+      console.log('Clan boss members:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching clan boss members:', error);
+      throw error;
+    }
+  };
 
 
   // 클랜 삭제 기능
-    const handleClanDelete = async (clanId) => {
-      try {
-        const response = await axios.delete(`http://localhost:5000/api/ClanDelete/`);
-        console.log(response.data);
-        // 클랜 삭제에 성공한 후에 필요한 작업을 수행할 수 있습니다.
-      } catch (error) {
-        console.error('클랜 삭제 에러:', error);
-      }
-    };
+  const handleClanDelete = async (clanId) => {
+    try {
+      const response = await axios.delete(`http://localhost:5000/api/ClanDelete/`);
+      console.log(response.data);
+      // 클랜 삭제에 성공한 후에 필요한 작업을 수행할 수 있습니다.
+    } catch (error) {
+      console.error('클랜 삭제 에러:', error);
+    }
+  };
 
-// =============================================================================================== 마이페이지 화면 이동기능
+  useEffect(() => {
+    fetch('http://localhost:5000/api/usersubscriptions', {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      setUserSubscriptions(data); // 서버에서 받은 데이터를 상태에 저장
+      console.log(data)
+    })
+    .catch(error => {
+      console.error('Error fetching user subscriptions:', error);
+    });
+  }, []); // 컴포넌트가 마운트될 때 한 번만 요청을 보냄
+
+  // =============================================================================================== 마이페이지 화면 이동기능
 
   useEffect(() => {
     const allLinks = document.querySelectorAll(".tabs a");
@@ -222,16 +251,18 @@ const getClanBossMembers = async (clanName) => {
           </section>
         ))}
         <section id="tab2-content" className="tab-content">
-          <h2>구독 목록</h2>
-          <p>
-            Gen.g
-          </p>
-          <p>
-            T1
-          </p>
-          <p>
-            DRX
-          </p>
+            <ul>
+            {userSubscriptions.map(subscription => (
+              <li key={subscription.user_id}>
+                User ID: {subscription.user_id}, Team Names: 
+                <ul>
+                  {subscription.team_names.map((teamName, index) => (
+                    <li key={index}>{teamName}</li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
         </section>
         {users.map(user => (
           <div key={user.id}>

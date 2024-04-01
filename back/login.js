@@ -26,9 +26,7 @@ app.use(session({
   },
 }));
 
-
 // 회원가입
-
 
 // Middleware to parse request body
 app.use(express.urlencoded({ extended: false }));
@@ -330,16 +328,26 @@ app.get('/api/getSchedule', (req, res) => {
   });
 });
 
-// 회원정보 수정
-
+// 회원정보 수정 
 app.post('/updateUser', (req, res) => {
-  const { user_id, user_nick, user_phone } = req.body;
+  const { user_nick, user_phone } = req.body;
+  
+  // 세션에서 사용자 ID 가져오기
+  const user_id = req.session.user_id;
+
+  if (!user_id) {
+    return res.status(400).send('사용자 ID가 없습니다.');
+  }
+
   const sql = "UPDATE users SET user_nick = ?, user_phone = ? WHERE user_id = ?";
   const values = [user_nick, user_phone, user_id];
 
   // 데이터베이스 라이브러리를 사용하여 쿼리 실행
   connection.query(sql, values, (err, result) => {
-    if (err) throw err;
+    if (err) {
+      console.error('회원정보 업데이트 중 오류 발생:', err);
+      return res.status(500).send('회원정보 업데이트 중 오류가 발생했습니다.');
+    }
     // 쿼리 실행 결과 처리
     res.send('사용자 정보가 성공적으로 업데이트되었습니다.');
   });
@@ -517,6 +525,34 @@ app.get('/api/subscription/:team_idx/:userId', (req, res) => {
 
 });
 
+// 마이페이지 에서 팀 구독 전체 가져오기
+app.get('/usersubscriptions', (req, res) => {
+  const userId = req.session.userId;
+
+  if (!userId) {
+    res.status(401).send('Unauthorized');
+    return;
+  }
+
+  const query = `
+    SELECT subscriptions.user_id, teams.team_name
+    FROM subscriptions
+    INNER JOIN teams ON subscriptions.team_idx = teams.team_idx
+    WHERE subscriptions.user_id = ?
+  `;
+  
+  connection.query(query, [userId], (error, results) => {
+    if (error) {
+      console.error('Error fetching user subscriptions:', error);
+      res.status(500).send('Error fetching user subscriptions');
+    } else {
+      const userSubscriptions = results;
+      res.json(userSubscriptions);
+    }
+  });
+});
+
+
 // 클랜 생성 
 
 // bodyParser를 사용하여 POST 요청의 본문을 파싱합니다.
@@ -564,6 +600,8 @@ app.delete('/api/ClanDelete/', (req, res) => {
     res.status(200).send('클랜 삭제가 완료되었습니다.');
   });
 });
+
+
 
 
 
