@@ -8,18 +8,21 @@ const port = 5000;
 const multer = require('multer');
 const bcrypt = require('bcrypt');
 const util = require('util');
+const axios = require('axios')
 
 // MySQL 연결 초기화 및 오픈
 const connection = mysqlConnection.init();
 connection.query = util.promisify(connection.query); // Enable async/await for MySQL queries
 
 // CORS 미들웨어 등록
-
+// 서버에서 CORS 설정하기
 app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true
+  origin: 'http://localhost:3000',  // 클라이언트의 주소
+  credentials: true,  // 쿠키를 공유할 수 있도록 설정
 }));
 
+// 클라이언트에서 쿠키를 이용하여 서버에 요청 보내기
+axios.defaults.withCredentials = true;
 
 // Setup session middleware
 app.use(session({
@@ -134,10 +137,6 @@ app.get('/session', (req, res) => {
   res.json(sessionObj);
 });
 
-
-
-
-
 // Endpoint to check if user is logged in
 app.get('/checkLogin', (req, res) => {
   if (req.session.user && req.session.user.user_id) {
@@ -146,6 +145,14 @@ app.get('/checkLogin', (req, res) => {
     return res.send('User is not logged in');
   }
 });
+
+// 세션 종료를 처리하는 엔드포인트(로그아웃)
+app.post('/logout', (req, res) => {
+  req.session.user = null; // 세션 정보를 제거합니다.
+  console.log('세션바이');
+  return res.sendStatus(200);
+});
+
 //=======================================================
 
 
@@ -480,29 +487,22 @@ app.get('/api/board/:idx', (req, res) => {
   })
 });
 
-
 // 구독 추가, 삭제
 app.post('/api/subscribe', async (req, res) => {
   const { userId, teamIdx, isSubscribed } = req.body;
-  console.log('구독 삭제 기능', userId);
-  console.log(teamIdx);
-  console.log(isSubscribed);
 
   if (isSubscribed) {
     // 구독 추가
-    console.log('구독 추가 완료')
     const query = 'INSERT INTO subscriptions (user_id, team_idx, created_at) VALUES (?, ?, NOW())';
     const params = [userId, teamIdx];
     connection.query(query, params, (error, result) => {
       if (error) {
         res.status(500).json({ error });
       } else {
-        res.status(200).json({ message: 'Subscription added successfully.' });
       }
     });
   } else {
     // 구독 해제
-    console.log('구독해제 완료')
     const query = 'DELETE FROM subscriptions WHERE user_id = ? AND team_idx = ?';
     const params = [userId, teamIdx];
     connection.query(query, params, (error, result) => {
@@ -520,19 +520,24 @@ app.get('/api/subscription/:team_idx/:userId', (req, res) => {
   const userId = req.params.userId;
   const team_idx = req.params.team_idx;
 
-
-  console.log('구독정보 조회 : ', userId);
-  console.log('구독정보 조회 : ', team_idx);
-
   const sql = `SELECT * FROM subscriptions WHERE user_id=${userId} AND team_idx=${team_idx}`;
 
   connection.query(sql, (err, data) => {
     if (err) return res.json(err);
-    return res.json(data)
+    if (data.length === 0) {
+      // 구독 정보가 없을 경우 isSubscribed를 false로 응답합니다.
+      return res.json({ isSubscribed: false });
+    } else {
 
+      // 구독 정보가 있을 경우 isSubscribed를 true로 응답합니다.
+      return res.json({ isSubscribed: true });
+    }
   });
-
 });
+
+
+
+
 
 // 마이페이지 에서 팀 구독 전체 가져오기
 app.get('/api/usersubscriptions', (req, res) => {
