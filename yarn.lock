@@ -3379,6 +3379,11 @@ browserslist@4.10.0:
     node-releases "^1.1.52"
     pkg-up "^3.1.0"
 
+bscript@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.npmjs.org/bscript/-/bscript-0.1.0.tgz"
+  integrity sha512-V5Yry8RzzW99PCIXpPUXeh1MCVOpHTqoWYjL/NcW/SQJmx8hYG2JUTSHH4ez7T1UdWozkjBPeDpMOVanC8/sPA==
+
 bser@2.1.1:
   version "2.1.1"
   resolved "https://registry.npmjs.org/bser/-/bser-2.1.1.tgz"
