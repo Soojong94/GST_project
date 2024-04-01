@@ -10,6 +10,8 @@ const port = 5000;
 const multer = require('multer');
 const { match } = require('assert');
 const bcrypt = require('bcrypt');
+const scheduleMatches = require('./scheduleMatches'); // 문자서비스 코드
+
 app.use(cors());
 
 const connection = mysqlConnection.init();
@@ -450,9 +452,62 @@ app.get("/api/boardList", (req, res) => {
         })
       });
 
+
+    // 구독 추가, 삭제
+    app.post('/api/subscribe', async (req, res) => {
+      const { userId, teamIdx, isSubscribed } = req.body;
+      console.log('구독 삭제 기능',userId);
+      console.log(teamIdx);
+      console.log(isSubscribed);
+
+      if (isSubscribed) {
+        // 구독 추가
+        console.log('구독 추가 완료')
+        const query = 'INSERT INTO subscriptions (user_id, team_idx, created_at) VALUES (?, ?, NOW())';
+        const params = [userId, teamIdx];
+        connection.query(query, params, (error, result) => {
+          if (error) {
+            res.status(500).json({ error });
+          } else {
+            res.status(200).json({ message: 'Subscription added successfully.' });
+          }
+        });
+      } else {
+        // 구독 해제
+        console.log('구독해제 완료')
+        const query = 'DELETE FROM subscriptions WHERE user_id = ? AND team_idx = ?';
+        const params = [userId, teamIdx];
+        connection.query(query, params, (error, result) => {
+          if (error) {
+            res.status(500).json({ error });
+          } else {
+            res.status(200).json({ message: 'Subscription removed successfully.' });
+          }
+        });
+      }
+    });
+
+    // 팀 구독 정보
+    app.get('/api/subscription/:team_idx/:userId', (req, res) => {
+      const userId = req.params.userId;
+      const team_idx = req.params.team_idx;
+     
+
+      console.log('구독정보 조회 : ',userId);
+      console.log('구독정보 조회 : ',team_idx);
+
+          const sql = `SELECT * FROM subscriptions WHERE user_id=${userId} AND team_idx=${team_idx}` ;
+  
+          connection.query(sql,(err,data)=>{
+              if(err) return res.json(err);
+              return res.json(data)
+
+    });
     
+  });
 
 // 서버 실행
 app.listen(port, () => {
   console.log('server is running at 5000');
+  //scheduleMatches(); 문자서비스 코드_살리지 말것.
 });
