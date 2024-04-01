@@ -9,12 +9,14 @@ const app = express();
 const port = 5000;
 const multer = require('multer');
 const { match } = require('assert');
-
+const bcrypt = require('bcrypt');
 app.use(cors());
 
 const connection = mysqlConnection.init();
 mysqlConnection.open(connection);
 app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 
 app.use(session({
@@ -26,22 +28,94 @@ app.use(session({
   },
 }));
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).send('Server Error');
+});
+
+const handleDuplicateError = (results, user_id, user_nick) => {
+    if (results[0].user_id === user_id) {
+        throw new Error('Duplicate ID');
+    } else if (results[0].user_nick === user_nick) {
+        throw new Error('Duplicate Nickname');
+    }
+};
+
+// 회원가입
+
+app.post('/signup', async (req, res, next) => {
+    const { user_id, user_nick, user_phone, user_pw } = req.body;
+    const hashedPassword = await bcrypt.hash(user_pw, 10);
+
+    // Check if user_id or user_nick already exists
+    connection.query('SELECT * FROM users WHERE user_id = ? OR user_nick = ?', [user_id, user_nick], (error, results) => {
+        if (error) return next(error);
+
+        if (results.length > 0) {
+            handleDuplicateError(results, user_id, user_nick);
+        } else {
+            // Insert the new user into the database
+            const newUser = {
+                user_id,
+                user_nick,
+                user_phone,
+                user_pw: hashedPassword,
+                joined_at: new Date(),
+            };
+            connection.query('INSERT INTO users SET ?', newUser, (error, results) => {
+  if (error) return next(error);
+  
+  req.session.user = newUser;
+  res.status(200).json({ message: 'Signup Successful' });
+            });
+        }
+    });
+});
+
+// 로그인
+// Endpoint for user login
+app.post('/login', async (req, res, next) => {
+  const { user_id, user_pw } = req.body;
+  connection.query('SELECT * FROM users WHERE user_id = ?', [user_id], async (error, results) => {
+      if (error) return next(error);
+      if (results.length > 0) {
+          const comparison = await bcrypt.compare(user_pw, results[0].user_pw);
+          if (comparison) {
+              req.session.user = results[0];
+              res.status(200).send('Login Successful');
+          } else {
+              res.status(401).send('Incorrect Password');
+          }
+      } else {
+          res.status(404).send('User Not Found');
+      }
+  });
+});
+
 // 세션 리액트로 전송
 app.get('/session', (req, res) => {
-
-
-    console.log('session back 도착',user)
-      const {user_id, user_nick, clan_boss}  = user; 
+  const user = req.session.user;
+  if (user) {
+      const { user_id, user_nick, clan_boss } = user;
       let sessionObj = {
-        user_id : user_id,
-        user_nick : user_nick,
-        clan_boss : clan_boss
-      }
+          user_id: user_id,
+          user_nick: user_nick,
+          clan_boss: clan_boss
+      };
       res.json(sessionObj);
-
-  });
-
-
+  } else {
+      res.status(401).send('Session not found');
+  }
+});
+//세션 확인 엔드포인트
+app.get('/checkLogin', (req, res) => {
+  if (req.session.user) {
+      res.send('User is logged in');
+  } else {
+      res.send('User is not logged in');
+  }
+});
 
 
 //=======================================================
