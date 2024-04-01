@@ -9,7 +9,7 @@ const AddSchedule = ({ onScheduleAdded }) => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    calendarType: '',
+    calendarType: '1',
     st_dt: date,
     ed_dt: '', 
     st_tm: '', 
@@ -18,7 +18,6 @@ const AddSchedule = ({ onScheduleAdded }) => {
     // user_id: sessionStorage.getItem('user_id')
     user_id: 'rbsgh0510@gmail.com'
   });
-
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -30,16 +29,14 @@ const AddSchedule = ({ onScheduleAdded }) => {
 
   const handleReset = () => {
     setFormData({
-      calendarType: '',
+      calendarType: '1',
       st_dt: date,
       ed_dt: '', 
       st_tm: '', 
       ed_tm: '',
       sche_content: '',
-
     });
   };
-
 
   const [users, setUsers] = useState([]);
 
@@ -80,7 +77,6 @@ const AddSchedule = ({ onScheduleAdded }) => {
     }
   };
 
-  
   return (
     <div className="form-container">
       <div className="form p-4 md:p-8 mx-auto md:max-w-md">

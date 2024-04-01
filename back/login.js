@@ -16,8 +16,6 @@ connection.query = util.promisify(connection.query); // Enable async/await for M
 // CORS 미들웨어 등록
 app.use(cors());
 
-
-
 // Setup session middleware
 app.use(session({
   secret: '121212',
@@ -247,8 +245,9 @@ app.get('/api/teaminfo/:team_idx', (req, res) => {
 // 일정등록
 app.post('/api/addSchedule', (req, res) => {
   const { calendarType, st_dt, ed_dt, st_tm, ed_tm, sche_content, user_id } = req.body;
+  console.log('캘린더타입',calendarType)
 
-  if (calendarType === 1) {
+  if (calendarType === '1') {
     const query = 'INSERT INTO user_schedules (user_id, st_dt, ed_dt, st_tm, ed_tm, sche_content) VALUES (?, ?, ?, ?, ?, ?)';
     connection.query(query, [user_id, st_dt, ed_dt, st_tm, ed_tm, sche_content], (err, result) => {
       if (err) {
@@ -259,7 +258,7 @@ app.post('/api/addSchedule', (req, res) => {
         res.sendStatus(200);
       }
     });
-  } else {
+  } else if(calendarType === '2'){
     const query = 'INSERT INTO clan_schedules (st_dt, ed_dt, st_tm, ed_tm, sche_content, user_id) VALUES (?, ?, ?, ?, ?, ?)';
     connection.query(query, [st_dt, ed_dt, st_tm, ed_tm, sche_content, user_id], (err, result) => {
       if (err) {
