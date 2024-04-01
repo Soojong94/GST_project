@@ -9,7 +9,8 @@ import Calendar from '../calendar/calendar';
 import Mypage from '../Mypage/Mypage';
 import Mainpage from '../mainpage/startbootstrap-grayscale-gh-pages/mainpage'
 import Board_1 from '../boardContent/boardContent';
-
+import Signup from '../signup_page/signup';
+import Signin from '../signin_page/login';
 
 
 function Routing({ handleNewSchedule, events }) {
@@ -25,6 +26,9 @@ function Routing({ handleNewSchedule, events }) {
       <Route path="/AddSchedule/:date" element={<AddSchedule onScheduleAdded={handleNewSchedule} />} />
       <Route path="/Mypage" element={<Mypage />} />
       <Route path="/Board/:b_idx" element={<Board_1 />} />
+      <Route path="/Signin" element={<Signin />} />
+      <Route path="/Signup" element={<Signup />} />
+
 
 
     </Routes>
