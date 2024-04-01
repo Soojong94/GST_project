@@ -9,7 +9,7 @@ const app = express();
 const port = 5000;
 const multer = require('multer');
 const { match } = require('assert');
-const scheduleMatches = require('./scheduleMatches'); // 문자서비스 코드
+// const scheduleMatches = require('./scheduleMatches'); // 문자서비스 코드
 
 app.use(cors());
 
