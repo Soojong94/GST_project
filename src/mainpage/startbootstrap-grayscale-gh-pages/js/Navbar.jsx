@@ -40,8 +40,8 @@ const Navbar = ({ signup, login }) => {
           <ul className="navbar-nav ms-auto">
             <li className="nav-item"><a className="nav-link" href="#about">About</a></li>
             <li className="nav-item"><a className="nav-link" href="#projects">Projects</a></li>
-            <li className="nav-item"><a className="nav-link" onClick={signup}>Join<br />with Google</a></li>
-            <li className="nav-item"><a className="nav-link" onClick={login}>Login<br />with Google</a></li>
+            <li className="nav-item"><a className="nav-link" onClick={signup}><Link to="/Signup">Join</Link><br />with Google</a></li>
+            <li className="nav-item"><a className="nav-link" onClick={login}><Link to="/SignIn">Login</Link><br />with Google</a></li>
             <li><Link to="/calendar" className="btn btn-primary">GST Start</Link></li>
           </ul>
         </div>

@@ -5,12 +5,13 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
+import Link2 from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
+import { Link } from 'react-router-dom';
 
 import GST_logo from './GST_logo.png';
 
@@ -18,9 +19,9 @@ function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
+      <Link2 color="inherit" href="https://mui.com/">
         Your Website
-      </Link>{' '}
+      </Link2>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -109,14 +110,14 @@ export default function SignInSide() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <Link2 href="#" variant="body2">
                     Forgot password?
-                  </Link>
+                  </Link2>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link2 href="#" variant="body2">
                     {"Don't have an account? Sign Up"}
-                  </Link>
+                  </Link2>
                 </Grid>
               </Grid>
 

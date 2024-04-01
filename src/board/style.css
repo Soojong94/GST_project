@@ -77,3 +77,10 @@ body {
     height: 14rem;
     overflow: hidden;
 }
+.clanCreate-btn{
+    display: flex;
+    flex-direction: column;
+    margin-left: 40%;
+    width: 90px;
+    height: 30px;
+}

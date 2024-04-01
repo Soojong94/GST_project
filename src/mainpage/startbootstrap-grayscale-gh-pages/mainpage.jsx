@@ -11,24 +11,24 @@ function Mainpage() {
 
 
     const signup = () => {
-        window.location.href = 'http://localhost:5000/signup';
+        window.location.href = 'http://localhost:3000/SignUp';
     }
 
     const login = () => {
-        window.location.href = 'http://localhost:5000/login';
+        window.location.href = 'http://localhost:3000/SignIn';
     }
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        console.log('메인 화면 세팅 완료')
-        axios.get('http://localhost:5000/session')
-            .then(res => {
-                console.log('넘어온 세션', res.data)
-                sessionStorage.setItem("user", JSON.stringify(res.data));
+    //     console.log('메인 화면 세팅 완료')
+    //     axios.get('http://localhost:5000/session')
+    //         .then(res => {
+    //             console.log('넘어온 세션', res.data)
+    //             sessionStorage.setItem("user", JSON.stringify(res.data));
 
-            })
+    //         })
 
-    }, [])
+    // }, [])
 
 
     // 로그아웃 구현 하려면 이렇게.
