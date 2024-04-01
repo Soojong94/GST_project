@@ -8,27 +8,33 @@ const port = 5000;
 const multer = require('multer');
 const bcrypt = require('bcrypt');
 const util = require('util');
+const axios = require('axios')
 
 // MySQL 연결 초기화 및 오픈
 const connection = mysqlConnection.init();
 connection.query = util.promisify(connection.query); // Enable async/await for MySQL queries
 
 // CORS 미들웨어 등록
-app.use(cors());
+// 서버에서 CORS 설정하기
+app.use(cors({
+  origin: 'http://localhost:3000',  // 클라이언트의 주소
+  credentials: true,  // 쿠키를 공유할 수 있도록 설정
+}));
+
+// 클라이언트에서 쿠키를 이용하여 서버에 요청 보내기
+axios.defaults.withCredentials = true;
 
 // Setup session middleware
 app.use(session({
   secret: '121212',
-  resave: false,
+  resave: true,
   saveUninitialized: true,
   cookie: {
       httpOnly: true,
   },
 }));
 
-
 // 회원가입
-
 
 // Middleware to parse request body
 app.use(express.urlencoded({ extended: false }));
@@ -131,10 +137,6 @@ app.get('/session', (req, res) => {
   res.json(sessionObj);
 });
 
-
-
-
-
 // Endpoint to check if user is logged in
 app.get('/checkLogin', (req, res) => {
   if (req.session.user && req.session.user.user_id) {
@@ -143,6 +145,14 @@ app.get('/checkLogin', (req, res) => {
     return res.send('User is not logged in');
   }
 });
+
+// 세션 종료를 처리하는 엔드포인트(로그아웃)
+app.post('/logout', (req, res) => {
+  req.session.user = null; // 세션 정보를 제거합니다.
+  console.log('세션바이');
+  return res.sendStatus(200);
+});
+
 //=======================================================
 
 
@@ -330,22 +340,32 @@ app.get('/api/getSchedule', (req, res) => {
   });
 });
 
-// 회원정보 수정
-
+// 회원정보 수정 
 app.post('/updateUser', (req, res) => {
-  const { user_id, user_nick, user_phone } = req.body;
+  const { user_nick, user_phone } = req.body;
+  
+  // 세션에서 사용자 ID 가져오기
+  const user_id = req.session.user_id;
+
+  if (!user_id) {
+    return res.status(400).send('사용자 ID가 없습니다.');
+  }
+
   const sql = "UPDATE users SET user_nick = ?, user_phone = ? WHERE user_id = ?";
   const values = [user_nick, user_phone, user_id];
 
   // 데이터베이스 라이브러리를 사용하여 쿼리 실행
   connection.query(sql, values, (err, result) => {
-    if (err) throw err;
+    if (err) {
+      console.error('회원정보 업데이트 중 오류 발생:', err);
+      return res.status(500).send('회원정보 업데이트 중 오류가 발생했습니다.');
+    }
     // 쿼리 실행 결과 처리
     res.send('사용자 정보가 성공적으로 업데이트되었습니다.');
   });
 });
 
-// 로그인한 사용자의 정보를 가져오기
+// 사용자 정보 가져오기
 app.get('/userinfo', (req, res) => {
   const user_id = req.session.user_id; // 세션에서 사용자 ID 가져오기
 
@@ -353,8 +373,12 @@ app.get('/userinfo', (req, res) => {
     return res.status(401).json({ message: '로그인 되어있지 않습니다.' });
   }
 
-  connection.query(`SELECT * FROM users WHERE user_id = ?`, [user_id], (error, results, fields) => {
-    if (error) throw error;
+  // Prepared Statement를 사용하여 SQL Injection 방지
+  connection.query('SELECT * FROM users WHERE user_id = ?', [user_id], (error, results, fields) => {
+    if (error) {
+      console.error('Error fetching user info:', error);
+      return res.status(500).json({ message: '서버 오류가 발생했습니다.' });
+    }
 
     if (results.length > 0) {
       const user = results[0];
@@ -463,29 +487,22 @@ app.get('/api/board/:idx', (req, res) => {
   })
 });
 
-
 // 구독 추가, 삭제
 app.post('/api/subscribe', async (req, res) => {
   const { userId, teamIdx, isSubscribed } = req.body;
-  console.log('구독 삭제 기능', userId);
-  console.log(teamIdx);
-  console.log(isSubscribed);
 
   if (isSubscribed) {
     // 구독 추가
-    console.log('구독 추가 완료')
     const query = 'INSERT INTO subscriptions (user_id, team_idx, created_at) VALUES (?, ?, NOW())';
     const params = [userId, teamIdx];
     connection.query(query, params, (error, result) => {
       if (error) {
         res.status(500).json({ error });
       } else {
-        res.status(200).json({ message: 'Subscription added successfully.' });
       }
     });
   } else {
     // 구독 해제
-    console.log('구독해제 완료')
     const query = 'DELETE FROM subscriptions WHERE user_id = ? AND team_idx = ?';
     const params = [userId, teamIdx];
     connection.query(query, params, (error, result) => {
@@ -503,19 +520,52 @@ app.get('/api/subscription/:team_idx/:userId', (req, res) => {
   const userId = req.params.userId;
   const team_idx = req.params.team_idx;
 
-
-  console.log('구독정보 조회 : ', userId);
-  console.log('구독정보 조회 : ', team_idx);
-
   const sql = `SELECT * FROM subscriptions WHERE user_id=${userId} AND team_idx=${team_idx}`;
 
   connection.query(sql, (err, data) => {
     if (err) return res.json(err);
-    return res.json(data)
+    if (data.length === 0) {
+      // 구독 정보가 없을 경우 isSubscribed를 false로 응답합니다.
+      return res.json({ isSubscribed: false });
+    } else {
 
+      // 구독 정보가 있을 경우 isSubscribed를 true로 응답합니다.
+      return res.json({ isSubscribed: true });
+    }
   });
-
 });
+
+
+
+
+
+// 마이페이지 에서 팀 구독 전체 가져오기
+app.get('/api/usersubscriptions', (req, res) => {
+  const userId = req.session.userId;
+
+  if (!userId) {
+    res.status(401).send('Unauthorized');
+    return;
+  }
+
+  const query = `
+    SELECT subscriptions.user_id, teams.team_name
+    FROM subscriptions
+    INNER JOIN teams ON subscriptions.team_idx = teams.team_idx
+    WHERE subscriptions.user_id = ?
+  `;
+  
+  connection.query(query, [userId], (error, results) => {
+    if (error) {
+      console.error('Error fetching user subscriptions:', error);
+      res.status(500).send('Error fetching user subscriptions');
+    } else {
+      const userSubscriptions = results;
+      res.json(userSubscriptions);
+    }
+  });
+});
+
 
 // 클랜 생성 
 
@@ -564,6 +614,8 @@ app.delete('/api/ClanDelete/', (req, res) => {
     res.status(200).send('클랜 삭제가 완료되었습니다.');
   });
 });
+
+
 
 
 

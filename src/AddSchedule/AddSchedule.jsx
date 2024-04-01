@@ -1,70 +1,59 @@
 import React, { useEffect, useState } from 'react';
 import './AddSchedule.css';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios'; // axios를 추가합니다.
+import axios from 'axios';
 
 const AddSchedule = ({ onScheduleAdded }) => {
   const { date } = useParams();
-  console.log(date);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    calendarType: '1',
+    calendarType: '',
     st_dt: date,
-    ed_dt: '', 
-    st_tm: '', 
+    ed_dt: '',
+    st_tm: '',
     ed_tm: '',
     sche_content: '',
-    // user_id: sessionStorage.getItem('user_id')
-    user_id: 'rbsgh0510@gmail.com'
+    user_id: '',
   });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleCancel = () => {
-    navigate('/calendar');
-  };
-
-  const handleReset = () => {
-    setFormData({
-      calendarType: '1',
-      st_dt: date,
-      ed_dt: '', 
-      st_tm: '', 
-      ed_tm: '',
-      sche_content: '',
-    });
-  };
-
-  const [users, setUsers] = useState([]);
-
-  // 회원 정보를 가져오기
   useEffect(() => {
-    axios.get('http://localhost:5000/userinfo')
-    .then(response => {
-      setUsers(response.data);
-    })
-    .catch(error => {
-      console.error('Error fetching data: ', error);
-    });
+    const getSessionData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/session', { withCredentials: true });
+        const { user_id, clan_boss } = response.data;
+        const calendarType = clan_boss === 'y' ? '2' : '1';
+        setFormData((prevState) => ({
+          ...prevState,
+          user_id: user_id,
+          calendarType: calendarType,
+        }));
+      } catch (error) {
+        console.error('Error retrieving session data:', error);
+      }
+    };
+
+    getSessionData();
   }, []);
 
-  useEffect(() => {
-    console.log('Users', users);
-  },[users])
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       const response = await axios.post('http://localhost:5000/api/addSchedule', formData, {
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       });
-  
+
       if (response.status === 200) {
         console.log('Schedule added successfully!');
         onScheduleAdded({ ...formData, calendarType: parseInt(formData.calendarType) });
@@ -77,6 +66,22 @@ const AddSchedule = ({ onScheduleAdded }) => {
     }
   };
 
+  const handleReset = () => {
+    setFormData({
+      calendarType: '',
+      st_dt: date,
+      ed_dt: '',
+      st_tm: '',
+      ed_tm: '',
+      sche_content: '',
+      user_id: '',
+    });
+  };
+
+  const handleCancel = () => {
+    navigate('/calendar');
+  };
+
   return (
     <div className="form-container">
       <div className="form p-4 md:p-8 mx-auto md:max-w-md">
@@ -84,20 +89,16 @@ const AddSchedule = ({ onScheduleAdded }) => {
           <h2 className="text-2xl font-bold">일정 등록</h2>
         </div>
         <form id="schedule-form" onSubmit={handleSubmit}>
-        <div className="input-group mb-4">
+          <div className="input-group mb-4">
             <label htmlFor="calendar-type" className="label">캘린더 종류</label>
             <select id="calendar-type" name="calendarType" className="input" value={formData.calendarType} onChange={handleChange}>
               <option value="1">개인 일정</option>
-              {users.map(user => (
-              <div key={user.id}>
-                {!user.clanBoss ? "" :
-                  <option value="2">클랜 일정</option>
-                }
-              </div>
-            ))}
+              {formData.calendarType === '2' && (
+                <option value="2">클랜 일정</option>
+              )}
             </select>
           </div>
-          <input type="hidden" name="date" value={date} /> {/* 라우터에서 받은 날짜 정보를 숨겨진 필드로 전달 */}
+          <input type="hidden" name="date" value={date} />
           <div className="input-group mb-4">
             <label htmlFor="startDate" className="label">시작일</label>
             <input type="date" id="st_dt" name="st_dt" className="input" value={formData.st_dt} onChange={handleChange} required />
@@ -116,12 +117,12 @@ const AddSchedule = ({ onScheduleAdded }) => {
           </div>
           <div className="input-group mb-4">
             <label htmlFor="content" className="label">내용</label>
-            <textarea type="content" id="content" name="sche_content" className="input" value={formData.sche_content} onChange={handleChange}></textarea>
+            <textarea id="content" name="sche_content" className="input" value={formData.sche_content} onChange={handleChange} required />
           </div>
-          <div className="button-group">
-            <button type="submit" className="submit-btn" onClick={handleSubmit}>등록</button>
-            <button type="button" className="reset-btn" onClick={handleReset}>리셋</button>
-            <button type="button" className="cancel-btn" onClick={handleCancel}>취소</button>
+          <div className="button-group mt-8">
+            <button type="submit" className="btn btn-primary mr-2">등록</button>
+            <button type="button" className="btn btn-secondary mr-2" onClick={handleReset}>초기화</button>
+            <button type="button" className="btn btn-secondary" onClick={handleCancel}>취소</button>
           </div>
         </form>
       </div>
