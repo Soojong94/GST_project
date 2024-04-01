@@ -11,11 +11,11 @@ function Mainpage() {
 
 
     const signup = () => {
-        window.location.href = 'http://localhost:5000/signup';
+        window.location.href = 'http://localhost:3000/SignUp';
     }
 
     const login = () => {
-        window.location.href = 'http://localhost:5000/login';
+        window.location.href = 'http://localhost:3000/SignIn';
     }
 
     // useEffect(() => {

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,27 +12,55 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import mainpage_logo from './GST_logo.png'
+import mainpage_logo from './GST_logo.png';
 import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
 
+const theme = createTheme();
 
-function SignIn() {
-  
+const Signin = () => {
+  const [credentials, setCredentials] = useState({
+    userId: '',
+    userPw: ''
+  });
 
-  
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCredentials(prevState => ({ ...prevState, [name]: value }));
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(credentials)
+    };
+
+    try {
+      const response = await fetch('http://localhost:5000/login', requestOptions);
+
+      if (response.ok) {
+        // Check if response content-type is JSON
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          const userData = await response.json();
+          sessionStorage.setItem('userData', JSON.stringify(userData));
+        } else {
+          alert('로그인 성공');
+          window.history.back();
+        }
+      } else {
+        const data = await response.text();
+        alert(data);
+      }
+    } catch (error) {
+      console.error('에러가 발생했습니다!', error);
+    }
+  };
 
   return (
-    <ThemeProvider theme={createTheme()}>
+    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -41,10 +69,9 @@ function SignIn() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-
           }}
         >
-          <img src = {mainpage_logo} />
+          <img src={mainpage_logo} alt="Logo" />
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <VideogameAssetIcon />
           </Avatar>
@@ -56,21 +83,23 @@ function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="아이디"
+              id="userId"
               label="아이디"
-              name="아이디"
+              name="userId"
               autoFocus
-              autoComplete
+              value={credentials.userId}
+              onChange={handleChange}
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="비밀번호"
+              name="userPw"
               label="비밀번호"
               type="password"
-              id="비밀번호"
-              autoComplete="current-password"
+              id="userPw"
+              value={credentials.userPw}
+              onChange={handleChange}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -101,6 +130,6 @@ function SignIn() {
       </Container>
     </ThemeProvider>
   );
-}
+};
 
-export default SignIn;
+export default Signin;
