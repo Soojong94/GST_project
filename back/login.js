@@ -137,10 +137,6 @@ app.get('/session', (req, res) => {
   res.json(sessionObj);
 });
 
-
-
-
-
 // Endpoint to check if user is logged in
 app.get('/checkLogin', (req, res) => {
   if (req.session.user && req.session.user.user_id) {
@@ -149,6 +145,14 @@ app.get('/checkLogin', (req, res) => {
     return res.send('User is not logged in');
   }
 });
+
+// 세션 종료를 처리하는 엔드포인트(로그아웃)
+app.post('/logout', (req, res) => {
+  req.session.user = null; // 세션 정보를 제거합니다.
+  console.log('세션바이');
+  return res.sendStatus(200);
+});
+
 //=======================================================
 
 

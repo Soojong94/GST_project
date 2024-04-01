@@ -19,16 +19,16 @@ function Mainpage() {
     }
 
     useEffect(() => {
-
         console.log('메인 화면 세팅 완료')
-        axios.get('http://localhost:5000/session')
+        // sessionStorage에 사용자 정보가 없을 때만 서버로부터 세션 정보를 가져옵니다.
+        if (!sessionStorage.getItem("user")) {
+          axios.get('http://localhost:5000/session')
             .then(res => {
-                console.log('넘어온 세션', res.data)
-                sessionStorage.setItem("user", JSON.stringify(res.data));
-
+              console.log('넘어온 세션', res.data)
+              sessionStorage.setItem("user", JSON.stringify(res.data));
             })
-
-    }, [])
+        }
+      }, [])
 
 
     // 로그아웃 구현 하려면 이렇게.

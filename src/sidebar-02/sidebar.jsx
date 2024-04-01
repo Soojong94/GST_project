@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './style.css'; 
 import logo from '../signin_page/GST_logo.png';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -8,12 +9,14 @@ import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SettingsIcon from '@mui/icons-material/Settings';
+import axios from 'axios';
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [activeLink, setActiveLink] = useState(''); 
-
+  const [activeLink, setActiveLink] = useState('');
+  const [user, setUser] = useState(null); // 사용자 정보를 저장하는 상태
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setActiveLink(location.pathname);
@@ -23,6 +26,21 @@ const Sidebar = () => {
     setActiveLink(href);
   };
 
+  const handleLogout = () => {
+    axios.post('http://localhost:5000/logout')
+      .then(response => {
+        if (response.status === 200) {
+          setUser(null); // 로그아웃 성공 시 사용자 정보를 초기화합니다.
+          sessionStorage.removeItem("user"); // sessionStorage에서 사용자 정보를 제거합니다.
+          navigate('/'); // 홈페이지로 이동합니다.
+        } else {
+          console.log('Logout failed');
+        }
+      })
+      .catch(error => {
+        console.log('Error occurred during logout', error);
+      });
+  };
   return (
     <nav className={isCollapsed ? 'collapsed' : ''}>
       <div className="sidebar-top">
@@ -64,7 +82,7 @@ const Sidebar = () => {
         <div className="sidebar-links">
           <ul>
             <li>
-              <Link to="/Mainpage" title="Logout"  onClick={() => handleLinkClick('/Mainpage')}>
+              <Link to="/Mainpage" title="Logout"  onClick={handleLogout}>
                 <LogoutIcon />
                 <span className="link hide">로그아웃</span>
               </Link>
