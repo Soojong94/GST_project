@@ -157,30 +157,30 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-app.post('/api/addSchedule', upload.single('file'), async (req, res) => {
-  try {
-    // 요청 정보 출력
-    console.log('요청 정보:', req.body);
+// app.post('/api/addSchedule', upload.single('file'), async (req, res) => {
+//   try {
+//     // 요청 정보 출력
+//     console.log('요청 정보:', req.body);
 
-    const { b_title, b_content, created_at } = req.body;
-    const b_file = req.file ? req.file.path : '';
-    const user_id = req.session.user_id;
+//     const { b_title, b_content, created_at } = req.body;
+//     const b_file = req.file ? req.file.path : '';
+//     const user_id = req.session.user_id;
 
-    // SQL 쿼리 실행
-    const query = 'INSERT INTO posts (b_title, b_content, b_file, created_at, user_id) VALUES (?, ?, ?, ?, ?)';
-    const [result] = await pool.execute(query, [b_title, b_content, b_file, created_at, user_id]);
+//     // SQL 쿼리 실행
+//     const query = 'INSERT INTO posts (b_title, b_content, b_file, created_at, user_id) VALUES (?, ?, ?, ?, ?)';
+//     const [result] = await pool.execute(query, [b_title, b_content, b_file, created_at, user_id]);
 
-    // 응답 정보 출력
-    console.log('응답 정보:', { message: '게시글이 성공적으로 등록되었습니다.', postId: result.insertId });
+//     // 응답 정보 출력
+//     console.log('응답 정보:', { message: '게시글이 성공적으로 등록되었습니다.', postId: result.insertId });
 
-    res.status(200).json({ message: '게시글이 성공적으로 등록되었습니다.', postId: result.insertId });
-  } catch (error) {
-    // 오류 정보 출력
-    console.error('오류 정보:', error);
+//     res.status(200).json({ message: '게시글이 성공적으로 등록되었습니다.', postId: result.insertId });
+//   } catch (error) {
+//     // 오류 정보 출력
+//     console.error('오류 정보:', error);
 
-    res.status(500).json({ message: '게시글 등록 중 오류가 발생했습니다.', error: error.message });
-  }
-});
+//     res.status(500).json({ message: '게시글 등록 중 오류가 발생했습니다.', error: error.message });
+//   }
+// });
 
 // '/api/boardInsert' 경로에 대한 POST 요청 처리
 app.post('/api/boardInsert', upload.single('file'), (req, res) => {
@@ -249,30 +249,67 @@ app.get('/api/teaminfo/:team_idx', (req, res) => {
 })
 
 
-// 일정 등록
-
-// Route to receive new schedule data from client and insert into database
+// 일정등록
 app.post('/api/addSchedule', (req, res) => {
+  const { calendarType, st_dt, ed_dt, st_tm, ed_tm, sche_content, user_id } = req.body;
 
-  // 세션에서 사용자 ID 가져오기
-  // const userId = req.session.userId;
-
-  // 세션에 저장된 사용자 ID를 이용해 데이터베이스에 새로운 일정 추가 calendarType에 따른 분류
-
-
-  const query = 'INSERT INTO schedule (calendarType, title, startDate, endDate, time, location, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-  const { calendarType, title, startDate, endDate, time, location, description } = req.body;
-
-  connection.query(query, [calendarType, title, startDate, endDate, time, location, description], (err, result) => {
-    if (err) {
-      console.error('일정 등록 중 에러 발생:', err);
-      res.status(500).send('서버 에러');
-    } else {
-      console.log('일정이 성공적으로 등록되었습니다.');
-      res.sendStatus(200);
-    }
-  });
+  if (calendarType === 1) {
+    const query = 'INSERT INTO user_schedules (user_id, st_dt, ed_dt, st_tm, ed_tm, sche_content) VALUES (?, ?, ?, ?, ?, ?)';
+    connection.query(query, [user_id, st_dt, ed_dt, st_tm, ed_tm, sche_content], (err, result) => {
+      if (err) {
+        console.error('개인일정 등록 중 에러 발생:', err);
+        res.status(500).send('서버 에러');
+      } else {
+        console.log('개인일정이 성공적으로 등록되었습니다.');
+        res.sendStatus(200);
+      }
+    });
+  } else {
+    const query = 'INSERT INTO clan_schedules (st_dt, ed_dt, st_tm, ed_tm, sche_content, user_id) VALUES (?, ?, ?, ?, ?, ?)';
+    connection.query(query, [st_dt, ed_dt, st_tm, ed_tm, sche_content, user_id], (err, result) => {
+      if (err) {
+        console.error('클랜 일정 등록 중 에러 발생:', err);
+        res.status(500).send('서버 에러');
+      } else {
+        const sche_idx = result.insertId;
+        const shareQuery = 'INSERT INTO clan_schedule_shares (sche_idx, user_id, share_id) VALUES (?, ?, ?)';
+        connection.query(shareQuery, [sche_idx, user_id, user_id], (shareErr, shareResult) => {
+          if (shareErr) {
+            console.error('클랜 일정 공유 중 에러 발생:', shareErr);
+            res.status(500).send('서버 에러');
+          } else {
+            console.log('클랜 일정이 성공적으로 등록되었습니다.');
+            res.sendStatus(200);
+          }
+        });
+      }
+    });
+  }
 });
+
+// 클랜 일정 조회
+app.get('/api/sharedSchedules/:userId', (req, res) => {
+  const userId = req.params.userId;
+  console.log(userId);
+
+  const sql = `
+  SELECT cs.* 
+  FROM clan_schedules cs
+  JOIN users u ON cs.user_id = u.user_id
+  WHERE u.clan = (
+    SELECT clan 
+    FROM users 
+    WHERE user_id = ?
+  )
+  `;
+  connection.query(sql, [userId], (err, data) => {
+    if (err) return res.json(err);
+    return res.json(data);
+  });
+
+});
+
+
 
 // 일정 보여주는 코드
 app.get('/api/getSchedule', (req, res) => {
@@ -361,30 +398,6 @@ app.delete('/userDelete/:user_id', (req, res) => {
         }
       });
     });
-  });
-});
-
-// 일정 공유 파트
-
-// Route to receive new schedule data from client and insert into database
-app.post('/api/addSchedule', (req, res) => {
-
-  // 세션에서 사용자 ID 가져오기
-  // const user_id = req.session.userId;
-
-  // 세션에 저장된 사용자 ID를 이용해 데이터베이스에 새로운 일정 추가
-
-  const query = 'INSERT INTO user_schedules (user_id, st_dt, ed_dt, st_tm, ed_tm, sche_content, sche_color, sche_is) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-  const { user_id, st_dt, ed_dt, st_tm, ed_tm, sche_content, sche_color, sche_is } = req.body;
-
-  connection.query(query, [user_id, st_dt, ed_dt, st_tm, ed_tm, sche_content, sche_color, sche_is], (err, result) => {
-    if (err) {
-      console.error('일정 등록 중 에러 발생:', err);
-      res.status(500).send('서버 에러');
-    } else {
-      console.log('일정이 성공적으로 등록되었습니다.');
-      res.sendStatus(200);
-    }
   });
 });
 
@@ -503,6 +516,56 @@ app.get('/api/subscription/:team_idx/:userId', (req, res) => {
   });
 
 });
+
+// 클랜 생성 
+
+// bodyParser를 사용하여 POST 요청의 본문을 파싱합니다.
+app.use(bodyParser.json());
+
+app.post('/api/ClanCreate', (req, res) => {
+  const userId = req.session.userId;
+
+  const clanData = req.body;
+  console.log(userId);
+
+  console.log('클랜데이터 출력:', clanData);
+
+  const sql = `INSERT INTO clans (clan_boss_id, clan_name, clan_limit, created_at, clan_is, clan_logo)
+  VALUES ('${userId}', '${clanData.clanName}', ${clanData.clanMembers}, NOW(), 'Y', '${clanData.clanImage}')`;
+
+  res.send('클랜 생성 데이터 전송성공');
+  // SQL 쿼리 실행
+  connection.query(sql, (err, results) => {
+  if (err) {
+    console.error('클랜 생성 에러:', err);
+    return;
+  }
+  console.log('클랜 생성 성공');
+  // 쿼리 결과 출력
+  console.log('Insert ID:', results.insertId);
+});
+
+});
+
+// 클랜 삭제 기능
+app.delete('/api/ClanDelete/', (req, res) => {
+  // const userId = req.session.userId;
+
+  // 클랜 삭제를 위한 SQL 문
+  const sql = `DELETE FROM clans WHERE clan_boss_id = ?`;
+
+  connection.query(sql, ['user2@example.com'], (err, results) => {
+    if (err) {
+      console.error('클랜 삭제 에러:', err);
+      res.status(500).send('클랜 삭제 중 오류가 발생했습니다.');
+      return;
+    }
+    console.log('클랜 삭제 성공');
+    res.status(200).send('클랜 삭제가 완료되었습니다.');
+  });
+});
+
+
 
 // 서버 실행
 app.listen(port, () => {

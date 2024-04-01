@@ -6,13 +6,11 @@ import ClanMember from './ClanMember';
 
 function Mypage() {
 
-  const [users, setUsers] = useState([
-    { id: "sapoon11@gmail.com", nickname: "User1", phoneNumber: "010-1234-5678", clanName: "Clan A", joinDate: "2024-03-29", clanBoss: true }
-  ]);
+  const [users, setUsers] = useState([]);
 
   // 회원 정보를 가져오기
   useEffect(() => {
-    axios.get('http://localhost:5000/users')
+    axios.get('http://localhost:5000/userinfo')
     .then(response => {
       setUsers(response.data);
     })
@@ -20,6 +18,10 @@ function Mypage() {
       console.error('Error fetching data: ', error);
     });
   }, []);
+
+  useEffect(() => {
+    console.log('Users', users);
+  },[users])
 
   const [editingUser, setEditingUser] = useState(null);
   const [editedNickname, setEditedNickname] = useState('');
@@ -94,6 +96,20 @@ const getClanBossMembers = async (clanName) => {
     throw error;
   }
 };
+
+
+  // 클랜 삭제 기능
+    const handleClanDelete = async (clanId) => {
+      try {
+        const response = await axios.delete(`http://localhost:5000/api/ClanDelete/`);
+        console.log(response.data);
+        // 클랜 삭제에 성공한 후에 필요한 작업을 수행할 수 있습니다.
+      } catch (error) {
+        console.error('클랜 삭제 에러:', error);
+      }
+    };
+
+// =============================================================================================== 마이페이지 화면 이동기능
 
   useEffect(() => {
     const allLinks = document.querySelectorAll(".tabs a");
@@ -223,7 +239,7 @@ const getClanBossMembers = async (clanName) => {
               <section id="tab3-content" className="tab-content">
                 <h2>클랜원</h2>
                 <div className='clanMember'><ClanMember/></div>
-                <button>클랜 삭제</button>
+                <button onClick={handleClanDelete}>클랜 삭제</button>
               </section>
             }
           </div>
