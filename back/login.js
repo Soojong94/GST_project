@@ -17,7 +17,6 @@ connection.query = util.promisify(connection.query); // Enable async/await for M
 app.use(cors());
 
 
-
 // Setup session middleware
 app.use(session({
   secret: '121212',
@@ -43,7 +42,7 @@ app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).send('Server Error');
 });
-// Handle duplicate error function
+// Handle duplicate error functionn
 const handleDuplicateError = (results, user_id, user_nick, next) => {
   if (results[0].user_id === user_id) {
       return next(new Error('Duplicate ID'));
@@ -89,47 +88,53 @@ app.post('/signup', async (req, res, next) => {
 }
 });
 
+
+let user = {};
+
 // Endpoint for user login
 app.post('/login', async (req, res, next) => {
-  const { userId, userPw } = req.body;
-  connection.query('SELECT * FROM users WHERE user_id = ?', [userId], async (error, results) => {
-    if (error) return next(error);
-    if (results.length > 0) {
-      const comparison = await bcrypt.compare(userPw, results[0].user_pw);
-      if (comparison) {
-        // Save user data in session
-        req.session.user = {
-          user_id: results[0].user_id,
-          user_nick: results[0].user_nick,
-          joined_at: results[0].joined_at,
-          clan: results[0].clan,
-        };
-        return res.status(200).send('Login Successful');
-      } else {
-        return res.status(401).send('Incorrect Password');
-      }
-    } else {
-      return res.status(404).send('User Not Found');
-    }
-  });
+  const { userId, userPw } = req.body;
+  connection.query('SELECT * FROM users WHERE user_id = ?', [userId], async (error, results) => {
+    
+    if (error) return next(error);
+    if (results.length > 0) {
+      const comparison = await bcrypt.compare(userPw, results[0].user_pw);
+      if (comparison) {
+        // Save user data in session
+        req.session.user = {
+          user_id: results[0].user_id,
+          user_nick: results[0].user_nick,
+          joined_at: results[0].joined_at,
+          clan: results[0].clan,
+          clan_boss: results[0].clan_boss,
+        };
+        user = req.session.user; // Save user data in global variable
+        return res.status(200).send('Login Successful');
+      } else {
+        return res.status(401).send('Incorrect Password');
+      }
+    } else {
+      return res.status(404).send('User Not Found');
+    }
+  });
 });
 
 // Endpoint to retrieve session data
 app.get('/session', (req, res) => {
-  const user = req.session.user;
-  if (user && user.user_id) {
-    const { user_id, user_nick, joined_at, clan } = user;
-    let sessionObj = {
-      user_id: user_id,
-      user_nick: user_nick,
-      joined_at: joined_at,
-      clan: clan,
-    };
-    return res.json(sessionObj);
-  } else {
-    return res.status(401).send('Session not found');
-  }
+  console.log('session back 도착', user)
+  const { user_id, user_nick, clan_boss, clan } = user;
+  let sessionObj = {
+    user_id: user_id,
+    user_nick: user_nick,
+    clan_boss: clan_boss,
+    clan: clan,
+  }
+  res.json(sessionObj);
 });
+
+
+
+
 
 // Endpoint to check if user is logged in
 app.get('/checkLogin', (req, res) => {
