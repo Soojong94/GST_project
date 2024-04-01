@@ -14,12 +14,17 @@ const connection = mysqlConnection.init();
 connection.query = util.promisify(connection.query); // Enable async/await for MySQL queries
 
 // CORS 미들웨어 등록
-app.use(cors());
+
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
+
 
 // Setup session middleware
 app.use(session({
   secret: '121212',
-  resave: false,
+  resave: true,
   saveUninitialized: true,
   cookie: {
       httpOnly: true,
@@ -353,7 +358,7 @@ app.post('/updateUser', (req, res) => {
   });
 });
 
-// 로그인한 사용자의 정보를 가져오기
+// 사용자 정보 가져오기
 app.get('/userinfo', (req, res) => {
   const user_id = req.session.user_id; // 세션에서 사용자 ID 가져오기
 
@@ -361,8 +366,12 @@ app.get('/userinfo', (req, res) => {
     return res.status(401).json({ message: '로그인 되어있지 않습니다.' });
   }
 
-  connection.query(`SELECT * FROM users WHERE user_id = ?`, [user_id], (error, results, fields) => {
-    if (error) throw error;
+  // Prepared Statement를 사용하여 SQL Injection 방지
+  connection.query('SELECT * FROM users WHERE user_id = ?', [user_id], (error, results, fields) => {
+    if (error) {
+      console.error('Error fetching user info:', error);
+      return res.status(500).json({ message: '서버 오류가 발생했습니다.' });
+    }
 
     if (results.length > 0) {
       const user = results[0];
@@ -526,7 +535,7 @@ app.get('/api/subscription/:team_idx/:userId', (req, res) => {
 });
 
 // 마이페이지 에서 팀 구독 전체 가져오기
-app.get('/usersubscriptions', (req, res) => {
+app.get('/api/usersubscriptions', (req, res) => {
   const userId = req.session.userId;
 
   if (!userId) {

@@ -42,7 +42,6 @@
     "web-vitals": "^2.1.4",
     "yarn": "^1.22.22"
   },
-  
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts --openssl-legacy-provider build",
@@ -73,6 +72,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/express-session": "^1.18.0",
     "typescript": "^5.4.3"
   }
 }
