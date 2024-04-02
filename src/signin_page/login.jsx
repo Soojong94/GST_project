@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import mainpage_logo from './GST_logo.png';
 import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
+import  './style.css';
 
 const theme = createTheme();
 
@@ -65,13 +66,13 @@ const Signin = () => {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+        
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
           }}
         >
-          <img src={mainpage_logo} alt="Logo" />
+          <img id='signIn_logo' src={mainpage_logo} alt="Logo" />
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <VideogameAssetIcon />
           </Avatar>
@@ -120,7 +121,7 @@ const Signin = () => {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/SignUp" variant="body2">
                   {"회원가입하기"}
                 </Link>
               </Grid>
