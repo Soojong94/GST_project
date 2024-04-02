@@ -223,6 +223,33 @@ app.post('/api/boardInsert', upload.single('file'), (req, res) => {
 
 
 
+app.post('/api/commentInsert', async (req, res) => {
+  const { b_idx, user_id, cmt_content } = req.body;
+
+  const created_at = new Date().toISOString(); // 댓글 작성 시간 생성
+
+  // Construct comment data
+  const newComment = {
+    b_idx,
+    user_id,
+    cmt_content,
+    created_at,
+  };
+
+  try {
+    // Store the new comment in the database
+    await connection.query(
+      'INSERT INTO comments(b_idx, user_id, cmt_content, created_at) VALUES (?, ?, ?, ?)',
+      [newComment.b_idx, newComment.user_id, newComment.cmt_content, newComment.created_at]
+    );
+
+    res.status(200).send('댓글이 성공적으로 등록되었습니다.');
+  } catch (error) {
+    console.error('댓글 등록 중 에러가 발생했습니다', error);
+    res.status(500).send('댓글 등록에 실패했습니다.');
+  }
+});
+  
 
 // 댓글 리스트 API 앤드포인트
 app.get('/api/comment/:idx', (req, res) => {
