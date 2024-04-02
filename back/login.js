@@ -223,6 +223,7 @@ app.post('/api/boardInsert', upload.single('file'), (req, res) => {
 
 
 
+
 // 댓글 리스트 API 앤드포인트
 app.get('/api/comment/:idx', (req, res) => {
   const { idx } = req.params;
