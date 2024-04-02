@@ -58,7 +58,6 @@ const Calendar = ({ initialEvents }) => {
          ${teamInfo[event.team_2]}`, start: event.matched_at, color: '#FFA500' }))
       ];
       setEvents(newEvents);
-      console.log(newEvents);
   
     } catch (error) {
       console.error('Error fetching schedule data:', error);

@@ -158,6 +158,8 @@ app.post('/logout', (req, res) => {
 
 //=======================================================
 
+app.use('/uploads', express.static('uploads'));
+
 // 파일저장 객체
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
