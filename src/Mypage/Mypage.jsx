@@ -5,20 +5,26 @@ import Sidebar from '../sidebar-02/sidebar';
 import ClanMember from './ClanMember';
 
 function Mypage() {
-
+  const [userData, setUserData] = useState(null);
   const [users, setUsers] = useState([]);
   const [userSubscriptions, setUserSubscriptions] = useState([]);
 
   // 회원 정보를 가져오기
   useEffect(() => {
-    axios.get('http://localhost:5000/userinfo')
-    .then(response => {
-      setUsers(response.data);
-    })
-    .catch(error => {
-      console.error('Error fetching data: ', error);
-    });
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/userinfo', { withCredentials: true });
+        const userData = response.data;
+        console.log(userData);
+        setUserData(userData);
+      } catch (error) {
+        console.error('회원정보 가져오기 오류: ', error);
+      }
+    };
+  
+    fetchData();
   }, []);
+  
 
   useEffect(() => {
     console.log('Users', users);
