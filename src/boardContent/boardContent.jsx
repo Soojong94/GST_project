@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './style.css';
 import { Box, Typography, TextField, Button, Grid } from '@mui/material';
-import preview from './assets/preview.png';
+// import preview from './assets/preview.png';
 import Sidebar from '../sidebar-02/sidebar'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -15,7 +15,7 @@ const Board_content = () => {
   const [error, setError] = useState(null);
 
   const fetchComments = () => {
-    axios.get(`http://localhost:5000/api/comment/${b_idx}`)
+    axios.get(`/api/comment/${b_idx}`)
       .then(response => {
         setComments(response.data);
       })
@@ -26,7 +26,7 @@ const Board_content = () => {
   };
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/board/${b_idx}`)
+    axios.get(`/api/board/${b_idx}`)
       .then(response => {
         setBoard(response.data[0]); // 서버 응답이 배열인 경우 첫 번째 요소를 사용
         console.log(response.data);
@@ -47,7 +47,7 @@ const Board_content = () => {
     e.preventDefault();
     if (newComment.trim() !== '') {
       const currentUserNick = '사용자 닉네임';
-      axios.post(`http://localhost:5000/api/comment`, {
+      axios.post(`/api/comment`, {
         b_idx,
         user_nick: currentUserNick,
         comment: newComment
@@ -76,7 +76,7 @@ const Board_content = () => {
         <div id='present_content'>
           <article className="board_content_card">
             <div className="board_content_background" id='present_content_img'>
-              <img src={preview} alt="Fetch API GraphQL Preview" />
+            <img src={board.b_file} alt="Image" />
             </div>
           </article>
           <div className="board_content_content">

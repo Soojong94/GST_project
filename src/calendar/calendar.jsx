@@ -35,7 +35,7 @@ const Calendar = ({ initialEvents }) => {
 
   const fetchSessionData = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/session');
+      const response = await axios.get('/session');
       const sessionData = response.data;
   
       // 가져온 세션 데이터를 사용하여 일정 데이터를 가져옵니다.
@@ -47,7 +47,7 @@ const Calendar = ({ initialEvents }) => {
   
   const fetchScheduleData = async (userId) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/schedule/${userId}`);
+      const response = await axios.get(`/api/schedule/${userId}`);
       const scheduleData = response.data;
   
       // 가져온 일정 데이터를 사용하여 캘린더를 업데이트합니다.

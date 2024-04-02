@@ -20,7 +20,7 @@ const AddSchedule = ({ onScheduleAdded }) => {
   useEffect(() => {
     const getSessionData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/session', { withCredentials: true });
+        const response = await axios.get('/session', { withCredentials: true });
         const { user_id, clan_boss } = response.data;
         const calendarType = clan_boss === 'y' ? '2' : '1';
         setFormData((prevState) => ({
@@ -48,7 +48,7 @@ const AddSchedule = ({ onScheduleAdded }) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:5000/api/addSchedule', formData, {
+      const response = await axios.post('/api/addSchedule', formData, {
         headers: {
           'Content-Type': 'application/json',
         },

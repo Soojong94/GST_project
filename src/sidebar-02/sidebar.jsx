@@ -27,7 +27,7 @@ const Sidebar = () => {
   };
 
   const handleLogout = () => {
-    axios.post('http://localhost:5000/logout')
+    axios.post('/logout')
       .then(response => {
         if (response.status === 200) {
           setUser(null); // 로그아웃 성공 시 사용자 정보를 초기화합니다.
