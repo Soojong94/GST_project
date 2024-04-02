@@ -29,11 +29,11 @@ const Navbar = ({ signup, login }) => {
 
   return (
     <>
-      <nav className={`navbar navbar-expand navbar-light fixed-top ${isShrinked ? 'navbar-shrink' : ''}`} id="mainNav" style={{ width: '100%', boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)' }}>
+      <nav className={`navbar navbar-expand-md navbar-light fixed-top ${isShrinked ? 'navbar-shrink' : ''}`} id="mainNav" style={{ width: '100%', boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)' }}>
         <div className="container-fluid px-4 px-lg-5">
-          <Link className="navbar-brand" to="#page-top">
+          <a className="navbar-brand" href="/">
             <img id="mainpage_logo" src={mainpage_logo} alt="Logo" />
-          </Link>
+          </a>
           <button
             className="navbar-toggler navbar-toggler-right"
             type="button"

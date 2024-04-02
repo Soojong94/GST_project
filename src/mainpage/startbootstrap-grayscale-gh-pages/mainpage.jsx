@@ -6,6 +6,9 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useLocation } from 'react-router-dom';
 import MainImage from './assets/img/hinoon.png';
+import Main_team_sub from './assets/img/main_team_sub.png';
+import Main_add_schedule from './assets/img/main_add_schedule.png';
+import Main_board_content from './assets/img/main_board_content.png';
 
 
 function Mainpage() {
@@ -37,54 +40,61 @@ function Mainpage() {
 
     return (
         <div className="mainpage" style={{ width: '100%' }}>
+            
         <Navbar signup={signup} login={login} />
             <header class="masthead" id="about">
             <img id = 'main_Image' src={MainImage} />
             </header>
             {/* <!-- Projects--> */}
+            
             <section class="projects-section bg-light" id="projects">
                 <div class="container px-4 px-lg-5">
                     {/* <*--Featured Project Row--> */}
-                    <div class="row gx-0 mb-4 mb-lg-5 align-items-center" id="Personal_Schedule">
-                        <div class="col-xl-8 col-lg-7">개인 일정 관리 사진</div>
-                        <div class="col-xl-4 col-lg-5">
-                            <div class="bg-black text-center h-100 project">
-                                <div class="d-flex h-100">
-                                    <div class="project-text w-100 my-auto text-center text-lg-left">
-                                        <h4 class="text-white">개인 일정 관리 안내</h4>
-                                        <p class="mb-0 text-white-50">어쩌고 저쩌고</p>
+                    <div class="row gx-0 mb-5 mb-lg-0 justify-content-center">
+                        <div className="col-lg-6" id="LOL_Pro_Team_Subscribe"> 
+                            <div class="col-lg-6">
+                                <div class="bg-black text-center h-100 project">
+                                    <div class="d-flex h-100">
+                                        <div class="project-text w-100 my-auto text-center ">
+                                            <h4 class="text-white">개인 일정 등록 기능</h4>
+                                        </div>
+
                                     </div>
                                 </div>
+                                <img id ='Main_team_sub' src={Main_add_schedule} />
                             </div>
                         </div>
                     </div>
                     {/* <!-- Project One Row--> */}
 
                     <div class="row gx-0 mb-5 mb-lg-0 justify-content-center">
-                        <div class=" col-lg-6" id="LOL_Pro_Team_Subscribe"> 팀 구독 관리 사진
+                        <div className="col-lg-6" id="LOL_Pro_Team_Subscribe"> 
                             <div class="col-lg-6">
                                 <div class="bg-black text-center h-100 project">
                                     <div class="d-flex h-100">
-                                        <div class="project-text w-100 my-auto text-center text-lg-left">
-                                            <h4 class="text-white">팀 구독 관리 안내</h4>
-                                            <p class="mb-0 text-white-50">어쩌고 저쩌고</p>
+                                        <div class="project-text w-100 my-auto text-center ">
+                                            <h4 class="text-white">팀 구독, 경기 알림 문자 발송 기능</h4>
                                         </div>
+
                                     </div>
                                 </div>
+                                <img id ='Main_team_sub' src={Main_team_sub} />
                             </div>
                         </div>
                     </div>
                     {/* <!-- Project Two Row--> */}
-                    <div class="row gx-0 justify-content-center">
-                        <div class="col-lg-6" id="Clan_Schedule">클랜 일정 관리 사진</div>
-                        <div class="col-lg-6 order-lg-first">
-                            <div class="bg-black text-center h-100 project">
-                                <div class="d-flex h-100">
-                                    <div class="project-text w-100 my-auto text-center text-lg-right">
-                                        <h4 class="text-white">클랜 일정 관리 안내 </h4>
-                                        <p class="mb-0 text-white-50">어쩌고 저쩌고</p>
+                    <div class="row gx-0 mb-5 mb-lg-0 justify-content-center">
+                        <div className="col-lg-6" id="LOL_Pro_Team_Subscribe"> 
+                            <div class="col-lg-6">
+                                <div class="bg-black text-center h-100 project">
+                                    <div class="d-flex h-100">
+                                        <div class="project-text w-100 my-auto text-center ">
+                                            <h4 class="text-white">클랜 모집, 클랜 일정 공유 기능</h4>
+                                        </div>
+
                                     </div>
                                 </div>
+                                <img id ='Main_team_sub' src={Main_board_content} />
                             </div>
                         </div>
                     </div>

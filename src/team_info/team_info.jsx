@@ -107,9 +107,9 @@ const Team_info = () => {
                   <br />
                   팀 페이스북 url: <a href={team.team_facebook_url}>Team facebook</a>
                   <br />
-                  중개방 아프리카 url: <a href="https://www.afreecatv.com/total_search.html?szLocation=main&szSearchType=total&szKeyword=%EB%A6%AC%EA%B7%B8%EC%98%A4%EB%B8%8C%EB%A0%88%EC%A0%84%EB%93%9C&szStype=di&szActype=&has_hint=false&pk_cnt=0">아프리카 중개방</a>
+                  중계방 아프리카 url: <a href="https://www.afreecatv.com/total_search.html?szLocation=main&szSearchType=total&szKeyword=%EB%A6%AC%EA%B7%B8%EC%98%A4%EB%B8%8C%EB%A0%88%EC%A0%84%EB%93%9C&szStype=di&szActype=&has_hint=false&pk_cnt=0">아프리카 중계방</a>
                   <br />
-                  중개방 치지직 url: <a href="https://chzzk.naver.com/search?query=%EB%A6%AC%EA%B7%B8%20%EC%98%A4%EB%B8%8C%20%EB%A0%88%EC%A0%84%EB%93%9C">치지직 중개방</a>
+                  중계방 치지직 url: <a href="https://chzzk.naver.com/search?query=%EB%A6%AC%EA%B7%B8%20%EC%98%A4%EB%B8%8C%20%EB%A0%88%EC%A0%84%EB%93%9C">치지직 중계방</a>
 
 
                 </h3>

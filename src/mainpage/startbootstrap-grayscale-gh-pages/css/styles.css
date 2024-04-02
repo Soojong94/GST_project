@@ -1473,7 +1473,7 @@ progress {
 
   .col-lg-6 {
     flex: 0 0 auto;
-    width: 50%;
+    width: 100%;
   }
 
   .col-lg-7 {
@@ -3718,7 +3718,7 @@ fieldset:disabled .btn {
 }
 
 .collapsing.collapse-horizontal {
-  width: 0;
+  width: 10px;
   height: auto;
   transition: width 0.35s ease;
 }
@@ -4216,7 +4216,7 @@ fieldset:disabled .btn {
 .nav-link {
   display: block;
   padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
-  font-size: 28px;
+  font-size: 15px;
   font-weight: 1000;
   color: black !important;
   text-decoration: none;
@@ -12779,14 +12779,14 @@ body {
 
 #mainNav {
   min-height: 2.0 rem !important;
+  
   /* 이전 높이보다 낮게 조정 */
   background-color: #fff;
-  border: #000;
+  
 }
 
 #mainNav .navbar-toggler {
-  padding: 0.5rem;
-  /* 패딩 값 줄임 */
+  
   color: #64a19d;
   border: 1px solid #64a19d;
 }
@@ -12816,7 +12816,7 @@ body {
 
 @media (min-width: 992px) {
   #mainNav {
-    max-height: 175px;
+    max-height: 120px;
     padding-top: 0;
     padding-bottom: 0;
     border-bottom: none;
@@ -13118,8 +13118,8 @@ body {
 }
 
 #mainpage_logo {
-  height: 280px;
-  width: 280px;
+  height: 200px;
+  width: 200px;
 }
 
 
@@ -13141,9 +13141,11 @@ body {
 .container-fluid.px-4.px-lg-5 {
   padding-left: 15px;
   padding-right: 15px;
-  max-width: 100%;
+  max-width: 80%;
   margin-right: 20px;
-  max-height: 200px;
+  max-height: 100px;
+  margin-top: 10px;
+
 }
 
 @media (min-width: 992px) {
@@ -13151,6 +13153,7 @@ body {
     max-width: 1140px;
     margin-left: auto;
     margin-right: auto;
+    max-height: 100px;
   }
 }
 
@@ -13211,8 +13214,6 @@ body {
 }
 
 
-
-
 .nav-item {
   margin-right: 30px;
   display: flex;
@@ -13225,4 +13226,10 @@ body {
   width: 80%;
   height: 80%;
   display : cover;
+}
+
+#Main_team_sub{
+  margin-left: 25%;
+  width: 50%;
+  
 }
