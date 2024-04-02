@@ -97,8 +97,17 @@ const Board_content = () => {
 
         <div className='board_comment'>
           <Box mt={4}>
-          <CommentForm />
+            <CommentForm />
           </Box>
+              <Grid container spacing={2}>
+                {comments.map((comment, index) => (
+                  <Grid item key={index} xs={12}>
+                    <Box p={2} bgcolor="#f5f5f5" borderRadius={4}>
+                      <Typography variant="body1">{comment.user_nick}: {comment.cmt_content}</Typography>
+                    </Box>
+                  </Grid>
+                ))}
+              </Grid>
         </div>
       </div >
     </div>

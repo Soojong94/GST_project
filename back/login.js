@@ -77,7 +77,7 @@ app.post('/signup', async (req, res, next) => {
             user_pw: hashedPassword,
             joined_at: new Date(),
             // Assume clan is defined somewhere or retrieved from request
-            clan: 'YourClanHere'
+            clan: null,
         };
         await connection.query('INSERT INTO users SET ?', newUser);
 
