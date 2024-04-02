@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 
 import GST_logo from './GST_logo.png';
+import { size } from '@floating-ui/core';
 
 function Copyright(props: any) {
   return (
