@@ -63,6 +63,7 @@ const Signup = () => {
     }
   };
 
+
   return (
     <div id='signUp_main'>
       <ThemeProvider theme={defaultTheme}>
@@ -70,14 +71,16 @@ const Signup = () => {
           <CssBaseline />
           <Box
             sx={{
-              
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
+              alignContent : 'center'
             }}
           >
-            {/* Your logo */}
-            <img src={mainpage_logo} alt="Logo" style={{ width: '50%', height: '40%', marginBottom: '20px' }} />
+            
+            <Link href="/" >
+            <img id= 'signUp_logo' src={mainpage_logo} alt="Logo"  />
+            </Link>
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
             </Avatar>

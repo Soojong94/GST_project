@@ -72,7 +72,9 @@ const Signin = () => {
             alignItems: 'center',
           }}
         >
+          <Link href='/'>
           <img id='signIn_logo' src={mainpage_logo} alt="Logo" />
+          </Link>
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <VideogameAssetIcon />
           </Avatar>
