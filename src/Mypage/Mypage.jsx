@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../axios';
 import './Mypage.css';
 import Sidebar from '../sidebar-02/sidebar';
 import ClanMember from './ClanMember';
@@ -11,18 +11,27 @@ function Mypage() {
 
   // 회원 정보를 가져오기
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/userinfo', { withCredentials: true });
-        const userData = response.data;
-        console.log(userData);
-        setUserData(userData);
-      } catch (error) {
-        console.error('회원정보 가져오기 오류: ', error);
-      }
-    };
+
+
+    const userinfo = JSON.parse(sessionStorage.getItem("user"))
+    console.log('session', userinfo)
+    
+    // map 작업을 사용하기 위해서 임의로 배열안에 userinfo 
+    // users 라는 배열 안에 -> userinfo 라는 객체 안에 -> session
+    
+    setUsers([{userinfo}])
+    // const fetchData = async () => {
+    //   try {
+    //     const response = await axios.get('/userinfo', { withCredentials: true });
+    //     const userData = response.data;
+    //     console.log(userData);
+    //     setUserData(userData);
+    //   } catch (error) {
+    //     console.error('회원정보 가져오기 오류: ', error);
+    //   }
+    // };
   
-    fetchData();
+    // fetchData();
   }, []);
   
 
@@ -89,7 +98,7 @@ const handleEdit = async (userId) => {
   // 클라이언트 측에서 회원 탈퇴 요청 보내는 함수
   const handleDelete = async (user_id) => {
     try {
-        const response = await axios.delete(`http://localhost:5000/userDelete/${user_id}`);
+        const response = await axios.delete(`/userDelete/${user_id}`);
         console.log('회원 탈퇴 성공:', response.data);
         // 성공적으로 회원 탈퇴한 경우, 사용자 목록에서 해당 사용자를 제거하는 작업 등을 수행할 수 있습니다.
     } catch (error) {
@@ -100,7 +109,7 @@ const handleEdit = async (userId) => {
 
   const getClanBossMembers = async (clanName) => {
     try {
-      const response = await axios.get(`http://localhost:5000/clanBossMembers/${clanName}`);
+      const response = await axios.get(`/clanBossMembers/${clanName}`);
       console.log('Clan boss members:', response.data);
       return response.data;
     } catch (error) {
@@ -113,7 +122,7 @@ const handleEdit = async (userId) => {
   // 클랜 삭제 기능
   const handleClanDelete = async (clanId) => {
     try {
-      const response = await axios.delete(`http://localhost:5000/api/ClanDelete/`);
+      const response = await axios.delete(`/api/ClanDelete/`);
       console.log(response.data);
       // 클랜 삭제에 성공한 후에 필요한 작업을 수행할 수 있습니다.
     } catch (error) {
@@ -122,7 +131,7 @@ const handleEdit = async (userId) => {
   };
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/usersubscriptions', {
+    fetch('/api/usersubscriptions', {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -234,9 +243,9 @@ const handleEdit = async (userId) => {
         {users.map(user =>(
           <section id="tab1-content" className="tab-content" key={user.id}>
             <h2>아이디</h2>
-            <p>{user.id}</p>    
+            <p>{user.userinfo.user_id}</p>    
             <h2>닉네임</h2>
-            <p>{editingUser === user.id ? 
+            <p>{editingUser === user.user_id ? 
                 <input type="text" value={editedNickname !== '' ? editedNickname : user.nickname} onChange={e => setEditedNickname(e.target.value)} /> 
                 : user.nickname}</p>
             <h2>연락처</h2>
