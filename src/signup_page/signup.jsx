@@ -75,7 +75,7 @@ const Signup = () => {
           }}
         >
           {/* Your logo */}
-          <img src={mainpage_logo} alt="Logo" style={{ width: '100%', marginBottom: '20px' }} />
+          <img src={mainpage_logo} alt="Logo" style={{ width: '60%', height : '40%', marginBottom: '20px' }} />
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
