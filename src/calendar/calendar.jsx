@@ -1,5 +1,6 @@
 // MyCalendar.jsx
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -9,13 +10,52 @@ import '../../src/App.css'
 import Agenda from './../Agenda/Agenda';
 import axios from 'axios';
 
-const Calendar = ({ events }) => {
+const Calendar = ({ initialEvents }) => {
   const navigate = useNavigate();
 
   let clickTimeout = null;
 
   const [isAgendaVisible, setAgendaVisible] = useState(false);
   const [agendaEvents, setAgendaEvents] = useState([]);
+  const [events, setEvents] = useState(initialEvents);
+
+  
+
+
+  const fetchSessionData = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/session');
+      const sessionData = response.data;
+  
+      // 가져온 세션 데이터를 사용하여 일정 데이터를 가져옵니다.
+      fetchScheduleData(sessionData.user_id);
+    } catch (error) {
+      console.error('Error fetching session data:', error);
+    }
+  };
+  
+  const fetchScheduleData = async (userId) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/schedule/${userId}`);
+      const scheduleData = response.data;
+  
+      // 가져온 일정 데이터를 사용하여 캘린더를 업데이트합니다.
+      const newEvents = [
+        ...scheduleData.personal.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt })),
+        ...scheduleData.clan.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt })),
+        ...scheduleData.subscribedMatch.map(event => ({ title: `Match between team ${event.team_1} and ${event.team_2}`, start: event.matched_at }))
+      ];
+      setEvents(newEvents);
+      console.log(newEvents);
+  
+    } catch (error) {
+      console.error('Error fetching schedule data:', error);
+    }
+  };
+  
+  useEffect(() => {
+    fetchSessionData();
+  }, []);
 
   const handleDateClick = (selectInfo) => {
     if (clickTimeout !== null) {
