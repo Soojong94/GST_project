@@ -693,6 +693,7 @@ progress {
   padding-left: calc(var(--bs-gutter-x) * 0.5);
   margin-right: auto;
   margin-left: auto;
+  
 }
 
 @media (min-width: 576px) {
@@ -3964,9 +3965,6 @@ fieldset:disabled .btn {
   border-left: 0.3em solid;
 }
 
-.dropend .dropdown-toggle:empty::after {
-  margin-left: 0;
-}
 
 .dropend .dropdown-toggle::after {
   vertical-align: 0;
@@ -12783,6 +12781,7 @@ body {
   min-height: 2.0 rem !important;
   /* 이전 높이보다 낮게 조정 */
   background-color: #fff;
+  border: #000;
 }
 
 #mainNav .navbar-toggler {
@@ -12895,7 +12894,7 @@ body {
   margin-top: 100px;
   padding-top: 5rem;
   padding-left: 5rem;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%, #000 100%), url("../assets/img/메인화면.PNG");
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 120%, #000 100%);
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -13218,4 +13217,12 @@ body {
   margin-right: 30px;
   display: flex;
   align-items: center;
+}
+
+#main_Image{
+  margin-top: 8%;
+  margin-left: 10%;
+  width: 80%;
+  height: 80%;
+  display : cover;
 }

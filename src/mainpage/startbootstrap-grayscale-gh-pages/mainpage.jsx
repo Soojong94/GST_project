@@ -5,6 +5,7 @@ import Navbar from './js/Navbar'; // Assuming that Navbar.js is in the same dire
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useLocation } from 'react-router-dom';
+import MainImage from './assets/img/hinoon.png';
 
 
 function Mainpage() {
@@ -38,7 +39,7 @@ function Mainpage() {
         <div className="mainpage" style={{ width: '100%' }}>
         <Navbar signup={signup} login={login} />
             <header class="masthead" id="about">
-
+            <img id = 'main_Image' src={MainImage} />
             </header>
             {/* <!-- Projects--> */}
             <section class="projects-section bg-light" id="projects">

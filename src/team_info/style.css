@@ -10,20 +10,21 @@
 
 @media (max-width: 768px) {
   .team-info {
-    flex-direction: column;
-    align-items: center;
+    max-width: none; /* Override max-width */
   }
+}
 
-  .team-info-img {
-    margin-right: 0;
-    margin-bottom: 20px;
-  }
+.team-info-img {
+  margin-left: 240px; /* Move the logo further to the right */
+  margin-bottom: 20px;
+}
+
 
   .team-info-text {
     max-width: none;
     text-align: center;
   }
-}
+
 
 .subscribe-area {
   display: flex;

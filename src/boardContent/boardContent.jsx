@@ -93,6 +93,7 @@ const Board_content = () => {
             </div>
           </div>
         </div>
+
         <div className='board_comment'>
           <Box mt={4}>
             <Typography variant="h5" gutterBottom>댓글</Typography>
@@ -109,6 +110,7 @@ const Board_content = () => {
                 margin="normal"
               />
               <br></br>
+
               <Button type="submit" variant="contained" color="primary">댓글 작성</Button>
               <Grid container spacing={2}>
                 {comments.map((comment, index) => (
