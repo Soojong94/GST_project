@@ -16,7 +16,12 @@ connection.query = util.promisify(connection.query); // Enable async/await for M
 
 // CORS 미들웨어 등록
 // 서버에서 CORS 설정하기
-app.use(cors());
+app.use(
+  cors({
+    origin: 'http://localhost:3000', // 허용할 도메인
+    credentials: true, // 쿠키를 주고받을 수 있도록 설정
+  })
+);
 
 // 클라이언트에서 쿠키를 이용하여 서버에 요청 보내기
 axios.defaults.withCredentials = true;
@@ -215,8 +220,6 @@ app.post('/api/boardInsert', upload.single('file'), (req, res) => {
   });
 });
   
-
-
 
 
 
@@ -620,6 +623,52 @@ app.delete('/api/ClanDelete/', (req, res) => {
 });
 
 
+// 경기 일정 가져오기
+app.get('/api/schedule/:userId', (req, res) => {
+  const userId = req.params.userId;
+  console.log(userId);
+
+  // 개인 일정 가져오기
+  const personalQuery = 'SELECT * FROM user_schedules WHERE user_Id = ?';
+  connection.query(personalQuery, [userId], (err, personalScheduleData) => {
+    if (err) return res.json(err);
+
+
+  
+  // 클랜 일정 가져오기
+    const clanQuery = `
+    SELECT cs.* 
+    FROM clan_schedules cs
+    JOIN users u ON cs.user_id = u.user_id
+    WHERE u.clan = (
+      SELECT clan 
+      FROM users 
+      WHERE user_id = ?
+      )
+    `;
+    connection.query(clanQuery, [userId], (err, clanScheduleData) => {
+      if (err) return res.json(err);
+
+      // 구독한 팀의 경기일정 가져오기
+      const subscribedMatchQuery = `
+      SELECT ms.*
+      FROM matches ms
+      JOIN subscriptions s ON ms.team_1 = s.team_idx OR ms.team_2 = s.team_idx 
+      WHERE s.user_id =  ?
+      `;
+      connection.query(subscribedMatchQuery, [userId], (err, subscribedMatchScheduleData) => {
+        if (err) return res.json(err);
+
+        // 모든 일정 데이터를 JSON 형태로 응답
+        res.json({
+          personal: personalScheduleData,
+          clan: clanScheduleData,
+          subscribedMatch: subscribedMatchScheduleData
+        });
+      });
+    });
+  });
+});
 
 
 // 서버 실행
