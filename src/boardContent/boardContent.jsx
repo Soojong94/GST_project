@@ -5,6 +5,7 @@ import preview from './assets/preview.png';
 import Sidebar from '../sidebar-02/sidebar'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import CommentForm from '../Comment/CommentWrite';
 
 const Board_content = () => {
   const { b_idx } = useParams();
@@ -96,22 +97,8 @@ const Board_content = () => {
 
         <div className='board_comment'>
           <Box mt={4}>
-            <Typography variant="h5" gutterBottom>댓글</Typography>
-            <form id='comment_form' onSubmit={handleSubmit}>
-              <TextField
-                label="댓글을 입력하세요"
-                variant="outlined"
-                value={newComment}
-                onChange={handleCommentChange}
-                multiline
-                rows={4}
-                sx={{ width: '30%' }} // 너비를 100%로 설정
-                inputProps={{ maxLength: 100 }} // 최대 입력 가능한 문자 수
-                margin="normal"
-              />
-              <br></br>
-
-              <Button type="submit" variant="contained" color="primary">댓글 작성</Button>
+            <CommentForm />
+          </Box>
               <Grid container spacing={2}>
                 {comments.map((comment, index) => (
                   <Grid item key={index} xs={12}>
@@ -121,8 +108,6 @@ const Board_content = () => {
                   </Grid>
                 ))}
               </Grid>
-            </form>
-          </Box>
         </div>
       </div >
     </div>

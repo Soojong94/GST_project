@@ -28,28 +28,27 @@ const Signin = () => {
     const { name, value } = e.target;
     setCredentials(prevState => ({ ...prevState, [name]: value }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(credentials)
     };
-
+  
     try {
       const response = await fetch('http://localhost:5000/login', requestOptions);
-
+  
       if (response.ok) {
-        // Check if response content-type is JSON
         const contentType = response.headers.get('content-type');
         if (contentType && contentType.includes('application/json')) {
           const userData = await response.json();
+          // Store user data in session storage
           sessionStorage.setItem('userData', JSON.stringify(userData));
         } else {
           alert('로그인 성공');
-          window.history.back();
+          window.location.href = 'http://localhost:3000';
         }
       } else {
         const data = await response.text();
@@ -59,6 +58,7 @@ const Signin = () => {
       console.error('에러가 발생했습니다!', error);
     }
   };
+  
 
   return (
     <ThemeProvider theme={theme}>
