@@ -10,6 +10,20 @@ import '../../src/App.css'
 import Agenda from './../Agenda/Agenda';
 import axios from 'axios';
 
+
+const teamInfo = {
+  1: 'T1',
+  2: 'GenG',
+  3: 'DK',
+  4: 'HLE',
+  5: 'KT',
+  6: 'DRX',
+  7: 'NS',
+  8: 'KDF',
+  9: 'Fearx',
+  10:'BRO'
+};
+
 const Calendar = ({ initialEvents }) => {
   const navigate = useNavigate();
 
@@ -18,9 +32,6 @@ const Calendar = ({ initialEvents }) => {
   const [isAgendaVisible, setAgendaVisible] = useState(false);
   const [agendaEvents, setAgendaEvents] = useState([]);
   const [events, setEvents] = useState(initialEvents);
-
-  
-
 
   const fetchSessionData = async () => {
     try {
@@ -41,9 +52,11 @@ const Calendar = ({ initialEvents }) => {
   
       // 가져온 일정 데이터를 사용하여 캘린더를 업데이트합니다.
       const newEvents = [
-        ...scheduleData.personal.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt })),
-        ...scheduleData.clan.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt })),
-        ...scheduleData.subscribedMatch.map(event => ({ title: `Match between team ${event.team_1} and ${event.team_2}`, start: event.matched_at }))
+        ...scheduleData.personal.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt, color: '#C1F0D3' })),
+        ...scheduleData.clan.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt, color: '#D8BFD8' })),
+        ...scheduleData.subscribedMatch.map(event => ({ title: `${teamInfo[event.team_1]} ${event.team_1_score}
+        VS ${event.team_2_score}
+         ${teamInfo[event.team_2]}`, start: event.matched_at, color: '#FFA500' }))
       ];
       setEvents(newEvents);
       console.log(newEvents);
@@ -52,7 +65,6 @@ const Calendar = ({ initialEvents }) => {
       console.error('Error fetching schedule data:', error);
     }
   };
-  
   useEffect(() => {
     fetchSessionData();
   }, []);
