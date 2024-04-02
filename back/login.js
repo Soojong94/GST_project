@@ -364,30 +364,32 @@ app.post('/updateUser', (req, res) => {
 });
 
 // 사용자 정보 가져오기
-app.get('/userinfo', (req, res) => {
-    // 세션에서 user 데이터 가져오기
-    const user_id = req.session.user.user_id;
-    console.log(user_id);
+// app.get('/userinfo', (req, res) => {
 
-  if (!user_id) {
-    return res.status(401).json({ message: '로그인 되어있지 않습니다.' });
-  }
+//   // // 세션에서 user 데이터 가져오기
+//     res.send('session user', req.session)
+//     // const user_id = req.session.user.user_id;
+//     // console.log(user_id);
 
-  // Prepared Statement를 사용하여 SQL Injection 방지
-  connection.query('SELECT * FROM users WHERE user_id = ?', [user_id], (error, results, fields) => {
-    if (error) {
-      console.error('Error fetching user info:', error);
-      return res.status(500).json({ message: '서버 오류가 발생했습니다.' });
-    }
+//   // if (!user_id) {
+//   //   return res.status(401).json({ message: '로그인 되어있지 않습니다.' });
+//   // }
 
-    if (results.length > 0) {
-      const user = results[0];
-      res.json(user);
-    } else {
-      res.status(404).json({ message: '유저정보를 찾지 못했습니다' });
-    }
-  });
-});
+//   // // Prepared Statement를 사용하여 SQL Injection 방지
+//   // connection.query('SELECT * FROM users WHERE user_id = ?', [user_id], (error, results, fields) => {
+//   //   if (error) {
+//   //     console.error('Error fetching user info:', error);
+//   //     return res.status(500).json({ message: '서버 오류가 발생했습니다.' });
+//   //   }
+
+//   //   if (results.length > 0) {
+//   //     const user = results[0];
+//   //     res.json(user);
+//   //   } else {
+//   //     res.status(404).json({ message: '유저정보를 찾지 못했습니다' });
+//   //   }
+//   // });
+// });
 
 // 회원 탈퇴 엔드포인트
 app.delete('/userDelete/:user_id', (req, res) => {
@@ -541,6 +543,8 @@ app.get('/api/subscription/:team_idx/:userId', (req, res) => {
 
 // 마이페이지 에서 팀 구독 전체 가져오기
 app.get('/api/usersubscriptions', (req, res) => {
+
+  console.log('app get user')
   const userId = req.session.userId;
 
   if (!userId) {
@@ -618,9 +622,9 @@ app.delete('/api/ClanDelete/', (req, res) => {
 
 
 
-
 // 서버 실행
 app.listen(port, () => {
   console.log('server is running at 5000');
   //scheduleMatches(); 문자서비스 코드_살리지 말것.
 });
+
