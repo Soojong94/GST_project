@@ -16,10 +16,7 @@ connection.query = util.promisify(connection.query); // Enable async/await for M
 
 // CORS 미들웨어 등록
 // 서버에서 CORS 설정하기
-app.use(cors({
-  origin: 'http://localhost:3000',  // 클라이언트의 주소
-  credentials: true,  // 쿠키를 공유할 수 있도록 설정
-}));
+app.use(cors());
 
 // 클라이언트에서 쿠키를 이용하여 서버에 요청 보내기
 axios.defaults.withCredentials = true;
@@ -27,7 +24,7 @@ axios.defaults.withCredentials = true;
 // Setup session middleware
 app.use(session({
   secret: '121212',
-  resave: true,
+  resave: false,
   saveUninitialized: true,
   cookie: {
       httpOnly: true,
@@ -368,7 +365,9 @@ app.post('/updateUser', (req, res) => {
 
 // 사용자 정보 가져오기
 app.get('/userinfo', (req, res) => {
-  const user_id = req.session.user_id; // 세션에서 사용자 ID 가져오기
+    // 세션에서 user 데이터 가져오기
+    const user_id = req.session.user.user_id;
+    console.log(user_id);
 
   if (!user_id) {
     return res.status(401).json({ message: '로그인 되어있지 않습니다.' });
