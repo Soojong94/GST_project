@@ -8,7 +8,7 @@ const ParentComponent = () => {
 console.log('parent Component')
   return (
     <div>
-      <AddSchedule onScheduleAdded={handleNewSchedule} testData="2" />
+      <AddSchedule onScheduleAdded={handleNewSchedule}/>
       <Calendar events={events} />
     </div>
   );
