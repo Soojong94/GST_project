@@ -157,7 +157,7 @@ app.post('/logout', (req, res) => {
 
 //=======================================================
 
-
+// 파일저장 객체
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/') // 파일이 저장될 경로
@@ -168,34 +168,9 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-// app.post('/api/addSchedule', upload.single('file'), async (req, res) => {
-//   try {
-//     // 요청 정보 출력
-//     console.log('요청 정보:', req.body);
-
-//     const { b_title, b_content, created_at } = req.body;
-//     const b_file = req.file ? req.file.path : '';
-//     const user_id = req.session.user_id;
-
-//     // SQL 쿼리 실행
-//     const query = 'INSERT INTO posts (b_title, b_content, b_file, created_at, user_id) VALUES (?, ?, ?, ?, ?)';
-//     const [result] = await pool.execute(query, [b_title, b_content, b_file, created_at, user_id]);
-
-//     // 응답 정보 출력
-//     console.log('응답 정보:', { message: '게시글이 성공적으로 등록되었습니다.', postId: result.insertId });
-
-//     res.status(200).json({ message: '게시글이 성공적으로 등록되었습니다.', postId: result.insertId });
-//   } catch (error) {
-//     // 오류 정보 출력
-//     console.error('오류 정보:', error);
-
-//     res.status(500).json({ message: '게시글 등록 중 오류가 발생했습니다.', error: error.message });
-//   }
-// });
-
 // '/api/boardInsert' 경로에 대한 POST 요청 처리
 app.post('/api/boardInsert', upload.single('file'), (req, res) => {
-  const nick = req.session.user_nick; // 세션에서 사용자 닉네임 가져오기 (사용자 인증 구현 필요)
+  const nick = req.body.user_nick; // 세션에서 사용자 닉네임 가져오기 (사용자 인증 구현 필요)
   const user_id = req.body.user_id; // 사용자 ID 처리 (사용자 인증 구현 필요)
   const b_title = req.body.title;
   const b_content = req.body.content;
@@ -229,8 +204,9 @@ app.get('/api/comment/:idx', (req, res) => {
   const { idx } = req.params;
   console.log('댓글', idx)
 
-  const sql = ` SELECT c.*, u.user_nick
-    FROM comments c INNER JOIN users u ON c.user_id = u.user_id WHERE c.b_idx = ${idx}`;
+  const sql = `SELECT c.*, u.user_nick
+  FROM comments c INNER JOIN users u ON c.user_id = u.user_id WHERE c.b_idx = ${idx}
+  ORDER BY c.cmt_idx DESC`;
 
   connection.query(sql, (err, data) => {
     if (err) return res.json(err);
@@ -670,6 +646,14 @@ app.get('/api/schedule/:userId', (req, res) => {
   });
 });
 
+  app.post('/api/boardInsert', upload.single('image'), (req, res) => {
+    const { clan_name, clan_intro, clan_limit } = req.body;
+    const image = req.file.filename;
+
+    // 데이터베이스에 clan_name, clan_intro, clan_limit, image 저장
+
+    res.json({ success: true });
+  });
 
 // 서버 실행
 app.listen(port, () => {

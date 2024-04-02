@@ -54,8 +54,7 @@ const Calendar = ({ initialEvents }) => {
       const newEvents = [
         ...scheduleData.personal.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt, color: '#C1F0D3' })),
         ...scheduleData.clan.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt, color: '#D8BFD8' })),
-        ...scheduleData.subscribedMatch.map(event => ({ title: `${teamInfo[event.team_1]} ${event.team_1_score}
-        VS ${event.team_2_score}
+        ...scheduleData.subscribedMatch.map(event => ({ title: `${teamInfo[event.team_1]} ${event.team_1_score}VS${event.team_2_score}
          ${teamInfo[event.team_2]}`, start: event.matched_at, color: '#FFA500' }))
       ];
       setEvents(newEvents);
