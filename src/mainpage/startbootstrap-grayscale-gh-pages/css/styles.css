@@ -13103,10 +13103,119 @@ body {
   color: snow !important;
 }
 
-#img_test {
-  position: absolute;
-}
 
 .nav-link:hover {
   color: #00d9ff !important;
+}
+
+
+.nav-link {
+  text-decoration: none;
+}
+
+.link-text {
+  display: inline-block;
+  text-decoration: none;
+}
+
+#mainpage_logo {
+  height: 280px;
+  width: 280px;
+}
+
+
+#mainNav {
+  background-color: transparent;
+  padding-top: 0px;
+}
+
+#mainNav .navbar-collapse {
+  background-color: transparent;
+}
+
+#mainNav .navbar-nav .nav-link {
+  color: white;
+}
+
+
+/* 네비바 */
+.container-fluid.px-4.px-lg-5 {
+  padding-left: 15px;
+  padding-right: 15px;
+  max-width: 100%;
+  margin-right: 20px;
+  max-height: 200px;
+}
+
+@media (min-width: 992px) {
+  .container-fluid.px-4.px-lg-5 {
+    max-width: 1140px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+
+
+/* gststart버튼 */
+.btn.btn-primary {
+  width: 150px; /* 너비 설정 */
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#top_btn {
+  font-size: 21px; 
+}
+
+
+/*  메인페이지 하단 버튼*/
+.text-center>.btn.btn-primary{
+  width: 180px; /* 너비 설정 */
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#bottom_btn {
+  font-size: 15px; 
+}
+
+
+.container-fluid {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.navbar {
+  margin-bottom: 0;
+}
+
+
+.collapse.navbar-collapse {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+@media (min-width: 992px) {
+  .collapse.navbar-collapse {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.navbar-collapse {
+  margin-left: auto;
+}
+
+
+
+
+.nav-item {
+  margin-right: 30px;
+  display: flex;
+  align-items: center;
 }
