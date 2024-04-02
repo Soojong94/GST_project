@@ -39,28 +39,6 @@ function Mainpage() {
             <Navbar signup={signup} login={login} />
             <header class="masthead" id="about">
 
-                <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
-                    <div class="d-flex justify-content-center">
-                        <div class="text-center">
-
-
-
-
-                            <h2 class="text-white-50 mx-auto mt-2 mb-5"> <a href="#Personal_Schedule"
-                                id="Personal_Schedule_text">Personal
-                                Schedule </a> </h2>
-
-                            <h2 class="text-white-50 mx-auto mt-2 mb-5"> <a href="#LOL_Pro_Team_Subscribe"
-                                id="LOL_Pro_Team_Subscribe_text">LOL Pro Team
-                                Subscribe </a></h2>
-                            <h2 class="text-white-50 mx-auto mt-2 mb-5"> <a href="#Clan_Schedule" id="Clan_Schedule_text">Clan
-                                Schedule</a></h2>
-
-                            <Link to="/calendar" class="btn btn-primary" href="#about">GST Start</Link>
-
-                        </div>
-                    </div>
-                </div>
             </header>
 
 
@@ -113,6 +91,23 @@ function Mainpage() {
                             </div>
                         </div>
                     </div>
+                    <br>
+                    </br>
+                    
+                <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
+                    <div class="d-flex justify-content-center">
+                        <div class="text-center">
+
+
+
+
+                            
+
+                            <Link to="/calendar" class="btn btn-primary" href="#about">GST Start</Link>
+
+                        </div>
+                    </div>
+                </div>
                 </div>
             </section>
 

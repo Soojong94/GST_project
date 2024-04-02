@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import './style.css'
 
 // Import your logo image
 import mainpage_logo from '../signin_page/GST_logo.png';
@@ -33,7 +34,7 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -44,10 +45,10 @@ const Signup = () => {
         user_pw: user.password
       })
     };
-  
+
     try {
       const response = await fetch('http://localhost:5000/signup', requestOptions);
-  
+
       if (response.ok) {
         const text = await response.text();
         alert(text);
@@ -61,100 +62,101 @@ const Signup = () => {
       alert('서버와의 연결에 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.'); // 네트워크 오류 메시지를 보여줍니다.
     }
   };
-  
+
+
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          {/* Your logo */}
-          <img src={mainpage_logo} alt="Logo" style={{ width: '100%', marginBottom: '20px' }} />
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="id"
-                  label="아이디"
-                  name="id"
-                  value={user.id}
-                  onChange={handleChange}
-                />
+    <div id='signUp_main'>
+      <ThemeProvider theme={defaultTheme}>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              alignContent : 'center'
+            }}
+          >
+            
+            <Link href="/" >
+            <img id= 'signUp_logo' src={mainpage_logo} alt="Logo"  />
+            </Link>
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign up
+            </Typography>
+            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="id"
+                    label="아이디"
+                    name="id"
+                    value={user.id}
+                    onChange={handleChange}
+                    autoFocus
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="password"
+                    label="패스워드"
+                    name="password"
+                    type="password"
+                    value={user.password}
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="nickname"
+                    label="닉네임"
+                    name="nickname"
+                    value={user.nickname}
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="phoneNumber"
+                    label="핸드폰 번호"
+                    name="phoneNumber"
+                    value={user.phoneNumber}
+                    onChange={handleChange}
+                  />
+                </Grid>
+
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="password"
-                  label="패스워드"
-                  name="password"
-                  type="password"
-                  value={user.password}
-                  onChange={handleChange}
-                />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                회원가입
+              </Button>
+              <Grid container justifyContent="flex-end">
+                <Grid item>
+                  <Link href="/SignIn" variant="body2">
+                    로그인
+                  </Link>
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="nickname"
-                  label="닉네임"
-                  name="nickname"
-                  value={user.nickname}
-                  onChange={handleChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="phoneNumber"
-                  label="핸드폰 번호"
-                  name="phoneNumber"
-                  value={user.phoneNumber}
-                  onChange={handleChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="agree" color="primary" />}
-                  label="약관에 동의합니다"
-                />
-              </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign Up
-            </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
+            </Box>
           </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
+        </Container>
+      </ThemeProvider>
+    </div>
   );
 };
 
