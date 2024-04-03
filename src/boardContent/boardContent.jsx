@@ -84,6 +84,7 @@ const Board_content = () => {
     })
       .then(response => {
         setIsEditing(false);
+        window.location.reload(); 
         // 필요한 작업 수행
       })
       .catch(error => {

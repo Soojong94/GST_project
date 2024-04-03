@@ -58,6 +58,8 @@ const CommentForm = () => {
 
       setMessage(response.data);
       setCommentText('');
+
+      window.location.reload();
     } catch (error) {
       console.error('댓글 등록 중 에러가 발생했습니다', error);
       setMessage(error.response ? error.response.data : '댓글 등록에 실패했습니다.');
