@@ -1,39 +1,44 @@
+/* 전역 변수 */
 :root {
     --background: #F8F8FF;
     --text: #2C2C2C;
 }
 
+/* 스무딩 스크롤 설정 */
 html {
     scroll-behavior: smooth;
 }
 
+/* 전역 스타일 */
 * {
-    margin: 50;
-    padding: 50;
+    margin: 3px;
+    padding: 3px;
     box-sizing: border-box;
 }
 
+/* 본문 스타일 */
 body {
     font-size: 16px;
     font-family: Poppins, sans-serif;
     height: 100vh;
-    padding-top: 0px;
+    padding-top: 0;
     background: var(--background);
 }
 
-.articles {
+/* 기사 목록 스타일 */
+#team_subsc {
     display: flex;
     flex-wrap: wrap;
-    margin: 0 auto;
     justify-content: center;
     max-width: 2000px;
-    gap: 1.5rem;
-    
+    gap: 0;
+    margin: 0 auto;
 }
 
-.articles article {
+/* 기사 스타일 */
+#team_subsc article {
     max-width: 30rem;
-    max-height: 30rem;
+    max-height: 50rem;
     min-width: 18rem;
     width: 100%;
     cursor: pointer;
@@ -45,22 +50,25 @@ body {
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     opacity: 1;
     text-align: center;
-    margin-bottom: 25px;
-    margin-top: 25px;
-    margin-right: 80px !important;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    margin-right: 20px;
+    border: 3px solid black;
 }
 
-.articles article h2 {
+/* 기사 제목 스타일 */
+#team_subsc article h2 {
     margin: 0 0 0.5rem 0;
     font-size: 1.6rem;
     color: black;
     transition: color 0.3s ease-out;
+    font-weight: bold;
 }
 
-
-.articles article img {
-    max-width: 100%;
-    transform-origin: center;
+/* 기사 이미지 스타일 */
+#team_subsc article img {
+    max-width: 70%;
+    transform-origin: center; 
     transition: transform 0.4s ease-in-out;
     height: 100%;
     aspect-ratio: 16 / 9;
@@ -68,29 +76,33 @@ body {
     object-fit: cover;
 }
 
-.articles article:hover img {
+/* 기사 이미지 호버 스타일 */
+#team_subsc article:hover img {
     transform: scale(1.5);
-    
 }
 
+/* 기사 미리보기 스타일 */
 .article-preview {
     padding: 1.5rem;
     background: white;
     color: black;
 }
 
-.articles figure {
+/* 기사 이미지 컨테이너 스타일 */
+#team_subsc figure {
     width: 100%;
     height: 16rem;
     overflow: hidden;
 }
 
+/* 팀 로고 컨테이너 스타일 */
 #team_subsc {
     flex-grow: 0.5;
     max-height: 100%;
-    
 }
-#team_logo_img{
+
+/* 팀 로고 이미지 스타일 */
+#team_logo_img {
     width: 100%;
     height: 100%;
 }

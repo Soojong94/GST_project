@@ -86,12 +86,12 @@ const Team_info = () => {
   };
 
   return (
-    <div className='main_container'>
+    <div id='signUp_main_TI' className='main_container'>
       <Sidebar />
-      <div className='team-info'>
+      <div id='team-info' className='team-info'>
         {team && (
           <>
-            <div className='team-info-img' >
+            <div id='team-info-img' className='team-info-img'>
               <div className='subscribe-area'>
                 <button
                   className={`subscribe-button ${isSubscribed ? 'subscribed' : ''}`}
@@ -100,14 +100,14 @@ const Team_info = () => {
                   {isSubscribed ? '구독중' : '구독'}
                 </button>
               </div>
-
+  
               <img src={teamLogoPaths[team.team_idx]} alt='Fetch API GraphQL Preview' style={{ width: '300px' }} />
             </div>
-
-            <div className='team-info-text'>
+  
+            <div id='team-info-text' className='team-info-text'>
               <br />
               <h2>⭐⭐{team.team_name}⭐⭐</h2>
-              <h4>
+              <h4 style={{ whiteSpace: 'pre-line' }}>
                 {team.team_profile}
               </h4>
               <div>
@@ -131,8 +131,6 @@ const Team_info = () => {
                   중계방 아프리카 url: <a href="https://www.afreecatv.com/total_search.html?szLocation=main&szSearchType=total&szKeyword=%EB%A6%AC%EA%B7%B8%EC%98%A4%EB%B8%8C%EB%A0%88%EC%A0%84%EB%93%9C&szStype=di&szActype=&has_hint=false&pk_cnt=0">아프리카 중계방</a>
                   <br />
                   중계방 치지직 url: <a href="https://chzzk.naver.com/search?query=%EB%A6%AC%EA%B7%B8%20%EC%98%A4%EB%B8%8C%20%EB%A0%88%EC%A0%84%EB%93%9C">치지직 중계방</a>
-
-
                 </h3>
               </div>
             </div>
@@ -141,6 +139,5 @@ const Team_info = () => {
       </div>
     </div>
   );
-};
-
+        }
 export default Team_info;

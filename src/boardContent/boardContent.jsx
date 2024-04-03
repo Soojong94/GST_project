@@ -7,6 +7,8 @@ import Sidebar from '../sidebar-02/sidebar'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import CommentForm from '../Comment/CommentWrite';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 
 const Board_content = () => {
   const { b_idx } = useParams();
@@ -29,7 +31,6 @@ const Board_content = () => {
     axios.get(`/api/board/${b_idx}`)
       .then(response => {
         setBoard(response.data[0]); // 서버 응답이 배열인 경우 첫 번째 요소를 사용
-        console.log(response.data);
       })
       .catch(error => {
         console.error('에러가 발생했습니다!', error);
@@ -75,9 +76,27 @@ const Board_content = () => {
               </div>
             </div>
           </div>
+
         </div>
 
+
+        <Button variant="contained" id="board_delete" >
+          게시글 삭제
+        </Button>
+        <br></br>
+        <br></br>
+        <Button variant="contained" id="board_modify" >
+          게시글 수정
+        </Button>
+        <br></br>
+        <br></br>
+        <Button variant="contained" id="clan_apply" >
+          클랜 가입 신청
+        </Button>
+        <hr></hr>
+
         <div className='board_comment'>
+
           <Box mt={4}>
             <CommentForm onCommentSubmit={handleCommentSubmit} />
           </Box>
@@ -92,6 +111,7 @@ const Board_content = () => {
           </Grid>
         </div>
       </div>
+      <hr></hr>
     </div>
   );
 };
