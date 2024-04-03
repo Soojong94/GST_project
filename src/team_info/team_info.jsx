@@ -21,12 +21,14 @@ const Team_info = () => {
   const [isSubscribed, setIsSubscribed] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [userId, setUserId] = useState(null);
+  
 
   useEffect(() => {
     const fetchTeam = async () => {
       try {
         setIsLoading(true);
         const res = await axios.get(`http://localhost:5000/api/teaminfo/${team_idx}`);
+        console.log(res);
         setTeam(res.data[0]);
         setIsLoading(false);
       } catch (err) {
@@ -42,29 +44,31 @@ const Team_info = () => {
       try {
         const res = await axios.get(`http://localhost:5000/session`, { withCredentials: true });
         setUserId(res.data.user_id);
-
-        const resSub = await axios.get(`http://localhost:5000/api/subscription/${team_idx}/${res.data.user_id}`);
+  
+        const resSub = await axios.post(`http://localhost:5000/api/subscription`, { user_id: res.data.user_id, team_idx: team_idx });
         const subscription = resSub.data;
-        setIsSubscribed(subscription.isSubscribed);
+        
+        // Check if the user is subscribed to this team
+        setIsSubscribed(subscription.sub_is === 1);
       } catch (err) {
         console.error('구독 정보를 가져오는 중 에러가 발생했습니다:', err);
       }
     };
-
+  
     fetchSubscription();
   }, [team_idx]);
 
   const toggleSubscription = async () => {
     setIsSubscribed(!isSubscribed);
-
+  
     const subscriptionData = {
       userId: userId,
       teamIdx: team.team_idx,
       isSubscribed: !isSubscribed
     };
-
+  
     try {
-      await axios.post('/api/subscribe', subscriptionData);
+      await axios.post('http://localhost:5000/api/subscribe', subscriptionData); // 수정된 경로로 변경
       console.log('구독 상태가 서버에 전송되었습니다.');
     } catch (error) {
       console.error('Error toggling subscription:', error);
@@ -99,10 +103,10 @@ const Team_info = () => {
             </div>
   
               <div className='subscribe-area'>
-                <button
-                  className={`subscribe-button ${isSubscribed ? 'subscribed' : ''}`}
+              <button
+                  className={`subscribe-button ${isSubscribed===1 ? 'subscribed' : ''}`}
                   onClick={toggleSubscription}
-                  >
+                >
                   {isSubscribed ? '구독중' : '구독'}
                 </button>
               </div>

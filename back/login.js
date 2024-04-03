@@ -457,10 +457,12 @@ app.get('/api/board/:idx', (req, res) => {
 // 구독 추가, 삭제
 app.post('/api/subscribe', async (req, res) => {
   const { userId, teamIdx, isSubscribed } = req.body;
+  console.log('추가:',  userId, teamIdx, isSubscribed);
+
 
   if (isSubscribed) {
     // 구독 추가
-    const query = 'INSERT INTO subscriptions (user_id, team_idx, created_at) VALUES (?, ?, NOW())';
+    const query = 'INSERT INTO subscriptions (user_id, team_idx, created_at, sub_is) VALUES (?, ?, NOW(),1)';
     const params = [userId, teamIdx];
     connection.query(query, params, (error, result) => {
       if (error) {
@@ -484,50 +486,54 @@ app.post('/api/subscribe', async (req, res) => {
 
 // 팀 구독 정보 가져오기
 app.post('/api/subscription', (req, res) => {
-  const userId = req.body.user_id; // 수신된 데이터
+  const { user_id, team_idx } = req.body; // 수신된 데이터
+  console.log('구독정보 : ',user_id, team_idx);
 
-  const sql = `SELECT DISTINCT t.team_name
-  FROM teams t
-  INNER JOIN subscriptions u ON t.team_idx = u.team_idx
-  WHERE u.user_id = '${userId}'`;
+  const sql = `
+  SELECT * 
+  FROM subscriptions 
+  WHERE user_id = '${user_id}' 
+    AND team_idx = ${team_idx}`
+
   connection.query(sql, (err, data) => {
     if(err){
       console.error('구독 정보 받아오기 중 에러 발생', err);
       return res.status(500).send('구독 정보를 받아오는중 에러가 발생하였습니다.')
     }
-    res.json(data) // 응답
+    return res.json(data); // 응답
   });
 });
 
 
-// 팀 구독 전체 가져오기
-app.get('/api/subscription', (req, res) => {
 
-  console.log('app get user')
-  const userId = req.session.userId;
+// '// 팀 구독 전체 가져오기
+// app.get('/api/subscription', (req, res) => {
 
-  if (!userId) {
-    res.status(401).send('Unauthorized');
-    return;
-  }
+//   console.log('app get user')
+//   const userId = req.session.userId;
 
-  const query = `
-    SELECT subscriptions.user_id, teams.team_name
-    FROM subscriptions
-    INNER JOIN teams ON subscriptions.team_idx = teams.team_idx
-    WHERE subscriptions.user_id = ?
-  `;
+//   if (!userId) {
+//     res.status(401).send('Unauthorized');
+//     return;
+//   }
 
-  connection.query(query, [userId], (error, results) => {
-    if (error) {
-      console.error('Error fetching user subscriptions:', error);
-      res.status(500).send('Error fetching user subscriptions');
-    } else {
-      const userSubscriptions = results;
-      res.json(userSubscriptions);
-    }
-  });
-});
+//   const query = `
+//     SELECT subscriptions.user_id, teams.team_name
+//     FROM subscriptions
+//     INNER JOIN teams ON subscriptions.team_idx = teams.team_idx
+//     WHERE subscriptions.user_id = ?
+//   `;
+
+//   connection.query(query, [userId], (error, results) => {
+//     if (error) {
+//       console.error('Error fetching user subscriptions:', error);
+//       res.status(500).send('Error fetching user subscriptions');
+//     } else {
+//       const userSubscriptions = results;
+//       res.json(userSubscriptions);
+//     }
+//   });
+// });'
 
 // 마이페이지에서 구독정보 가져오기
 app.get('/api/Mypagesubscription/:userId' ,(req, res) => {
