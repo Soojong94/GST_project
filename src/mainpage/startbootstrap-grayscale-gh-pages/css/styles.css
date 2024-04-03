@@ -9325,7 +9325,14 @@ fieldset:disabled .btn {
 
 .bg-black {
   --bs-bg-opacity: 1;
-  background-color: rgba(var(--bs-black-rgb), var(--bs-bg-opacity)) !important;
+  background-color: #323539;
+  border-radius: 50%;
+  width : fit-content;
+  margin: auto;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  margin-bottom: 50px;
+  margin-top: 50px;
 }
 
 .bg-white {
@@ -12966,7 +12973,7 @@ body {
 }
 
 .projects-section {
-  padding: 10rem 0;
+ 
 }
 
 .projects-section .featured-text {
@@ -13237,10 +13244,11 @@ body {
 }
 
 #Main_team_sub{
-  margin-left: 30%;
+  margin-left: 25%;
   width: 50%;
-  
+  border: 5px   groove black;
 }
 #Main_calendar{
   width: 100%;
+  border: 5px   groove black;
 }

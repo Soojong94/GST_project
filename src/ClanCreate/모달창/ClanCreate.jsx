@@ -42,6 +42,7 @@ function ClanCreate() {
       });
 
       alert("클랜 생성 및 게시글 삽입이 완료되었습니다.");
+      window.location.href='http://localhost:3000/ClanBoard';
     } catch (error) {
       console.error('Error inserting board:', error);
       alert("클랜 생성 및 게시글 삽입에 실패하였습니다.");

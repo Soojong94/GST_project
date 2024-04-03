@@ -1,0 +1,42 @@
+#clanCreate-content {
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  .clanCreateTitle {
+    margin-bottom: 10px;
+  }
+  
+  .clanCreate-inputs {
+    margin-bottom: 20px;
+  }
+  
+  #clanName-input,
+  #clanText {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  #clanImage {
+    margin-top: 10px;
+  }
+  
+  #clanCreateButtons {
+    margin-top: 20px;
+  }
+  
+  #clanCreateSub-Btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  #clanCreateSub-Btn:hover {
+    background-color: #0056b3;
+  }
+  

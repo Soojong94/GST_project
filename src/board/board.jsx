@@ -3,25 +3,28 @@ import axios from 'axios';
 import './style.css'
 import Sidebar from '../sidebar-02/sidebar';
 import '../../src/App.css'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 
 function BoardCard({ imgSrc, title, content, b_idx }) {
   return (
     <div className='main_container'>
       <Sidebar />
-      <Link to={`/Board/${b_idx}`} className="clan_board_card">
-    <article>
-      <figure>
-        <img src={imgSrc} alt="view"/>
-      </figure>
-      <div className="article-preview" id={b_idx}>
-        <h2>{title}</h2>
-        <p>{content}</p>
+      <div id = 'board_page'>
+        <Link to={`/Board/${b_idx}`} className="clan_board_card">
+
+          <article>
+            <figure>
+              <img src={imgSrc} alt="view" />
+            </figure>
+            <div className="article-preview" id={b_idx}>
+              <h2>{title}</h2>
+              <p>{content}</p>
+            </div>
+          </article>
+        </Link>
       </div>
-    </article>
-    </Link>
-    </div>
+    </div >
   );
 }
 
@@ -40,21 +43,24 @@ function Board() {
 
   return (
     <>
-      <div className='clanCreate-btn'>
+      <div className='clanCreate'>
         <Link to={'/ClanCreate'}>
-          <button>클랜 등록</button>
+        <button
+          className='clanCreate-btn'>클랜 등록
+        </button>
         </Link>
       </div>
       <div className="articles">
-      {boards.map((board, index) => (
-        <BoardCard
-          key={index}
-          b_idx = {board.b_idx}
-          imgSrc={board.b_file}
-          title={board.b_title}
-          content={board.b_content}
-        />
-      ))}
+        {boards.map((board, index) => (
+          <div key={index} className={`article ${index % 1 === 0 ? 'even' : 'odd'}`}>
+            <BoardCard
+              b_idx={board.b_idx}
+              imgSrc={board.b_file}
+              title={board.b_title}
+              content={board.b_content}
+            />
+          </div>
+        ))}
       </div>
     </>
   );

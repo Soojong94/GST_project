@@ -41,11 +41,14 @@ function Mainpage() {
     return (
         <div className="mainpage" style={{ width: '100%' }}>
             
+            
         <Navbar signup={signup} login={login} />
+        
             <header class="masthead" id="about">
             <img id = 'main_Image' src={MainImage} />
             </header>
             {/* <!-- Projects--> */}
+            
             
             <section class="projects-section bg-light" id="projects">
                 <div class="container px-4 px-lg-5">
@@ -56,7 +59,7 @@ function Mainpage() {
                                 <div class="bg-black text-center h-100 project">
                                     <div class="d-flex h-100">
                                         <div class="project-text w-100 my-auto text-center ">
-                                            <h4 class="text-white">개인 일정 등록 기능</h4>
+                                            <h3 class="text-white">개인 일정 등록 기능</h3>
                                         </div>
 
                                     </div>
@@ -73,7 +76,7 @@ function Mainpage() {
                                 <div class="bg-black text-center h-100 project">
                                     <div class="d-flex h-100">
                                         <div class="project-text w-100 my-auto text-center ">
-                                            <h4 class="text-white">팀 구독, 경기 알림 문자 발송 기능</h4>
+                                            <h3 class="text-white">팀 구독, 경기 알림 문자 발송 기능</h3>
                                         </div>
 
                                     </div>
@@ -89,7 +92,7 @@ function Mainpage() {
                                 <div class="bg-black text-center h-100 project">
                                     <div class="d-flex h-100">
                                         <div class="project-text w-100 my-auto text-center ">
-                                            <h4 class="text-white">클랜 모집, 클랜 일정 공유 기능</h4>
+                                            <h3 class="text-white">클랜 모집, 클랜 일정 공유 기능</h3>
                                         </div>
 
                                     </div>
