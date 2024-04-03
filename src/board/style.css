@@ -82,18 +82,12 @@ body {
 .clanCreate-btn {
     display: flex;
     flex-direction: column;
-    /* margin-left: 40%; */
     width: 90px;
     height: 30px;
-    /* position: fixed;  */
+
     left: 0;
 }
 
-/* .main_container{
-    width: 500px;
-    height: 500px;
-
-} */
 
 .clan_board_card>article {
     width: 500px;

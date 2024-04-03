@@ -8,10 +8,9 @@ import Calendar from '../calendar/calendar';
 import Mypage from '../Mypage/Mypage';
 import Mainpage from '../mainpage/startbootstrap-grayscale-gh-pages/mainpage'
 import Board_1 from '../boardContent/boardContent';
-import ClanCreate from '../ClanCreate/모달창/ClanCreate';
+import ClanCreate from '../ClanCreate/ClanCreate';
 import Signup from '../signup_page/signup';
 import Signin from '../signin_page/login';
-
 
 function Routing({ handleNewSchedule, events }) {
   return (
@@ -29,8 +28,6 @@ function Routing({ handleNewSchedule, events }) {
       <Route path="/ClanCreate" element={<ClanCreate/>}></Route>
       <Route path="/Signin" element={<Signin />} />
       <Route path="/Signup" element={<Signup />} />
-
-
 
     </Routes>
   );
