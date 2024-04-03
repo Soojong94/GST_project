@@ -8,11 +8,9 @@ import { Link } from 'react-router-dom'
 
 function BoardCard({ imgSrc, title, content, b_idx }) {
   return (
-    <div className='main_container'>
-      
+    <div className='main_container' id='board_container'>
       <div id = 'board_page'>
         <Link to={`/Board/${b_idx}`} className="clan_board_card">
-
           <article>
             <figure>
               <img src={imgSrc} alt="view" />
@@ -58,7 +56,7 @@ function Board() {
               b_idx={board.b_idx}
               imgSrc={board.b_file}
               title={board.b_title}
-              content={board.b_content}
+              // content={board.b_content}
             />
           </div>
         ))}
