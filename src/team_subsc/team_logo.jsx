@@ -46,7 +46,7 @@ function TeamSubscCard({ teamIdx, altText, title, content, link }) {
       <figure id='team_logo'>
         <img id="team_logo_img" src={imgSrc} alt={altText} />
       </figure>
-      <div className="article-preview">
+      <div className="article-preview_LG">
         <h2 >{title}</h2>
         <p>{content}</p>
       </div>

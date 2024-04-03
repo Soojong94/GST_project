@@ -22,7 +22,7 @@ body {
     font-family: Poppins, sans-serif;
     height: 100vh;
     padding-top: 0;
-    background: var(--background);
+    /* background: var(--background); */
 }
 
 /* 기사 목록 스타일 */
@@ -82,10 +82,12 @@ body {
 }
 
 /* 기사 미리보기 스타일 */
-.article-preview {
-    padding: 1.5rem;
-    background: white;
+.article-preview_LG{
+ 
+   background-color: bisque;
     color: black;
+    width: 100%;
+  height: 100%;
 }
 
 /* 기사 이미지 컨테이너 스타일 */
