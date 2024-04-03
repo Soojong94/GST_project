@@ -1,15 +1,14 @@
 // MyCalendar.jsx
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../sidebar-02/sidebar';
-import '../../src/App.css'
+import '../../src/App.css'; // 전역 스타일을 추가할 수도 있습니다.
 import Agenda from './../Agenda/Agenda';
 import axios from 'axios';
-
 
 const teamInfo = {
   1: 'T1',
@@ -21,7 +20,7 @@ const teamInfo = {
   7: 'NS',
   8: 'KDF',
   9: 'Fearx',
-  10:'BRO'
+  10: 'BRO'
 };
 
 const Calendar = ({ initialEvents }) => {
@@ -37,65 +36,58 @@ const Calendar = ({ initialEvents }) => {
     try {
       const response = await axios.get('/session');
       const sessionData = response.data;
-  
-      // 가져온 세션 데이터를 사용하여 일정 데이터를 가져옵니다.
+
       fetchScheduleData(sessionData.user_id);
     } catch (error) {
       console.error('Error fetching session data:', error);
     }
   };
-  
+
   const fetchScheduleData = async (userId) => {
     try {
       const response = await axios.get(`/api/schedule/${userId}`);
       const scheduleData = response.data;
-  
-      // 가져온 일정 데이터를 사용하여 캘린더를 업데이트합니다.
+
       const newEvents = [
-        ...scheduleData.personal.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt, color: '#C1F0D3' })),
-        ...scheduleData.clan.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt, color: '#D8BFD8' })),
-        ...scheduleData.subscribedMatch.map(event => ({ title: `${teamInfo[event.team_1]} ${event.team_1_score}VS${event.team_2_score}
-         ${teamInfo[event.team_2]}`, start: event.matched_at, color: '#FFA500' }))
+        ...scheduleData.personal.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt, color: 'yellow'})),
+        ...scheduleData.clan.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt, color: 'lightgreen' })),
+        ...scheduleData.subscribedMatch.map(event => ({
+          title: `${teamInfo[event.team_1]} ${event.team_1_score} vs ${event.team_2_score}
+         ${teamInfo[event.team_2]}`, start: event.matched_at, color: '#FF6347'
+        }))
       ];
       setEvents(newEvents);
-  
+
     } catch (error) {
       console.error('Error fetching schedule data:', error);
     }
   };
+
   useEffect(() => {
     fetchSessionData();
   }, []);
 
   const handleDateClick = (selectInfo) => {
     if (clickTimeout !== null) {
-      // 더블 클릭 발생
       clearTimeout(clickTimeout);
       clickTimeout = null;
       navigate(`/AddSchedule/${selectInfo.startStr}`);
     } else {
-      // 첫 클릭 발생
       clickTimeout = setTimeout(() => {
         fetchAgendaEvents(selectInfo.startStr);
         setAgendaVisible(true);
         clickTimeout = null;
-      }, 250); // 250ms 안에 또 클릭이 발생하면 더블 클릭으로 처리
+      }, 250);
     }
   }
 
   const fetchAgendaEvents = async (date) => {
     try {
-      // 서버 요청 보내기
-      const response = await axios.get(`/api/agenda/${date}`); // 예를 들어 '/api/agenda'는 서버에서 해당 날짜의 일정을 가져오는 엔드포인트일 것입니다.
-  
-      // 서버로부터 가져온 일정 데이터
+      const response = await axios.get(`/api/agenda/${date}`);
       const agendaEventsData = response.data;
-  
-      // 가져온 일정 데이터를 agendaEvents state에 저장
       setAgendaEvents(agendaEventsData);
     } catch (error) {
       console.error('Error fetching agenda events:', error);
-      // 오류 처리: 예를 들어 사용자에게 오류 메시지를 표시하거나 기타 조치를 취할 수 있습니다.
     }
   };
 
@@ -104,7 +96,7 @@ const Calendar = ({ initialEvents }) => {
   }
 
   const handleEventClick = (arg) => {
-    if (window.confirm(`삭제 하시겠습니까용가리 '${arg.event.title}'`)) {
+    if (window.confirm(`삭제 하시겠습니까? '${arg.event.title}'`)) {
       arg.event.remove();
     }
   }
@@ -112,8 +104,7 @@ const Calendar = ({ initialEvents }) => {
   return (
     <div className='main_container'>
       <Sidebar />
-      <div className = 'main_calendar'>
-
+      <div className='main_calendar'>
         <FullCalendar
           plugins={[dayGridPlugin, interactionPlugin]}
           initialView='dayGridMonth'
@@ -121,13 +112,10 @@ const Calendar = ({ initialEvents }) => {
           select={handleDateClick}
           eventClick={handleEventClick}
           selectable={true}
+          themeSystem="standard"
         />
       </div>
-      {isAgendaVisible &&(
-        <div className='calendar_agenda'>
-          <Agenda events={agendaEvents} onclose={handleAgendaClose}/></div>
 
-      )}
     </div>
   );
 };
