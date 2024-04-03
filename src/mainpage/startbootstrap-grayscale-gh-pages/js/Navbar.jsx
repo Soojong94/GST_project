@@ -79,31 +79,20 @@ const Navbar = ({ signup, login }) => {
                   Projects
                 </a>
               </li>
-              {user ? (
-                <>
-                  <li className="nav-item">
-                    <span className="nav-link">{user.user_nick}님 환영합니다</span>
-                  </li>
-                  <li className="nav-item">
-                    <Link to="/Mainpage" title="Logout" onClick={handleLogout}>
-                      <span className="nav-link">로그아웃</span>
-                    </Link>
-                  </li>
-                </>
-              ) : (
-                <>
-                  <li className="nav-item">
-                    <Link to="/Signup" className="nav-link" onClick={signup}>
-                      <span className="link-text">Join</span>
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link to="/SignIn" className="nav-link" onClick={login}>
-                      <span className="link-text">Login</span>
-                    </Link>
-                  </li>
-                </>
-              )}
+
+              <>
+                <li className="nav-item">
+                  <Link to="/Signup" className="nav-link" onClick={signup}>
+                    <span className="link-text">Join</span>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/SignIn" className="nav-link" onClick={login}>
+                    <span className="link-text">Login</span>
+                  </Link>
+                </li>
+              </>
+
               <li className="nav-item">
                 <Link to="/calendar" className="nav-link">
                   <button className="btn btn-primary"><span id="top_btn">GST Start</span></button>
