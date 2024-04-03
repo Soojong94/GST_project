@@ -25,9 +25,22 @@
 
 .main_calendar {
   
-  flex-grow: 0.65;
-  height: 100vh; 
-  margin: auto;
+  flex-grow: .95;
+  margin-bottom: 5%;
+  background-color: whitesmoke;
+  
+}
+.fc-event-title{
+  font-size: 80%;
+  color: black;
+  font-weight: 700;
+}
+.fc-event-time{
+  font-size: 80%;
+  color: black;
+}
+.fc-daygrid-day-frame{
+  
 }
 
 
