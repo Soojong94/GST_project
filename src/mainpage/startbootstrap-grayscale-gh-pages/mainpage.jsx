@@ -7,8 +7,9 @@ import axios from 'axios';
 import { Link, useLocation } from 'react-router-dom';
 import MainImage from './assets/img/hinoon.png';
 import Main_team_sub from './assets/img/main_team_sub.png';
-import Main_add_schedule from './assets/img/main_add_schedule.png';
+import Main_calendar from './assets/img/main_calendar.png';
 import Main_board_content from './assets/img/main_board_content.png';
+import Clan_do from './assets/img/clan_do.png'
 
 
 function Mainpage() {
@@ -61,7 +62,7 @@ function Mainpage() {
 
                                     </div>
                                 </div>
-                                <img id ='Main_team_sub' src={Main_add_schedule} />
+                                <img id ='Main_calendar' src={Main_calendar} />
                             </div>
                         </div>
                     </div>
@@ -94,7 +95,7 @@ function Mainpage() {
 
                                     </div>
                                 </div>
-                                <img id ='Main_team_sub' src={Main_board_content} />
+                                <img id ='Main_team_sub' src={Clan_do} />
                             </div>
                         </div>
                     </div>
