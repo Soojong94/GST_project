@@ -43,7 +43,6 @@ function Mypage() {
   const [editedNickname, setEditedNickname] = useState('');
   const [editedPhoneNumber, setEditedPhoneNumber] = useState('');
 
-  // 닉네임과 폰 번호를 수정하는 함수
 // 닉네임과 폰 번호를 수정하는 함수
 const handleEdit = async (userId) => {
   const updatedUsers = users.map(user => {
