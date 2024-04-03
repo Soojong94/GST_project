@@ -29,7 +29,6 @@ const Board_content = () => {
     axios.get(`/api/board/${b_idx}`)
       .then(response => {
         setBoard(response.data[0]); // 서버 응답이 배열인 경우 첫 번째 요소를 사용
-        console.log(response.data);
       })
       .catch(error => {
         console.error('에러가 발생했습니다!', error);

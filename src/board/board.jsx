@@ -30,7 +30,6 @@ function Board() {
   useEffect(() => {
     axios.get('/api/boardList')
       .then(response => {
-        console.log(response.data)
         setBoards(response.data);
 
       })

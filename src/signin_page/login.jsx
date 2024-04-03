@@ -48,7 +48,7 @@ const Signin = () => {
           sessionStorage.setItem('userData', JSON.stringify(userData));
         } else {
           alert('로그인 성공');
-          window.location.href = 'http://localhost:3000';
+          window.location.href = 'http://localhost:3000/Calendar';
         }
       } else {
         const data = await response.text();

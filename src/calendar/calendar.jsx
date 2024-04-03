@@ -25,12 +25,27 @@ const teamInfo = {
 
 const Calendar = ({ initialEvents }) => {
   const navigate = useNavigate();
-
   let clickTimeout = null;
 
   const [isAgendaVisible, setAgendaVisible] = useState(false);
   const [agendaEvents, setAgendaEvents] = useState([]);
   const [events, setEvents] = useState(initialEvents);
+
+
+  useEffect(() => {
+    console.log('메인 화면 세팅 완료')
+    // sessionStorage에 사용자 정보가 없을 때만 서버로부터 세션 정보를 가져옵니다.
+    if (!sessionStorage.getItem("user")) {
+      axios.get('/session')
+        .then(res => {
+          console.log('넘어온 세션', res.data)
+          sessionStorage.setItem("user", JSON.stringify(res.data));
+        })
+    }
+  }, [])
+  
+
+
 
   const fetchSessionData = async () => {
     try {
