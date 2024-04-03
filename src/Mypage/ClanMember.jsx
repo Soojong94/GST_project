@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 function ClanMember() {
+    // 클랜 멤버 데이터 가져오기
     const [Data, setData] = useState(null);
 
     useEffect(() => {
@@ -50,6 +51,18 @@ function ClanMember() {
         }
     };
 
+    // 클랜 회원 탈퇴
+    const handleclanmemberdelete = async (userNick) => {
+        try{
+            const confirm = window.confirm(`${userNick}님을 탈퇴시키겠습니까?`);
+            const response = await axios.delete(`http://localhost:5000/api/ClanMemberDelete/${userNick}`)
+            console.log('클랜 탈퇴 성공:', response.data);
+            window.location.reload();
+        } catch(error){
+            console.error('클랜 탈퇴 실패:',error);
+        }
+    }
+
     return (
         <div>
             <table className='table'>
@@ -63,7 +76,7 @@ function ClanMember() {
                     {records && records.map((d, i) => (
                         <tr key={i}>
                             <td>{d.user_nick}</td>
-                            <td><button>탈퇴</button></td>
+                            <td><button onClick={()=>handleclanmemberdelete(d.user_nick)}>탈퇴</button></td>
                         </tr>
                     ))}
                 </tbody>

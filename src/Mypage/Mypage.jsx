@@ -3,12 +3,10 @@ import axios from 'axios';
 import './Mypage.css';
 import Sidebar from '../sidebar-02/sidebar';
 import ClanMember from './ClanMember';
+import { C } from '@fullcalendar/core/internal-common';
 
 function Mypage() {
 
-  const [users, setUsers] = useState([
-    { id: "sapoon11@gmail.com", nickname: "User1", phoneNumber: "010-1234-5678", clanName: "Clan A", joinDate: "2024-03-29", clanBoss: true }
-  ]);
 
   // 회원 정보를 가져오기
   const [userInfo, setUserInfo] = useState(null);
@@ -56,22 +54,23 @@ function Mypage() {
       // 오류 발생 시 사용자에게 알림을 추가할 수 있습니다.
     }
   };
-  
+
 
   // 회원 탈퇴
   const handleDelete = async () => {
     try {
       const userinfo = JSON.parse(sessionStorage.getItem("user"))
-      if(userInfo){
-      const userId = userinfo.user_id;
-      console.log(userId)
-      const confirmed = window.confirm("정말 탈퇴 하시겠습니까?");
-      const response = await axios.delete(`http://localhost:5000/api/userDelete/${userId}`);
-      console.log('회원 탈퇴 성공:', response.data);
-      // 성공적으로 회원 탈퇴한 경우, 사용자 목록에서 해당 사용자를 제거하는 작업 등을 수행할 수 있습니다.
-    } else {
-      console.log('사용자 정보가 없습니다.')
-    }
+      if (userinfo) {
+        const userId = userinfo.user_id;
+        console.log(userId)
+        const confirmed = window.confirm("정말 탈퇴 하시겠습니까?");
+        const response = await axios.delete(`http://localhost:5000/api/userDelete/${userId}`);
+        console.log('회원 탈퇴 성공:', response.data);
+        window.location.reload();
+        // 성공적으로 회원 탈퇴한 경우, 사용자 목록에서 해당 사용자를 제거하는 작업 등을 수행할 수 있습니다.
+      } else {
+        console.log('사용자 정보가 없습니다.')
+      }
     } catch (error) {
       console.error('회원 탈퇴 실패:', error);
       // 회원 탈퇴에 실패한 경우, 사용자에게 알림을 표시하거나 다른 작업을 수행할 수 있습니다.
@@ -87,13 +86,11 @@ function Mypage() {
     const fetchData = async () => {
       try {
         const userinfo = JSON.parse(sessionStorage.getItem("user"))
-        console.log('session', userinfo.user_id);
         if (userinfo) {
           const userId = userinfo.user_id;
-          const dataSend = { user_id: userId };
-          const response = await axios.post(`http://localhost:5000/api/subscription/`)
-          setUserSubscriptions(response.data[0]);
-          console.log(response.data[0]);
+          const response = await axios.get(`http://localhost:5000/api/Mypagesubscription/${userId}`)
+          setUserSubscriptions(response.data);
+          console.log(response.data);
         } else {
           console.log('사용자 정보가 없습니다.')
         }
@@ -105,9 +102,33 @@ function Mypage() {
     fetchData();
   }, []);
 
+  // 클랜 삭제 기능
+  const handleclanDelete = async () => {
+    try {
+      const userinfo = JSON.parse(sessionStorage.getItem("user"))
+      if (userInfo) {
+        const userId = userinfo.user_id;
+        console.log(userId)
+        const confirmed = window.confirm("정말 클랜을 삭제 하시겠습니까?");
+        const response = await axios.delete(`http://localhost:5000/api/ClanDelete/${userId}`);
+        console.log('클랜 탈퇴 성공:', response.data);
+        // 성공적으로 회원 탈퇴한 경우, 사용자 목록에서 해당 사용자를 제거하는 작업 등을 수행할 수 있습니다.
+        window.location.reload();
+      } else {
+        console.log('사용자 정보가 없습니다.')
+      }
+    } catch (error) {
+      console.error('클랜 탈퇴 실패:', error);
+      // 회원 탈퇴에 실패한 경우, 사용자에게 알림을 표시하거나 다른 작업을 수행할 수 있습니다.
+    }
+  };
+  
+
+  
 
 
 
+  // 마이페이지 애니메이션 기능
   useEffect(() => {
     const allLinks = document.querySelectorAll(".tabs a");
     const allTabs = document.querySelectorAll(".tab-content");
@@ -184,10 +205,14 @@ function Mypage() {
               </a>
             </li>
             <li>
-              <a id="tab3" title="clan" href="#tab3">
-                <svg width="24px" height="24px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M17.5 17.5C20 21 23.9486 18.4151 23 15C21.5753 9.87113 20.8001 7.01556 20.3969 5.50793C20.1597 4.62136 19.3562 4 18.4384 4L5.56155 4C4.64382 4 3.844 4.62481 3.62085 5.515C2.7815 8.86349 2.0326 11.8016 1.14415 15C0.195501 18.4151 4.14415 21 6.64415 17.5" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M18 8.5L18.0111 8.51" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16.49 7L16.5011 7.01" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16.49 10L16.5011 10.01" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M15 8.5L15.0111 8.51" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7 7V10" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M5.5 8.5H8.5" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8 16C9.10457 16 10 15.1046 10 14C10 12.8954 9.10457 12 8 12C6.89543 12 6 12.8954 6 14C6 15.1046 6.89543 16 8 16Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16 16C17.1046 16 18 15.1046 18 14C18 12.8954 17.1046 12 16 12C14.8954 12 14 12.8954 14 14C14 15.1046 14.8954 16 16 16Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                클랜 관리
-              </a>
+
+              <div>
+                <a id="tab3" title="clan" href="#tab3">
+                  <svg width="24px" height="24px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="#000000"><path d="M17.5 17.5C20 21 23.9486 18.4151 23 15C21.5753 9.87113 20.8001 7.01556 20.3969 5.50793C20.1597 4.62136 19.3562 4 18.4384 4L5.56155 4C4.64382 4 3.844 4.62481 3.62085 5.515C2.7815 8.86349 2.0326 11.8016 1.14415 15C0.195501 18.4151 4.14415 21 6.64415 17.5" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M18 8.5L18.0111 8.51" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16.49 7L16.5011 7.01" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16.49 10L16.5011 10.01" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M15 8.5L15.0111 8.51" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7 7V10" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M5.5 8.5H8.5" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8 16C9.10457 16 10 15.1046 10 14C10 12.8954 9.10457 12 8 12C6.89543 12 6 12.8954 6 14C6 15.1046 6.89543 16 8 16Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16 16C17.1046 16 18 15.1046 18 14C18 12.8954 17.1046 12 16 12C14.8954 12 14 12.8954 14 14C14 15.1046 14.8954 16 16 16Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  클랜 관리
+                </a>
+              </div>
+
             </li>
           </ul>
           <div className="tab-content-wrapper">
@@ -216,12 +241,12 @@ function Mypage() {
               ) : (<p>loading...</p>)}
 
               {isEditing ? (
-                <button onClick={handleSave}>저장</button>
+                <button id='MpSave-btn' onClick={handleSave}>저장</button>
               ) : (
-                <button onClick={handleEdit}>수정</button>
+                <button id='MpEdit-btn' onClick={handleEdit}>수정</button>
               )}
 
-              <button onClick={handleDelete}>회원 탈퇴</button>
+              <button id='MpDel-btn' onClick={handleDelete}>회원 탈퇴</button>
 
             </section>
 
@@ -229,14 +254,22 @@ function Mypage() {
               {userSubscriptions ? (
                 <div>
                   <h2>구독 목록</h2>
-                  {userSubscriptions.team_name}
+                  <ul>
+                    {userSubscriptions.map((subscription, index) => (
+                      <li key={index}>{subscription.team_name}</li>
+                    ))}
+                  </ul>
                 </div>
-              ) : (<p>loading...</p>)}
+              ) : (<h2>구독 목록이 없습니다.</h2>)}
             </section>
             <section id="tab3-content" className="tab-content">
-              <h2>클랜원</h2>
-              <div className='clanMember'><ClanMember /></div>
-              <button>클랜 삭제</button>
+              {userInfo && userInfo.clan_boss === 'y' ? (
+                <div>
+                  <h2>클랜원</h2>
+                  <div className='clanMember'><ClanMember/></div>
+                  <button onClick={handleclanDelete}>클랜 삭제</button>
+                </div>
+              ) : (<h2>클랜이 없습니다.</h2>)}
             </section>
             {/* 위부분과 똑같이 작성하면 추가 가능 */}
           </div>
