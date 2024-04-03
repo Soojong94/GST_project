@@ -7,7 +7,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../sidebar-02/sidebar';
 import '../../src/App.css'; // 전역 스타일을 추가할 수도 있습니다.
-import Agenda from './../Agenda/Agenda';
+// import Agenda from './../Agenda/Agenda';
 import axios from 'axios';
 
 const teamInfo = {
@@ -25,43 +25,59 @@ const teamInfo = {
 
 const Calendar = ({ initialEvents }) => {
   const navigate = useNavigate();
-
   let clickTimeout = null;
 
   const [isAgendaVisible, setAgendaVisible] = useState(false);
   const [agendaEvents, setAgendaEvents] = useState([]);
   const [events, setEvents] = useState(initialEvents);
 
+
+  useEffect(() => {
+    console.log('메인 화면 세팅 완료')
+    // sessionStorage에 사용자 정보가 없을 때만 서버로부터 세션 정보를 가져옵니다.
+    if (!sessionStorage.getItem("user")) {
+      axios.get('/session')
+        .then(res => {
+          console.log('넘어온 세션', res.data)
+          sessionStorage.setItem("user", JSON.stringify(res.data));
+        })
+    }
+  }, [])
+  
+
+
+
   const fetchSessionData = async () => {
     try {
       const response = await axios.get('/session');
       const sessionData = response.data;
+      const { user_id, clan_boss } = sessionData;
 
-      fetchScheduleData(sessionData.user_id);
+      fetchScheduleData(user_id, clan_boss);
     } catch (error) {
       console.error('Error fetching session data:', error);
     }
   };
 
-  const fetchScheduleData = async (userId) => {
-    try {
-      const response = await axios.get(`/api/schedule/${userId}`);
-      const scheduleData = response.data;
 
-      const newEvents = [
-        ...scheduleData.personal.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt, color: 'yellow'})),
-        ...scheduleData.clan.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt, color: 'lightgreen' })),
-        ...scheduleData.subscribedMatch.map(event => ({
-          title: `${teamInfo[event.team_1]} ${event.team_1_score} vs ${event.team_2_score}
-         ${teamInfo[event.team_2]}`, start: event.matched_at, color: '#FF6347'
-        }))
-      ];
-      setEvents(newEvents);
-
-    } catch (error) {
-      console.error('Error fetching schedule data:', error);
-    }
-  };
+  const fetchScheduleData = async (userId, clanBoss) => {
+        try {
+          const response = await axios.get(`/api/schedule/${userId}`);
+          const scheduleData = response.data;
+    
+          const newEvents = [
+            ...scheduleData.personal.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt, color: 'yellow', calendarType: 1, id: event.sche_idx, user_id: userId, clan_boss: clanBoss, sche_idx: event.sche_idx })),
+            ...scheduleData.clan.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt, color: 'lightgreen', calendarType: 2, id: event.sche_idx, user_id: userId, clan_boss: clanBoss, sche_idx: event.sche_idx })),
+            ...scheduleData.subscribedMatch.map(event => ({
+              title: `${teamInfo[event.team_1]} ${event.team_1_score} vs ${event.team_2_score} ${teamInfo[event.team_2]}`, start: event.matched_at, color: '#FF6347', sche_idx: event.sche_idx
+            }))
+          ];
+          setEvents(newEvents);
+    
+        } catch (error) {
+          console.error('Error fetching schedule data:', error);
+        }
+      };
 
   useEffect(() => {
     fetchSessionData();
@@ -95,12 +111,29 @@ const Calendar = ({ initialEvents }) => {
     setAgendaVisible(false);
   }
 
-  const handleEventClick = (arg) => {
-    if (window.confirm(`삭제 하시겠습니까? '${arg.event.title}'`)) {
-      arg.event.remove();
+  const deleteEvent = async (calendarType, sche_idx, user_id, clan_boss) => {
+    try {
+      await axios.post('http://localhost:5000/api/deleteSchedule', {
+        calendarType,
+        sche_idx,
+        user_id,
+        clan_boss
+      });
+    } catch (error) {
+      console.error('Error deleting event:', error);
     }
-  }
+  };
 
+  const handleEventClick = (arg) => {
+    if (arg.event.extendedProps.calendarType === 1 || arg.event.extendedProps.calendarType === 2) {
+      if (window.confirm(`삭제 하시겠습니까? '${arg.event.title}'`)) {
+        deleteEvent(arg.event.extendedProps.calendarType, arg.event.extendedProps.sche_idx, arg.event.extendedProps.user_id, arg.event.extendedProps.clan_boss);
+        arg.event.remove();
+      }
+    } else {
+      console.log("클랜 일정 또는 개인 일정이 아니므로 삭제되지 않습니다.");
+    }
+  };
   return (
     <div className='main_container'>
       <Sidebar />
