@@ -20,22 +20,23 @@ const Board_content = () => {
   const [editTitle, setEditTitle] = useState('');
   const [editContent, setEditContent] = useState('');
   const [editing, setIsEditing] = useState(false);
+  const [clan, setClanName] = useState('');
+  const [isJoinedClan, setIsJoinedClan] = useState(false);
 
 
   const fetchSessionData = async () => {
     try {
       const response = await axios.get('/session');
       const sessionData = response.data;
-      const { user_id } = sessionData;
+      console.log(sessionData);
+      const { user_id, clan } = sessionData;
       setUserId(user_id);
+      setClanName(clan); // 클랜 이름 설정
     } catch (error) {
       console.error('Error fetching session data:', error);
     }
   };
 
-  useEffect(() => {
-    fetchSessionData();
-  }, []); // 컴포넌트가 마운트될 때 한 번만 호출
 
 
   const fetchComments = () => {
@@ -62,7 +63,9 @@ const Board_content = () => {
     fetchComments();
   }, [b_idx]);
 
-
+  useEffect(() => {
+    fetchSessionData();
+  }, []); // board 상태 변경 시 fetchSessionData 함수 호출
 
   const handleDeleteClick = () => {
     axios.delete(`/api/boardDelete/${b_idx}/${userId}`)
@@ -84,7 +87,7 @@ const Board_content = () => {
     })
       .then(response => {
         setIsEditing(false);
-        window.location.reload(); 
+        window.location.reload();
         // 필요한 작업 수행
       })
       .catch(error => {
@@ -99,13 +102,51 @@ const Board_content = () => {
     setEditContent(board.b_content);
   };
 
+  const handleJoinClanClick = async () => {
+    try {
+      if (clan === null) {
+        const response = await axios.post('/api/joinClan', { user_id: userId, clan: board.b_title });
+        if (response.status === 200) {
+          alert('클랜에 가입되셨습니다!');
+          setIsJoinedClan(true); // 클랜 가입 여부 상태 업데이트
+        } else {
+          alert('클랜 인원이 가득찼습니다.');
+        }
+      } else if (clan !== board.b_title) {
+        const response = await axios.post('/api/joinClan', { user_id: userId, clan: board.b_title });
+        if (response.status === 200) {
+          setClanName(board.b_title); // 클랜이 변경되었으므로 상태를 업데이트
+          setIsJoinedClan(true); // 클랜 가입 여부 상태 업데이트
+          alert('클랜이 변경되었습니다.');
+        } else {
+          alert('클랜 인원이 가득찼습니다.');
+        }
+      } else {
+        // 버튼 텍스트가 "My Clan"일 때 아무 동작도 수행하지 않음
+      }
+    } catch (error) {
+      console.error('클랜 가입 여부 확인 중 에러:', error);
+    }
+  };
+
+
+  useEffect(() => {
+    if (clan !== null && board !== null) {
+      setIsJoinedClan(clan === board.b_title);
+    }
+  }, [clan]); // clan 상태가 변경될 때만 실행
+
+  const clanButtonText = isJoinedClan ? 'My Clan' : '클랜 가입 신청';
+
 
   if (error) {
     return <div>에러가 발생했습니다: {error.message}</div>;
   }
 
-  if (!board) return null;  // 데이터가 아직 없을 때는 null을 반환
-  // board 데이터를 이용해 렌더링
+  if (!board) {
+    return <div>Loading...</div>;
+  }
+
 
   return (
     <div>
@@ -155,9 +196,14 @@ const Board_content = () => {
         </Button>
         <br />
         <br />
-        <Button variant="contained" id="clan_apply">
-          클랜 가입 신청
+        <Button
+          variant="contained"
+          id="clan_apply"
+          onClick={handleJoinClanClick}
+        >
+          {clanButtonText}
         </Button>
+
         <hr />
 
         <div className="board_comment">

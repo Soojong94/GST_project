@@ -782,6 +782,23 @@ app.delete('/api/boardDelete/:b_idx/:user_id', (req, res) => {
 });
 
 
+app.post('/api/joinClan', (req, res) => {
+  
+  const {clan ,user_id }= req.body;
+  console.log('클랜가입',clan,user_id)
+
+  // 사용자를 클랜에 추가하는 쿼리
+  const addUserQuery = `UPDATE users SET clan = '${clan}' WHERE user_id = '${user_id}'`;
+  connection.query(addUserQuery, (error, results) => {
+    if (error) {
+      console.error('사용자 추가 오류:', error);
+      return res.status(500).send('사용자를 클랜에 추가하는 중 오류가 발생했습니다.');
+    }
+    return res.status(200).send('사용자가 성공적으로 클랜에 추가되었습니다.');
+  });
+});
+
+
 
 // 서버 실행
 app.listen(port, () => {
