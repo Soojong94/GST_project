@@ -9683,7 +9683,7 @@ mysql@^2.18.1:
     safe-buffer "5.1.2"
     sqlstring "2.3.1"
 
-mysql2@^3.9.2:
+mysql2@^3.9.3:
   version "3.9.3"
   resolved "https://registry.npmjs.org/mysql2/-/mysql2-3.9.3.tgz"
   integrity sha512-+ZaoF0llESUy7BffccHG+urErHcWPZ/WuzYAA9TEeLaDYyke3/3D+VQDzK9xzRnXpd0eMtRf0WNOeo4Q1Baung==
