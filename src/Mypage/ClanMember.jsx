@@ -53,13 +53,17 @@ function ClanMember() {
 
     // 클랜 회원 탈퇴
     const handleclanmemberdelete = async (userNick) => {
-        try{
+        try {
             const confirm = window.confirm(`${userNick}님을 탈퇴시키겠습니까?`);
-            const response = await axios.delete(`http://localhost:5000/api/ClanMemberDelete/${userNick}`)
-            console.log('클랜 탈퇴 성공:', response.data);
+            if(confirm){
+                const response = await axios.delete(`http://localhost:5000/api/ClanMemberDelete/${userNick}`)
+                console.log('클랜 탈퇴 성공:', response.data);
+            }else{
+                console.log('탈퇴를 취소하셨습니다.');
+            }
             window.location.reload();
-        } catch(error){
-            console.error('클랜 탈퇴 실패:',error);
+        } catch (error) {
+            console.error('클랜 탈퇴 실패:', error);
         }
     }
 
@@ -76,7 +80,7 @@ function ClanMember() {
                     {records && records.map((d, i) => (
                         <tr key={i}>
                             <td>{d.user_nick}</td>
-                            <td><button onClick={()=>handleclanmemberdelete(d.user_nick)}>탈퇴</button></td>
+                            <td><button id='clanMemberDel-btn' onClick={() => handleclanmemberdelete(d.user_nick)}>탈퇴</button></td>
                         </tr>
                     ))}
                 </tbody>

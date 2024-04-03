@@ -7,7 +7,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../sidebar-02/sidebar';
 import '../../src/App.css'; // 전역 스타일을 추가할 수도 있습니다.
-import Agenda from './../Agenda/Agenda';
+// import Agenda from './../Agenda/Agenda';
 import axios from 'axios';
 
 const teamInfo = {

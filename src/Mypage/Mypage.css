@@ -11,7 +11,6 @@
 
 
 * {
-  
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -24,25 +23,25 @@
 .sidebar_container{
   display: flex;
   justify-content: left;
- 
 }
 
 .tabs-container {
-  font-family: 'Poppins', sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
   padding: 1rem;
+  /* margin: auto; */
+  margin-top: 500px;
   background-color: #efeefa;
-  width: 100%;
+  width: 80%;
+  /* height: 100vh; */
   max-width: 50rem;
   display: flex;
-margin: 0.625rem;
+  margin: 0.725rem;
   overflow: hidden;
-border-radius: 1rem;
+  border-radius: 1rem;
   background-color: #fff;
-box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;   
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 .tab-content-wrapper {
@@ -92,7 +91,6 @@ box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   justify-content: start;
   align-items: center;
   text-decoration: none;
-  width: 100%;
   font-size: 1.125rem;
   font-weight: 600;
   color: #777777;
@@ -131,6 +129,86 @@ box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 #tabsContainer{
-  margin-left: 400px;
-  
+  height: 70vh;
+  padding-top: 40px;
+  margin-top: 6%;
+  margin-left: 33%;
+}
+#MpEdit-btn{
+  margin: 0 20px;
+  background-color: #3766ff;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 1rem;
+}
+
+#MpEdit-btn:hover {
+  background-color: #1e3a8a;
+}
+#MpDel-btn {
+  background-color: #f44336; /* 빨간색 */
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 1rem;
+}
+
+#MpDel-btn:hover {
+  background-color: #cc0000; /* 진한 빨간색 */
+}
+
+#MpSave-btn{
+  background-color: #5dd327; /* 빨간색 */
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 1rem;
+}
+#MpSave-btn:hover{
+  background-color: #4cac20;
+}
+
+#Mypage_main{
+  overflow: hidden;
+}
+#clanDel-btn{
+  background-color: #ff5b5b; /* 빨간색 */
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 1rem;
+}
+#clanDel-btn:hover{
+  background-color: #c54848;
+}
+#clanMemberDel-btn{
+  background-color: #ff5b5b; /* 빨간색 */
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 1rem;
+}
+#clanMemberDel-btn:hover{
+  background-color: #c54848;
 }
