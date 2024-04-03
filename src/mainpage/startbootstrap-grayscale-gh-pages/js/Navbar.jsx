@@ -43,6 +43,15 @@ const Navbar = ({ signup, login }) => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const handleLogout = async () => {
+    try {
+      await axios.post('/logout'); // 로그아웃을 처리하는 API 엔드포인트 호출
+      setUser(null); // 사용자 정보를 초기화하여 로그아웃 상태로 변경
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
+
   return (
     <>
       <nav className={`navbar navbar-expand-md navbar-light fixed-top ${isShrinked ? 'navbar-shrink' : ''}`} id="mainNav" style={{ width: '100%', boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)' }}>
@@ -71,9 +80,16 @@ const Navbar = ({ signup, login }) => {
                 </a>
               </li>
               {user ? (
-                <li className="nav-item">
-                  <span className="nav-link">{user.user_nick}님 환영합니다</span>
-                </li>
+                <>
+                  <li className="nav-item">
+                    <span className="nav-link">{user.user_nick}님 환영합니다</span>
+                  </li>
+                  <li className="nav-item">
+                    <Link to="/Mainpage" title="Logout" onClick={handleLogout}>
+                      <span className="nav-link">로그아웃</span>
+                    </Link>
+                  </li>
+                </>
               ) : (
                 <>
                   <li className="nav-item">
