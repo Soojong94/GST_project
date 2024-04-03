@@ -659,7 +659,7 @@ app.delete('/api/ClanMemberDelete/:userNick', (req,res)=>{
 })
 
 
-// 경기 일정 가져오기
+// 일정 가져오기
 app.get('/api/schedule/:userId', (req, res) => {
   const userId = req.params.userId;
   console.log(userId);
@@ -706,6 +706,27 @@ app.get('/api/schedule/:userId', (req, res) => {
   });
 });
 
+// 일정 삭제 기능
+app.post('/api/deleteSchedule', async (req, res) => {
+  const { calendarType, sche_idx, user_id, clan_boss } = req.body;
+  console.log('정보 : ',calendarType,sche_idx,user_id, clan_boss);
+
+  try {
+    if (calendarType === 1) {
+      // 개인 일정 삭제
+      await connection.query('DELETE FROM user_schedules WHERE sche_idx = ? AND user_id = ?', [sche_idx, user_id]);
+    } else if (calendarType === 2 && clan_boss==='y') {
+      // 클랜 일정 삭제
+      await connection.query('DELETE FROM clan_schedule_shares WHERE sche_idx = ? AND user_id = ?', [sche_idx, user_id]);
+      await connection.query('DELETE FROM clan_schedules WHERE sche_idx = ? AND user_id = ?',[sche_idx, user_id]);
+    }
+
+    res.status(200).send('Schedule deleted successfully');
+  } catch (error) {
+    console.error('Error deleting schedule:', error);
+    res.status(500).send('Error deleting schedule');
+  }
+});
 
 // 서버 실행
 app.listen(port, () => {
