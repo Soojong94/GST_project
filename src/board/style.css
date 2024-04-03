@@ -25,14 +25,15 @@ body {
     display: flex;
     flex-wrap: wrap;
     margin: 0 auto;
-    justify-content: center;
-    max-width: 2000px;
+    justify-content: flex-start;
+    max-width: 1500px;
     gap: 0rem;
 }
 
 .articles article {
-    max-width: 15rem;
-    max-height: 25rem;
+    flex-basis: calc(50% - 1rem);
+    max-width: 50rem;
+    max-height: 50rem;
     width: 100%;
     cursor: pointer;
     position: relative;
@@ -83,4 +84,16 @@ body {
     margin-left: 40%;
     width: 90px;
     height: 30px;
+}
+
+/* .main_container{
+    width: 500px;
+    height: 500px;
+
+} */
+
+.clan_board_card > article{
+    width: 500px;
+    height: 300px;
+
 }
