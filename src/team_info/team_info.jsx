@@ -86,24 +86,26 @@ const Team_info = () => {
   };
 
   return (
-    <div id='signUp_main_TI' className='main_container'>
+    <body id="all" >
+      
+    <div id='signUp_main_TI' className='main_container_TI'>
       <Sidebar />
       <div id='team-info' className='team-info'>
         {team && (
           <>
             <div id='team-info-img' className='team-info-img'>
-              <div className='subscribe-area'>
-                <button
-                  className={`subscribe-button ${isSubscribed ? 'subscribed' : ''}`}
-                  onClick={toggleSubscription}
-                >
-                  {isSubscribed ? '구독중' : '구독'}
-                </button>
-              </div>
   
               <img src={teamLogoPaths[team.team_idx]} alt='Fetch API GraphQL Preview' style={{ width: '300px' }} />
             </div>
   
+              <div className='subscribe-area'>
+                <button
+                  className={`subscribe-button ${isSubscribed ? 'subscribed' : ''}`}
+                  onClick={toggleSubscription}
+                  >
+                  {isSubscribed ? '구독중' : '구독'}
+                </button>
+              </div>
             <div id='team-info-text' className='team-info-text'>
               <br />
               <h2>⭐⭐{team.team_name}⭐⭐</h2>
@@ -138,6 +140,7 @@ const Team_info = () => {
         )}
       </div>
     </div>
+        </body>
   );
         }
 export default Team_info;

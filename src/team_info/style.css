@@ -1,3 +1,4 @@
+/* team-info 스타일 */
 .team-info {
   margin-left: 25%;
   display: flex;
@@ -7,7 +8,9 @@
   max-width: 800px;
   text-align: center;
   border: 3px solid black;
+  border-radius: 10px; /* 테두리를 둥글게 만듦 */
   padding: 20px;
+  background-color: lightgray;
 }
 
 @media (max-width: 768px) {
@@ -22,29 +25,37 @@
   margin-bottom: 20px;
   width: 50%;
   height: auto;
+  border-radius: 5px;
 }
 
 .team-info-text {
   text-align: center;
   border: 3px solid black;
-  padding: 20px;
+  border-radius: 10px; /* 테두리를 둥글게 만듦 */
+  padding: 5%;
   margin-top: 20px;
   width: 100%;
+  background-color: whitesmoke;
 }
 
 #signUp_main_TI {
-  padding-top: 12%;
-  height: 100vh;
-  margin-bottom: 0;
-  padding-bottom: 0;
-  align-items: center;
+    padding-top: 1%;
+ 
+    margin-bottom: 0;
+    padding-bottom: 0;
+    background-color: darkgray;
+    align-items: center;
 }
-
+.main_container_TI{
+ 
+margin-left: 10% !important;
+}
 #team-info-img {
   margin-left: 25%;
   width: 50%;
   height: 40%;
   align-items: center;
+ 
 }
 
 .subscribe-area {
@@ -64,6 +75,8 @@
   height: 40px;
   width: 100px;
   border-radius: 5px;
+  border: 3px solid black;
+  border-radius: 10px; /* 테두리를 둥글게 만듦 */
 }
 
 .subscribe-button:hover {
@@ -73,6 +86,8 @@
 .subscribed {
   background-color: #CCCCCC;
   color: #333333;
+  border: 3px solid black;
+  border-radius: 10px; /* 테두리를 둥글게 만듦 */
 }
 
 .subscribed:hover {
