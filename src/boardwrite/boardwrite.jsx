@@ -8,20 +8,45 @@ function BoardWrite() {
   const [file, setFile] = useState(null);
   const [userId, setUserId] = useState(null); // userId 상태 추가
 
-  // 세션 정보 가져오는 함수
-  const fetchSession = async () => {
+  useEffect(() => {
+    fetchSessionData();
+  }, []);
+
+  const fetchSessionData = async () => {
     try {
-      const response = await axios.get('/api/user/session');
-      const userIdFromSession = response.data.userId;
-      setUserId(userIdFromSession); // userId 상태 업데이트
+      const response = await axios.get('http://localhost:5000/session');
+      const sessionData = response.data;
+  
+      // 가져온 세션 데이터를 사용하여 userId 상태를 업데이트합니다.
+      setUserId(sessionData.user_id);
     } catch (error) {
-      console.error('세션 정보 가져오기 실패:', error);
+      console.error('Error fetching session data:', error);
     }
   };
 
-  useEffect(() => {
-    fetchSession();
-  }, []);
+  const insertBoard = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('content', content);
+      formData.append('userId', userId);
+
+      if (file) {
+        formData.append('file', file);
+      }
+
+      await axios.post('http://localhost:5000/api/boardInsert', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      // 성공 후 처리 로직 추가
+    } catch (error) {
+      console.error('Error inserting board:', error);
+      // 오류 처리 로직 추가
+    }
+  };
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -38,36 +63,7 @@ function BoardWrite() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('content', content);
-    formData.append('userId', userId); // userId를 formData에 추가
-
-    if (file) {
-      formData.append('file', file);
-    }
-
-    try {
-      const response = await axios.post('/api/board', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      handleSuccess(response.data);
-    } catch (error) {
-      handleError(error);
-    }
-  };
-
-  const handleSuccess = (data) => {
-    console.log(data);
-    // 성공 후 처리 로직 추가
-  };
-
-  const handleError = (error) => {
-    console.error(error);
-    // 오류 처리 로직 추가
+    await insertBoard();
   };
 
   return (

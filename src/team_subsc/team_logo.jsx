@@ -62,7 +62,7 @@ function TeamSubsc() {
   useEffect(() => {
     const fetchTeams = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/teams'); // 서버의 경로에 맞게 수정
+        const res = await axios.get('/api/teams'); // 서버의 경로에 맞게 수정
         const teamwithImages = res.data.map((team)=>({
           ...team,
           imgSrc: teamImageMap[team.team_idx],

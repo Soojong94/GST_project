@@ -52,7 +52,7 @@ const Signup = () => {
       if (response.ok) {
         const text = await response.text();
         alert(text);
-        window.history.back();
+        window.location.href = 'http://localhost:3000'; // 페이지 이동
       } else {
         const error = await response.json();
         alert(error.message); // 서버에서 보내는 오류 메시지를 보여줍니다.

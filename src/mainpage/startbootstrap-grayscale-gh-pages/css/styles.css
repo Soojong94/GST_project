@@ -693,6 +693,7 @@ progress {
   padding-left: calc(var(--bs-gutter-x) * 0.5);
   margin-right: auto;
   margin-left: auto;
+  
 }
 
 @media (min-width: 576px) {
@@ -1472,7 +1473,7 @@ progress {
 
   .col-lg-6 {
     flex: 0 0 auto;
-    width: 50%;
+    width: 100%;
   }
 
   .col-lg-7 {
@@ -3717,7 +3718,7 @@ fieldset:disabled .btn {
 }
 
 .collapsing.collapse-horizontal {
-  width: 0;
+  width: 10px;
   height: auto;
   transition: width 0.35s ease;
 }
@@ -3964,9 +3965,6 @@ fieldset:disabled .btn {
   border-left: 0.3em solid;
 }
 
-.dropend .dropdown-toggle:empty::after {
-  margin-left: 0;
-}
 
 .dropend .dropdown-toggle::after {
   vertical-align: 0;
@@ -4218,7 +4216,7 @@ fieldset:disabled .btn {
 .nav-link {
   display: block;
   padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
-  font-size: 28px;
+  font-size: 15px;
   font-weight: 1000;
   color: black !important;
   text-decoration: none;
@@ -12781,13 +12779,14 @@ body {
 
 #mainNav {
   min-height: 2.0 rem !important;
+  
   /* 이전 높이보다 낮게 조정 */
   background-color: #fff;
+  
 }
 
 #mainNav .navbar-toggler {
-  padding: 0.5rem;
-  /* 패딩 값 줄임 */
+  
   color: #64a19d;
   border: 1px solid #64a19d;
 }
@@ -12817,7 +12816,7 @@ body {
 
 @media (min-width: 992px) {
   #mainNav {
-    max-height: 175px;
+    max-height: 120px;
     padding-top: 0;
     padding-bottom: 0;
     border-bottom: none;
@@ -12895,7 +12894,7 @@ body {
   margin-top: 100px;
   padding-top: 5rem;
   padding-left: 5rem;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%, #000 100%), url("../assets/img/메인화면.PNG");
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 120%, #000 100%);
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -13103,10 +13102,134 @@ body {
   color: snow !important;
 }
 
-#img_test {
-  position: absolute;
-}
 
 .nav-link:hover {
   color: #00d9ff !important;
+}
+
+
+.nav-link {
+  text-decoration: none;
+}
+
+.link-text {
+  display: inline-block;
+  text-decoration: none;
+}
+
+#mainpage_logo {
+  height: 200px;
+  width: 200px;
+}
+
+
+#mainNav {
+  background-color: transparent;
+  padding-top: 0px;
+}
+
+#mainNav .navbar-collapse {
+  background-color: transparent;
+}
+
+#mainNav .navbar-nav .nav-link {
+  color: white;
+}
+
+
+/* 네비바 */
+.container-fluid.px-4.px-lg-5 {
+  padding-left: 15px;
+  padding-right: 15px;
+  max-width: 80%;
+  margin-right: 20px;
+  max-height: 100px;
+  margin-top: 10px;
+
+}
+
+@media (min-width: 992px) {
+  .container-fluid.px-4.px-lg-5 {
+    max-width: 1140px;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 100px;
+  }
+}
+
+
+
+/* gststart버튼 */
+.btn.btn-primary {
+  width: 150px; /* 너비 설정 */
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#top_btn {
+  font-size: 21px; 
+}
+
+
+/*  메인페이지 하단 버튼*/
+.text-center>.btn.btn-primary{
+  width: 180px; /* 너비 설정 */
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#bottom_btn {
+  font-size: 15px; 
+}
+
+
+.container-fluid {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.navbar {
+  margin-bottom: 0;
+}
+
+
+.collapse.navbar-collapse {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+@media (min-width: 992px) {
+  .collapse.navbar-collapse {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.navbar-collapse {
+  margin-left: auto;
+}
+
+
+.nav-item {
+  margin-right: 30px;
+  display: flex;
+  align-items: center;
+}
+
+#main_Image{
+  margin-top: 8%;
+  margin-left: 10%;
+  width: 80%;
+  height: 80%;
+  display : cover;
+}
+
+#Main_team_sub{
+  margin-left: 25%;
+  width: 50%;
+  
 }

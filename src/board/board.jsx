@@ -13,7 +13,7 @@ function BoardCard({ imgSrc, title, content, b_idx }) {
       <Link to={`/Board/${b_idx}`} className="clan_board_card">
     <article>
       <figure>
-        <img src={imgSrc} alt=""/>
+        <img src={imgSrc} alt="view"/>
       </figure>
       <div className="article-preview" id={b_idx}>
         <h2>{title}</h2>
@@ -28,9 +28,11 @@ function BoardCard({ imgSrc, title, content, b_idx }) {
 function Board() {
   const [boards, setBoards] = useState([]);
   useEffect(() => {
-    axios.get('http://localhost:5000/api/boardList')
+    axios.get('/api/boardList')
       .then(response => {
+        console.log(response.data)
         setBoards(response.data);
+
       })
       .catch(error => {
         console.error('There was an error!', error);

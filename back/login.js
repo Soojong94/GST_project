@@ -9,6 +9,7 @@ const multer = require('multer');
 const bcrypt = require('bcrypt');
 const util = require('util');
 const axios = require('axios')
+const path = require('path');
 
 // MySQL 연결 초기화 및 오픈
 const connection = mysqlConnection.init();
@@ -32,7 +33,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   cookie: {
-      httpOnly: true,
+    httpOnly: true,
   },
 }));
 
@@ -52,9 +53,9 @@ app.use((err, req, res, next) => {
 // Handle duplicate error functionn
 const handleDuplicateError = (results, user_id, user_nick, next) => {
   if (results[0].user_id === user_id) {
-      return next(new Error('Duplicate ID'));
+    return next(new Error('Duplicate ID'));
   } else if (results[0].user_nick === user_nick) {
-      return next(new Error('Duplicate Nickname'));
+    return next(new Error('Duplicate Nickname'));
   }
 };
 
@@ -65,34 +66,34 @@ app.post('/signup', async (req, res, next) => {
 
   try {
     const results = await connection.query('SELECT * FROM users WHERE user_id = ? OR user_nick = ?', [user_id, user_nick]);
-    
-    if (results.length > 0) {
-        return handleDuplicateError(results, user_id, user_nick, next);
-    } else {
-        // Insert the new user into the database
-        const newUser = {
-            user_id,
-            user_nick,
-            user_phone,
-            user_pw: hashedPassword,
-            joined_at: new Date(),
-            // Assume clan is defined somewhere or retrieved from request
-            clan: 'YourClanHere'
-        };
-        await connection.query('INSERT INTO users SET ?', newUser);
 
-        // Save user data in session
-        req.session.user = {
-            user_id: newUser.user_id,
-            user_nick: newUser.user_nick,
-            joined_at: newUser.joined_at,
-            clan: newUser.clan,
-        };
-        res.status(200).json({ message: 'Signup Successful' });
+    if (results.length > 0) {
+      return handleDuplicateError(results, user_id, user_nick, next);
+    } else {
+      // Insert the new user into the database
+      const newUser = {
+        user_id,
+        user_nick,
+        user_phone,
+        user_pw: hashedPassword,
+        joined_at: new Date(),
+        // Assume clan is defined somewhere or retrieved from request
+        clan: null,
+      };
+      await connection.query('INSERT INTO users SET ?', newUser);
+
+      // Save user data in session
+      req.session.user = {
+        user_id: newUser.user_id,
+        user_nick: newUser.user_nick,
+        joined_at: newUser.joined_at,
+        clan: newUser.clan,
+      };
+      res.status(200).json({ message: 'Signup Successful' });
     }
-} catch (error) {
+  } catch (error) {
     return next(error);
-}
+  }
 });
 
 
@@ -100,43 +101,43 @@ let user = {};
 
 // Endpoint for user login
 app.post('/login', async (req, res, next) => {
-  const { userId, userPw } = req.body;
-  connection.query('SELECT * FROM users WHERE user_id = ?', [userId], async (error, results) => {
-    
-    if (error) return next(error);
-    if (results.length > 0) {
-      const comparison = await bcrypt.compare(userPw, results[0].user_pw);
-      if (comparison) {
-        // Save user data in session
-        req.session.user = {
-          user_id: results[0].user_id,
-          user_nick: results[0].user_nick,
-          joined_at: results[0].joined_at,
-          clan: results[0].clan,
-          clan_boss: results[0].clan_boss,
-        };
-        user = req.session.user; // Save user data in global variable
-        return res.status(200).send('Login Successful');
-      } else {
-        return res.status(401).send('Incorrect Password');
-      }
-    } else {
-      return res.status(404).send('User Not Found');
-    }
-  });
+  const { userId, userPw } = req.body;
+  connection.query('SELECT * FROM users WHERE user_id = ?', [userId], async (error, results) => {
+
+    if (error) return next(error);
+    if (results.length > 0) {
+      const comparison = await bcrypt.compare(userPw, results[0].user_pw);
+      if (comparison) {
+        // Save user data in session
+        req.session.user = {
+          user_id: results[0].user_id,
+          user_nick: results[0].user_nick,
+          joined_at: results[0].joined_at,
+          clan: results[0].clan,
+          clan_boss: results[0].clan_boss,
+        };
+        user = req.session.user; // Save user data in global variable
+        return res.status(200).send('Login Successful');
+      } else {
+        return res.status(401).send('Incorrect Password');
+      }
+    } else {
+      return res.status(404).send('User Not Found');
+    }
+  });
 });
 
 // Endpoint to retrieve session data
 app.get('/session', (req, res) => {
-  console.log('session back 도착', user)
-  const { user_id, user_nick, clan_boss, clan } = user;
-  let sessionObj = {
-    user_id: user_id,
-    user_nick: user_nick,
-    clan_boss: clan_boss,
-    clan: clan,
-  }
-  res.json(sessionObj);
+  console.log('session back 도착', user)
+  const { user_id, user_nick, clan_boss, clan } = user;
+  let sessionObj = {
+    user_id: user_id,
+    user_nick: user_nick,
+    clan_boss: clan_boss,
+    clan: clan,
+  }
+  res.json(sessionObj);
 });
 
 // Endpoint to check if user is logged in
@@ -157,73 +158,96 @@ app.post('/logout', (req, res) => {
 
 //=======================================================
 
+app.use('/uploads', express.static('uploads'));
 
+// 파일저장 객체
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/') // 파일이 저장될 경로
   },
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now())
+    const ext = path.extname(file.originalname);
+    cb(null, file.fieldname + '-' + Date.now() + ext)
   }
 });
+
 const upload = multer({ storage: storage });
 
-// app.post('/api/addSchedule', upload.single('file'), async (req, res) => {
-//   try {
-//     // 요청 정보 출력
-//     console.log('요청 정보:', req.body);
 
-//     const { b_title, b_content, created_at } = req.body;
-//     const b_file = req.file ? req.file.path : '';
-//     const user_id = req.session.user_id;
-
-//     // SQL 쿼리 실행
-//     const query = 'INSERT INTO posts (b_title, b_content, b_file, created_at, user_id) VALUES (?, ?, ?, ?, ?)';
-//     const [result] = await pool.execute(query, [b_title, b_content, b_file, created_at, user_id]);
-
-//     // 응답 정보 출력
-//     console.log('응답 정보:', { message: '게시글이 성공적으로 등록되었습니다.', postId: result.insertId });
-
-//     res.status(200).json({ message: '게시글이 성공적으로 등록되었습니다.', postId: result.insertId });
-//   } catch (error) {
-//     // 오류 정보 출력
-//     console.error('오류 정보:', error);
-
-//     res.status(500).json({ message: '게시글 등록 중 오류가 발생했습니다.', error: error.message });
-//   }
-// });
-
-// '/api/boardInsert' 경로에 대한 POST 요청 처리
+// (클랜)게시판(클랙제작) 작성 기능
 app.post('/api/boardInsert', upload.single('file'), (req, res) => {
-  const nick = req.session.user_nick; // 세션에서 사용자 닉네임 가져오기 (사용자 인증 구현 필요)
-  const user_id = req.body.user_id; // 사용자 ID 처리 (사용자 인증 구현 필요)
-  const b_title = req.body.title;
-  const b_content = req.body.content;
-  const b_file = req.file ? req.file.path : ''; // 파일이 있다면 파일 경로 저장
-  const b_created_at = new Date();
+  const { title, content, userId, userCount } = req.body;
+  const file = req.file ? req.file.filename : null;
+  const image = file ? '/uploads/' + file : null;
 
 
-  // 데이터베이스 연결 및 쿼리 실행 코드 (여기서는 예시로만 표시)
-  const sql = `INSERT INTO boards (b_title, b_content, b_file, created_at, user_id) 
-                 VALUES (?, ?, ?, ?, ?)`;
-  const values = [b_title, b_content, b_file, b_created_at, user_id];
 
-  // 데이터베이스 쿼리 실행 (예시 코드)
-  connection.query(sql, values, (err, result) => {
+  const clansInsertSql = `INSERT INTO clans (clan_boss_id, clan_limit, clan_logo, clan_name, created_at)
+  VALUES ('${userId}', ${userCount}, '${image}', '${title}', NOW())`;
+
+  const boardsInsertSql = `INSERT INTO boards (b_content, b_file, b_title, user_id, created_at)
+  VALUES ('${content}', '${image}', '${title}', '${userId}', NOW())`;
+
+  const clanInfoUdate = `UPDATE users SET clan_boss = 'y', clan = '${title}' WHERE user_id = '${userId}';
+`;
+
+  connection.query(clansInsertSql, (err) => {
     if (err) {
-      console.error(err);
-      res.status(500).send('Error inserting data');
-    } else {
-      console.log('Data inserted successfully');
-      res.sendStatus(200);
+      console.error('Error inserting data into clans table:', err);
+      res.status(500).send('Error inserting data into clans table');
+      return;
     }
+
+    connection.query(boardsInsertSql, (err) => {
+      if (err) {
+        console.error('Error inserting data into boards table:', err);
+        res.status(500).send('Error inserting data into boards table');
+        return;
+      }
+
+      connection.query(clanInfoUdate, (err) => {
+        if (err) {
+          console.error('Error udate clanInfoUdate into users table', err);
+          res.status(500).send('Error udate clanInfoUdate into users table:');
+          return;
+        }
+      })
+
+    
+
+      res.status(200).send('Successfully inserted data');
+    });
   });
 });
-  
 
 
+// 댓글 작성 기능
+app.post('/api/commentInsert', async (req, res) => {
+  const { b_idx, user_id, cmt_content } = req.body;
 
+  const created_at = new Date().toISOString(); // 댓글 작성 시간 생성
 
+  // Construct comment data
+  const newComment = {
+    b_idx,
+    user_id,
+    cmt_content,
+    created_at,
+  };
+
+  try {
+    // Store the new comment in the database
+    await connection.query(
+      'INSERT INTO comments(b_idx, user_id, cmt_content, created_at) VALUES (?, ?, ?, ?)',
+      [newComment.b_idx, newComment.user_id, newComment.cmt_content, newComment.created_at]
+    );
+
+    res.status(200).send('댓글이 성공적으로 등록되었습니다.');
+  } catch (error) {
+    console.error('댓글 등록 중 에러가 발생했습니다', error);
+    res.status(500).send('댓글 등록에 실패했습니다.');
+  }
+});
 
 
 // 댓글 리스트 API 앤드포인트
@@ -231,8 +255,9 @@ app.get('/api/comment/:idx', (req, res) => {
   const { idx } = req.params;
   console.log('댓글', idx)
 
-  const sql = ` SELECT c.*, u.user_nick
-    FROM comments c INNER JOIN users u ON c.user_id = u.user_id WHERE c.b_idx = ${idx}`;
+  const sql = `SELECT c.*, u.user_nick
+  FROM comments c INNER JOIN users u ON c.user_id = u.user_id WHERE c.b_idx = ${idx}
+  ORDER BY c.cmt_idx DESC`;
 
   connection.query(sql, (err, data) => {
     if (err) return res.json(err);
@@ -264,7 +289,7 @@ app.get('/api/teaminfo/:team_idx', (req, res) => {
 // 일정등록
 app.post('/api/addSchedule', (req, res) => {
   const { calendarType, st_dt, ed_dt, st_tm, ed_tm, sche_content, user_id } = req.body;
-  console.log('캘린더타입',calendarType)
+  console.log('캘린더타입', calendarType)
 
   if (calendarType === '1') {
     const query = 'INSERT INTO user_schedules (user_id, st_dt, ed_dt, st_tm, ed_tm, sche_content) VALUES (?, ?, ?, ?, ?, ?)';
@@ -277,7 +302,7 @@ app.post('/api/addSchedule', (req, res) => {
         res.sendStatus(200);
       }
     });
-  } else if(calendarType === '2'){
+  } else if (calendarType === '2') {
     const query = 'INSERT INTO clan_schedules (st_dt, ed_dt, st_tm, ed_tm, sche_content, user_id) VALUES (?, ?, ?, ?, ?, ?)';
     connection.query(query, [st_dt, ed_dt, st_tm, ed_tm, sche_content, user_id], (err, result) => {
       if (err) {
@@ -534,7 +559,7 @@ app.get('/api/subscription', (req, res) => {
     INNER JOIN teams ON subscriptions.team_idx = teams.team_idx
     WHERE subscriptions.user_id = ?
   `;
-  
+
   connection.query(query, [userId], (error, results) => {
     if (error) {
       console.error('Error fetching user subscriptions:', error);
@@ -566,14 +591,14 @@ app.post('/api/ClanCreate', (req, res) => {
   res.send('클랜 생성 데이터 전송성공');
   // SQL 쿼리 실행
   connection.query(sql, (err, results) => {
-  if (err) {
-    console.error('클랜 생성 에러:', err);
-    return;
-  }
-  console.log('클랜 생성 성공');
-  // 쿼리 결과 출력
-  console.log('Insert ID:', results.insertId);
-});
+    if (err) {
+      console.error('클랜 생성 에러:', err);
+      return;
+    }
+    console.log('클랜 생성 성공');
+    // 쿼리 결과 출력
+    console.log('Insert ID:', results.insertId);
+  });
 
 });
 
@@ -613,6 +638,52 @@ app.post('/api/ClanMember', (req, res) => {
 });
 
 
+// 경기 일정 가져오기
+app.get('/api/schedule/:userId', (req, res) => {
+  const userId = req.params.userId;
+  console.log(userId);
+
+  // 개인 일정 가져오기
+  const personalQuery = 'SELECT * FROM user_schedules WHERE user_Id = ?';
+  connection.query(personalQuery, [userId], (err, personalScheduleData) => {
+    if (err) return res.json(err);
+
+
+
+    // 클랜 일정 가져오기
+    const clanQuery = `
+    SELECT cs.* 
+    FROM clan_schedules cs
+    JOIN users u ON cs.user_id = u.user_id
+    WHERE u.clan = (
+      SELECT clan 
+      FROM users 
+      WHERE user_id = ?
+      )
+    `;
+    connection.query(clanQuery, [userId], (err, clanScheduleData) => {
+      if (err) return res.json(err);
+
+      // 구독한 팀의 경기일정 가져오기
+      const subscribedMatchQuery = `
+      SELECT ms.*
+      FROM matches ms
+      JOIN subscriptions s ON ms.team_1 = s.team_idx OR ms.team_2 = s.team_idx 
+      WHERE s.user_id =  ?
+      `;
+      connection.query(subscribedMatchQuery, [userId], (err, subscribedMatchScheduleData) => {
+        if (err) return res.json(err);
+
+        // 모든 일정 데이터를 JSON 형태로 응답
+        res.json({
+          personal: personalScheduleData,
+          clan: clanScheduleData,
+          subscribedMatch: subscribedMatchScheduleData
+        });
+      });
+    });
+  });
+});
 
 
 // 서버 실행
