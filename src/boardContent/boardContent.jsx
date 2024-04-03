@@ -1,7 +1,8 @@
+// Board_content.jsx
+
 import React, { useEffect, useState } from 'react';
 import './style.css';
-import { Box, Typography, TextField, Button, Grid } from '@mui/material';
-// import preview from './assets/preview.png';
+import { Box, Typography, Grid } from '@mui/material';
 import Sidebar from '../sidebar-02/sidebar'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -9,10 +10,9 @@ import CommentForm from '../Comment/CommentWrite';
 
 const Board_content = () => {
   const { b_idx } = useParams();
-  const [board, setBoard] = useState(null);
-  const [comments, setComments] = useState([]);
-  const [newComment, setNewComment] = useState('');
-  const [error, setError] = useState(null);
+  const [board, setBoard] = useState(null); // 게시글 상태
+  const [comments, setComments] = useState([]); // 댓글 목록 상태
+  const [error, setError] = useState(null); // 에러 상태
 
   const fetchComments = () => {
     axios.get(`/api/comment/${b_idx}`)
@@ -20,7 +20,7 @@ const Board_content = () => {
         setComments(response.data);
       })
       .catch(error => {
-        console.error('There was an error!', error);
+        console.error('에러가 발생했습니다!', error);
         setError(error);
       });
   };
@@ -32,35 +32,20 @@ const Board_content = () => {
         console.log(response.data);
       })
       .catch(error => {
-        console.error('There was an error!', error);
+        console.error('에러가 발생했습니다!', error);
         setError(error);
       });
 
     fetchComments();
   }, [b_idx]);
 
-  const handleCommentChange = (e) => {
-    setNewComment(e.target.value);
-  };
+  const handleCommentSubmit = (newComment) => {
+    const currentUserNick = '사용자 닉네임';
+    // 새 댓글을 서버에 제출 (axios.post 등 사용)
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (newComment.trim() !== '') {
-      const currentUserNick = '사용자 닉네임';
-      axios.post(`/api/comment`, {
-        b_idx,
-        user_nick: currentUserNick,
-        comment: newComment
-      })
-        .then(() => {
-          fetchComments();
-        })
-        .catch(error => {
-          console.error('There was an error!', error);
-          setError(error);
-        });
-      setNewComment('');
-    }
+    // 새 댓글이 성공적으로 데이터베이스에 추가된 경우,
+    // 댓글 상태를 업데이트하여 새 댓글을 반영
+    setComments(prevComments => [...prevComments, newComment]);
   };
 
   if (error) {
@@ -76,7 +61,7 @@ const Board_content = () => {
         <div id='present_content'>
           <article className="board_content_card">
             <div className="board_content_background" id='present_content_img'>
-            <img src={board.b_file} alt="Image" />
+              <img src={board.b_file} alt="Image" />
             </div>
           </article>
           <div className="board_content_content">
@@ -86,10 +71,7 @@ const Board_content = () => {
             </div>
             <div className="board_content_blog-preview__bottom">
               <div className="board_content_blog-author">
-                <div className="board_content_blog-author__name">
-                  <div className="board_content_blog-author__name">{board.user_nick}
-                  </div>
-                </div>
+                <div className="board_content_blog-author__name">{board.user_nick}</div>
               </div>
             </div>
           </div>
@@ -97,19 +79,19 @@ const Board_content = () => {
 
         <div className='board_comment'>
           <Box mt={4}>
-            <CommentForm />
+            <CommentForm onCommentSubmit={handleCommentSubmit} />
           </Box>
-              <Grid container spacing={2}>
-                {comments.map((comment, index) => (
-                  <Grid item key={index} xs={12}>
-                    <Box p={2} bgcolor="#f5f5f5" borderRadius={4}>
-                      <Typography variant="body1">{comment.user_nick}: {comment.cmt_content}</Typography>
-                    </Box>
-                  </Grid>
-                ))}
+          <Grid container spacing={2}>
+            {comments.map((comment, index) => (
+              <Grid item key={index} xs={12}>
+                <Box p={2} bgcolor="#f5f5f5" borderRadius={4}>
+                  <Typography variant="body1">{comment.user_nick}: {comment.cmt_content}</Typography>
+                </Box>
               </Grid>
+            ))}
+          </Grid>
         </div>
-      </div >
+      </div>
     </div>
   );
 };

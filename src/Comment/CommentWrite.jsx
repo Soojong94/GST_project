@@ -8,13 +8,11 @@ const CommentForm = () => {
   const [commentText, setCommentText] = useState('');
   const [message, setMessage] = useState('');
   const [userId, setUserId] = useState(null);
-  const [b_idx, setBIdx] = useState(null); // URL에서 추출한 b_idx
+  const [b_idx, setBIdx] = useState(null);
 
   useEffect(() => {
-    // 세션 스토리지에서 사용자 ID를 가져오는 함수
     const getUserIdFromSessionStorage = () => {
       const storedUser = sessionStorage.getItem('user');
-
       if (storedUser) {
         const user = JSON.parse(storedUser);
         setUserId(user.user_id);
@@ -23,10 +21,8 @@ const CommentForm = () => {
       }
     };
 
-    // 사용자 ID를 가져오는 함수 호출
     getUserIdFromSessionStorage();
 
-    // URL에서 b_idx 추출
     const url = window.location.href;
     const match = url.match(/\/(\d+)(\/)?$/);
     if (match) {
@@ -53,23 +49,20 @@ const CommentForm = () => {
       return;
     }
 
-    console.log('b_idx before submitting:', b_idx); // Log b_idx before submitting the comment
     try {
       const response = await axios.post('http://localhost:5000/api/commentInsert', {
-        b_idx: b_idx, // 추출한 b_idx 사용
-        user_id: userId, // 세션에서 가져온 사용자 ID
+        b_idx: b_idx,
+        user_id: userId,
         cmt_content: commentText,
       });
 
-      setMessage(response.data); // 서버에서 온 메시지 표시
-      setCommentText(''); // 입력 필드 초기화
+      setMessage(response.data);
+      setCommentText('');
     } catch (error) {
       console.error('댓글 등록 중 에러가 발생했습니다', error);
-      setMessage(error.response ? error.response.data : '댓글 등록에 실패했습니다.'); // 서버의 에러 메시지가 있는 경우 사용
+      setMessage(error.response ? error.response.data : '댓글 등록에 실패했습니다.');
     }
   };
-
-  console.log('b_idx:', b_idx); // Log b_idx in the component
 
   return (
     <div className="board_comment">
@@ -94,7 +87,7 @@ const CommentForm = () => {
             댓글 작성
           </Button>
         </form>
-        {message && <Typography>{message}</Typography>} {/* Display message */}
+        {message && <Typography>{message}</Typography>}
       </Box>
     </div>
   );
