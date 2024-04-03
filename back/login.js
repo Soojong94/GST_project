@@ -16,7 +16,12 @@ connection.query = util.promisify(connection.query); // Enable async/await for M
 
 // CORS 미들웨어 등록
 // 서버에서 CORS 설정하기
-app.use(cors());
+app.use(
+  cors({
+    origin: 'http://localhost:3000', // 허용할 도메인
+    credentials: true, // 쿠키를 주고받을 수 있도록 설정
+  })
+);
 
 // 클라이언트에서 쿠키를 이용하여 서버에 요청 보내기
 axios.defaults.withCredentials = true;
@@ -339,93 +344,85 @@ app.get('/api/getSchedule', (req, res) => {
 });
 
 // 회원정보 수정 
-app.post('/updateUser', (req, res) => {
-  const { user_nick, user_phone } = req.body;
-  
-  // 세션에서 사용자 ID 가져오기
-  const user_id = req.session.user_id;
+app.post('/api/updateUserInfo', (req, res) => {
+  // 클라이언트로부터 전송된 수정된 정보를 가져옵니다.
+  const { user_id, user_nick, user_phone } = req.body;
 
-  if (!user_id) {
-    return res.status(400).send('사용자 ID가 없습니다.');
-  }
-
-  const sql = "UPDATE users SET user_nick = ?, user_phone = ? WHERE user_id = ?";
-  const values = [user_nick, user_phone, user_id];
-
-  // 데이터베이스 라이브러리를 사용하여 쿼리 실행
-  connection.query(sql, values, (err, result) => {
+  // MySQL 쿼리를 사용하여 데이터 업데이트를 수행합니다.
+  const updateUserQuery = `UPDATE users SET user_nick = ?, user_phone = ? WHERE user_id = ?`;
+  connection.query(updateUserQuery, [user_nick, user_phone, user_id], (err, result) => {
     if (err) {
-      console.error('회원정보 업데이트 중 오류 발생:', err);
-      return res.status(500).send('회원정보 업데이트 중 오류가 발생했습니다.');
+      console.error('사용자 정보 업데이트 중 오류 발생:', err);
+      return res.status(500).send('사용자 정보 업데이트 중 오류가 발생했습니다.');
     }
-    // 쿼리 실행 결과 처리
+    console.log('사용자 정보가 성공적으로 업데이트되었습니다.');
     res.send('사용자 정보가 성공적으로 업데이트되었습니다.');
   });
 });
 
 // 사용자 정보 가져오기
-// app.get('/userinfo', (req, res) => {
+app.post('/UserInfo', (req, res) => {
+  const userId = req.body.user_id; // 수신된 데이터
+  console.log('Received data:', userId);
+  const sql = `SELECT * FROM users WHERE user_id = '${userId}';`;
+  connection.query(sql, (err, result) => {
+    if(err){
+      console.error('사용자 정보 가져오기 중 오류 발생:', err);
+      return res.status(500).send('사용자 정보 가져오기 중 오류가 발생했습니다.');
+    }
+    res.json(result) // 응답
+    // res.send('Data received successfully');
+  })
+});
 
-//   // // 세션에서 user 데이터 가져오기
-//     res.send('session user', req.session)
-//     // const user_id = req.session.user.user_id;
-//     // console.log(user_id);
-
-//   // if (!user_id) {
-//   //   return res.status(401).json({ message: '로그인 되어있지 않습니다.' });
-//   // }
-
-//   // // Prepared Statement를 사용하여 SQL Injection 방지
-//   // connection.query('SELECT * FROM users WHERE user_id = ?', [user_id], (error, results, fields) => {
-//   //   if (error) {
-//   //     console.error('Error fetching user info:', error);
-//   //     return res.status(500).json({ message: '서버 오류가 발생했습니다.' });
-//   //   }
-
-//   //   if (results.length > 0) {
-//   //     const user = results[0];
-//   //     res.json(user);
-//   //   } else {
-//   //     res.status(404).json({ message: '유저정보를 찾지 못했습니다' });
-//   //   }
-//   // });
-// });
 
 // 회원 탈퇴 엔드포인트
-app.delete('/userDelete/:user_id', (req, res) => {
-  const userId = req.params.user_id;
+app.delete('/api/userDelete/:userId', (req, res) => {
+  const userId = req.params.userId;
+  console.log(userId);
 
-  // 회원의 댓글 삭제
-  const deleteCommentsQuery = 'DELETE FROM comments WHERE user_id = ?';
-  connection.query(deleteCommentsQuery, [userId], (err, result) => {
+  // 회원 스케쥴 삭제
+  const deleteScheduleQuery =`DELETE FROM user_schedules WHERE user_id = '${userId}'`;
+  connection.query(deleteScheduleQuery, (err, result) => {
     if (err) {
-      console.error('Error deleting comments:', err);
-      res.status(500).send({ message: 'Error occurred while deleting comments.' });
+      console.error('Error deleting schedules:', err);
+      res.status(500).send({ message: 'Error occurred while deleting schedules.' });
       return;
     }
 
-    // 회원의 게시글 삭제
-    const deleteBoardQuery = 'DELETE FROM boards WHERE user_id = ?';
-    connection.query(deleteBoardQuery, [userId], (err, result) => {
+    // 회원의 댓글 삭제
+    const deleteCommentsQuery = `DELETE FROM comments WHERE user_id = '${userId}'`;
+    connection.query(deleteCommentsQuery, (err, result) => {
       if (err) {
-        console.error('Error deleting posts:', err);
-        res.status(500).send({ message: 'Error occurred while deleting posts.' });
+        console.error('Error deleting comments:', err);
+        res.status(500).send({ message: 'Error occurred while deleting comments.' });
         return;
       }
 
-      // 회원삭제
-      const deleteUserQuery = 'DELETE FROM users WHERE user_id = ?';
-      connection.query(deleteUserQuery, [userId], (err, result) => {
+      // 회원의 게시글 삭제
+      const deleteBoardQuery = `DELETE FROM boards WHERE user_id = '${userId}'`;
+      connection.query(deleteBoardQuery, (err, result) => {
         if (err) {
-          console.error('Error deleting user:', err);
-          res.status(500).send({ message: 'Error occurred while deleting user.' });
-        } else {
-          res.status(200).send({ message: 'User deleted successfully.' });
+          console.error('Error deleting posts:', err);
+          res.status(500).send({ message: 'Error occurred while deleting posts.' });
+          return;
         }
+
+        // 회원삭제
+        const deleteUserQuery = `DELETE FROM users WHERE user_id = '${userId}'`;
+        connection.query(deleteUserQuery, (err, result) => {
+          if (err) {
+            console.error('Error deleting user:', err);
+            res.status(500).send({ message: 'Error occurred while deleting user.' });
+          } else {
+            res.status(200).send({ message: 'User deleted successfully.' });
+          }
+        });
       });
     });
   });
 });
+
 
 // 일정 보여주는 코드
 
@@ -449,21 +446,6 @@ app.get('/api/getSchedule', (req, res) => {
 
 
 
-app.get('/clanBossMembers/:clanName', (req, res) => {
-  const clanName = req.params.clanName;
-
-  const query = `SELECT user_nick FROM users WHERE clan = ? AND clan_boss = true`;
-
-  connection.query(query, [clanName], (err, results) => {
-    if (err) {
-      console.error('Error fetching clan boss members:', err);
-      res.status(500).send({ error: 'Failed to fetch clan boss members' });
-    } else {
-      const nicknames = results.map(result => result.nickname);
-      res.status(200).send(nicknames);
-    }
-  });
-});
 // 게시판 리스트
 app.get("/api/boardList", (req, res) => {
   const q = "SELECT * FROM boards";
@@ -517,32 +499,26 @@ app.post('/api/subscribe', async (req, res) => {
   }
 });
 
-// 팀 구독 정보
-app.get('/api/subscription/:team_idx/:userId', (req, res) => {
-  const userId = req.params.userId;
-  const team_idx = req.params.team_idx;
+// 팀 구독 정보 가져오기
+app.post('/api/subscription', (req, res) => {
+  const userId = req.body.user_id; // 수신된 데이터
 
-  const sql = `SELECT * FROM subscriptions WHERE user_id=${userId} AND team_idx=${team_idx}`;
-
+  const sql = `SELECT DISTINCT t.team_name
+  FROM teams t
+  INNER JOIN subscriptions u ON t.team_idx = u.team_idx
+  WHERE u.user_id = '${userId}'`;
   connection.query(sql, (err, data) => {
-    if (err) return res.json(err);
-    if (data.length === 0) {
-      // 구독 정보가 없을 경우 isSubscribed를 false로 응답합니다.
-      return res.json({ isSubscribed: false });
-    } else {
-
-      // 구독 정보가 있을 경우 isSubscribed를 true로 응답합니다.
-      return res.json({ isSubscribed: true });
+    if(err){
+      console.error('구독 정보 받아오기 중 에러 발생', err);
+      return res.status(500).send('구독 정보를 받아오는중 에러가 발생하였습니다.')
     }
+    res.json(data) // 응답
   });
 });
 
 
-
-
-
 // 마이페이지 에서 팀 구독 전체 가져오기
-app.get('/api/usersubscriptions', (req, res) => {
+app.get('/api/subscription', (req, res) => {
 
   console.log('app get user')
   const userId = req.session.userId;
@@ -617,6 +593,23 @@ app.delete('/api/ClanDelete/', (req, res) => {
     console.log('클랜 삭제 성공');
     res.status(200).send('클랜 삭제가 완료되었습니다.');
   });
+});
+
+// 클랜 멤버 가져오기
+app.post('/api/ClanMember', (req, res) => {
+  const userId = req.body.user_id; // 수신된 데이터
+  console.log('Received data:', userId);
+  const sql = 
+  `SELECT user_nick
+  FROM users
+  WHERE clan = (SELECT clan FROM users WHERE user_id = '${userId}'); `;
+  connection.query(sql, (err, result) => {
+    if(err){
+      console.error('클랜 멤버 가져오기 중 오류 발생:', err);
+      return res.status(500).send('클랜 멤버 가져오기 중 오류가 발생했습니다.');
+    }
+    res.json(result) // 응답
+  })
 });
 
 
