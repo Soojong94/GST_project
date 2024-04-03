@@ -462,7 +462,7 @@ app.post('/api/subscribe', async (req, res) => {
 
   if (isSubscribed) {
     // 구독 추가
-    const query = 'INSERT INTO subscriptions (user_id, team_idx, created_at, sub_is) VALUES (?, ?, NOW(),1)';
+    const query = 'INSERT INTO subscriptions (user_id, team_idx, created_at) VALUES (?, ?, NOW())'
     const params = [userId, teamIdx];
     connection.query(query, params, (error, result) => {
       if (error) {

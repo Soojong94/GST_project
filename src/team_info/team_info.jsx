@@ -18,7 +18,7 @@ import logo10 from '../team_subsc/logo/BRO.PNG'
 const Team_info = () => {
   const { team_idx } = useParams();
   const [team, setTeam] = useState(null);
-  const [isSubscribed, setIsSubscribed] = useState(null);
+  const [isSubscribed, setIsSubscribed] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [userId, setUserId] = useState(null);
   
@@ -28,7 +28,7 @@ const Team_info = () => {
       try {
         setIsLoading(true);
         const res = await axios.get(`http://localhost:5000/api/teaminfo/${team_idx}`);
-        console.log(res);
+        console.log('팀정보:',res);
         setTeam(res.data[0]);
         setIsLoading(false);
       } catch (err) {
@@ -44,12 +44,14 @@ const Team_info = () => {
       try {
         const res = await axios.get(`http://localhost:5000/session`, { withCredentials: true });
         setUserId(res.data.user_id);
-  
+        console.log('세션',res.data.user_id);
+
         const resSub = await axios.post(`http://localhost:5000/api/subscription`, { user_id: res.data.user_id, team_idx: team_idx });
         const subscription = resSub.data;
-        
+        console.log('사용자 구독 정보:',subscription);
+
         // Check if the user is subscribed to this team
-        setIsSubscribed(subscription.sub_is === 1);
+        setIsSubscribed(subscription.length > 0);
       } catch (err) {
         console.error('구독 정보를 가져오는 중 에러가 발생했습니다:', err);
       }
@@ -104,11 +106,11 @@ const Team_info = () => {
   
               <div className='subscribe-area'>
               <button
-                  className={`subscribe-button ${isSubscribed===1 ? 'subscribed' : ''}`}
-                  onClick={toggleSubscription}
-                >
-                  {isSubscribed ? '구독중' : '구독'}
-                </button>
+    className={`subscribe-button ${isSubscribed ? 'subscribed' : ''}`}
+    onClick={toggleSubscription}
+>
+    {isSubscribed ? '구독중' : '구독'}
+</button>
               </div>
             <div id='team-info-text' className='team-info-text'>
               <br />
