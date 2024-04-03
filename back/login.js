@@ -348,26 +348,6 @@ app.get('/api/sharedSchedules/:userId', (req, res) => {
 });
 
 
-
-// 일정 보여주는 코드
-app.get('/api/getSchedule', (req, res) => {
-  // 세션에서 사용자 ID 가져오기
-  const userId = req.session.userId;
-
-  // 데이터베이스에서 해당 사용자의 일정 가져오기
-  const query = 'SELECT * FROM schedule WHERE userId = ?';
-  connection.query(query, [userId], (err, results) => {
-    if (err) {
-      console.error('일정 조회 중 에러 발생:', err);
-      res.status(500).send('서버 에러');
-    } else {
-      console.log('일정 조회 성공:', results);
-      // 클라이언트에게 일정 데이터 전송
-      res.status(200).json(results);
-    }
-  });
-});
-
 // 회원정보 수정 
 app.post('/api/updateUserInfo', (req, res) => {
   // 클라이언트로부터 전송된 수정된 정보를 가져옵니다.
@@ -448,29 +428,6 @@ app.delete('/api/userDelete/:userId', (req, res) => {
   });
 });
 
-
-// 일정 보여주는 코드
-
-app.get('/api/getSchedule', (req, res) => {
-  // 세션에서 사용자 ID 가져오기
-  const userId = req.session.userId;
-
-  // 데이터베이스에서 해당 사용자의 일정 가져오기
-  const query = 'SELECT * FROM user_schedules WHERE user_id = ?';
-  connection.query(query, [userId], (err, results) => {
-    if (err) {
-      console.error('일정 조회 중 에러 발생:', err);
-      res.status(500).send('서버 에러');
-    } else {
-      console.log('일정 조회 성공:', results);
-      // 클라이언트에게 일정 데이터 전송
-      res.status(200).json(results);
-    }
-  });
-});
-
-
-
 // 게시판 리스트
 app.get("/api/boardList", (req, res) => {
   const q = "SELECT * FROM boards";
@@ -542,7 +499,7 @@ app.post('/api/subscription', (req, res) => {
 });
 
 
-// 마이페이지 에서 팀 구독 전체 가져오기
+// 팀 구독 전체 가져오기
 app.get('/api/subscription', (req, res) => {
 
   console.log('app get user')
@@ -567,6 +524,34 @@ app.get('/api/subscription', (req, res) => {
     } else {
       const userSubscriptions = results;
       res.json(userSubscriptions);
+    }
+  });
+});
+
+// 마이페이지에서 구독정보 가져오기
+app.get('/api/Mypagesubscription/:userId' ,(req, res) => {
+
+  const userId = req.params.userId;
+  console.log(userId)
+
+  if (!userId) {
+    res.status(401).send('Unauthorized');
+    return;
+  }
+
+  const query = `
+    SELECT teams.team_name
+    FROM subscriptions
+    INNER JOIN teams ON subscriptions.team_idx = teams.team_idx
+    WHERE subscriptions.user_id = '${userId}';
+  `;
+
+  connection.query(query,(error, results) => {
+    if (error) {
+      console.error('Error fetching user subscriptions:', error);
+      res.status(500).send('Error fetching user subscriptions');
+    } else {
+      res.json(results);
     }
   });
 });
@@ -603,23 +588,46 @@ app.post('/api/ClanCreate', (req, res) => {
 });
 
 // 클랜 삭제 기능
-app.delete('/api/ClanDelete/', (req, res) => {
-  // const userId = req.session.userId;
+app.delete('/api/ClanDelete/:userId', (req, res) => {
+  const boss_id = req.params.userId;
 
   // 클랜 삭제를 위한 SQL 문
-  const sql = `DELETE FROM clans WHERE clan_boss_id = ?`;
 
-  connection.query(sql, ['user2@example.com'], (err, results) => {
+  // 클랜에 속한 사용자들의 clan 컬럼을 null로 업데이트
+  const updateUsersQuery = `UPDATE users SET clan = NULL WHERE clan = (SELECT clan_name FROM clans WHERE clan_boss_id = '${boss_id}')`;
+
+  connection.query(updateUsersQuery, (err, result) => {
     if (err) {
-      console.error('클랜 삭제 에러:', err);
-      res.status(500).send('클랜 삭제 중 오류가 발생했습니다.');
+      console.error('Error updating users:', err);
+      res.status(500).send({ message: 'Error occurred while updating users.' });
       return;
     }
-    console.log('클랜 삭제 성공');
-    res.status(200).send('클랜 삭제가 완료되었습니다.');
+
+  // 클랜장의 보스 여부 변경
+  const updateclanbossQuery = `UPDATE users SET clan_boss = 'n' WHERE user_id ='${boss_id}'`;
+  connection.query(updateclanbossQuery, (err, result) => {
+    if (err) {
+      console.error('Error updating users:', err);
+      res.status(500).send({ message: 'Error occurred while updating users.' });
+      return;
+    }
+
+
+
+    // 클랜 삭제를 위한 SQL 문
+    const deleteClanQuery = `DELETE FROM clans WHERE clan_boss_id = '${boss_id}'`;
+    connection.query(deleteClanQuery, (err, result) => {
+      if (err) {
+        console.error('Error deleting clan:', err);
+        res.status(500).send({ message: 'Error occurred while deleting clan.' });
+        return;
+      }
+
+      res.status(200).send({ message: 'Clan deleted successfully.' });
+    });
+  });
   });
 });
-
 // 클랜 멤버 가져오기
 app.post('/api/ClanMember', (req, res) => {
   const userId = req.body.user_id; // 수신된 데이터
@@ -636,6 +644,19 @@ app.post('/api/ClanMember', (req, res) => {
     res.json(result) // 응답
   })
 });
+
+// 클랜 멤버 탈퇴시키기
+app.delete('/api/ClanMemberDelete/:userNick', (req,res)=>{
+  const user_nick = req.params.userNick;
+  const sql = `UPDATE users SET clan = NULL WHERE user_nick = '${user_nick}'`;
+  connection.query(sql, (err, result) => {
+    if(err){
+      console.log('클랜 멤버 탈퇴 오류', err);
+      return res.status(500).send('클랜 멤버를 탈퇴하는 중 오류가 발생하였습니다')
+    }
+    res.status(200).send({message: '클랜 멤버 탈퇴 성공'})
+  })
+})
 
 
 // 경기 일정 가져오기
