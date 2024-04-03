@@ -10,6 +10,7 @@ const bcrypt = require('bcrypt');
 const util = require('util');
 const axios = require('axios')
 const path = require('path');
+const { log } = require('console');
 
 // MySQL 연결 초기화 및 오픈
 const connection = mysqlConnection.init();
@@ -727,6 +728,60 @@ app.post('/api/deleteSchedule', async (req, res) => {
     res.status(500).send('Error deleting schedule');
   }
 });
+
+
+
+// 게시판 수정 기능
+app.put('/api/boardUpdate/:b_idx', (req, res) => {
+  const b_idx = req.params.b_idx;
+  const { user_id, title, content } = req.body;
+  console.log(b_idx,user_id,title,content);
+
+  const sql = `UPDATE boards SET b_content = '${content}', b_title ='${title}' WHERE b_idx = ${b_idx} AND user_id = '${user_id}'`;
+  connection.query(sql, (err, result) => {
+    if(err){
+      console.log('보드 수정 에러', err);
+      return res.status(500).send('보드 수정 에러');
+    }
+    
+    res.status(200).send('board Update successfully');
+});
+
+});
+
+// 게시판 삭제 기능
+
+app.delete('/api/boardDelete/:b_idx/:user_id', (req, res) => {
+  // 클라이언트로부터 받은 게시글 인덱스와 사용자 아이디를 가져옵니다.
+  const { b_idx, user_id } = req.params;
+  console.log('삭제',b_idx,user_id);
+
+  
+  const deleteCommentsQuery = `DELETE FROM comments WHERE b_idx = ${b_idx} AND user_id = '${user_id}'`;
+  const deleteBoardQuery = `DELETE FROM boards WHERE b_idx = ${b_idx} AND user_id = '${user_id}'`;
+
+
+  connection.query(deleteCommentsQuery, (error, commentsResult) => {
+    if (error) {
+      console.error('댓글 삭제 에러:', error);
+      return res.status(500).send({ error: '댓글 삭제 중 에러가 발생했습니다.' });
+    
+    }
+
+  connection.query(deleteBoardQuery, (error, boardResult) => {
+    if (error) {
+      console.error('게시글 삭제 에러:', error);
+      res.status(500).send({ error: '게시글 삭제 중 에러가 발생했습니다.' });
+      return;
+    }
+
+  // 성공 메시지 반환
+        res.status(200).send('게시글 삭제 성공');
+    });
+  });
+});
+
+
 
 // 서버 실행
 app.listen(port, () => {
