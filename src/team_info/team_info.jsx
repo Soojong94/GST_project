@@ -1,29 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import './style.css';
-import preview from './assets/preview.png';
-import logo from '../team_subsc/logo//T1.PNG';
 import Sidebar from '../sidebar-02/sidebar';
 import '../../src/App.css'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import logo1 from '../team_subsc/logo/T1.PNG'
+import logo2 from '../team_subsc/logo/GenG.PNG'
+import logo3 from '../team_subsc/logo/DK.PNG'
+import logo4 from '../team_subsc/logo/HLE.PNG'
+import logo5 from '../team_subsc/logo/KT.PNG'
+import logo6 from '../team_subsc/logo/DRX.PNG'
+import logo7 from '../team_subsc/logo/NS.PNG'
+import logo8 from '../team_subsc/logo/Fearx.PNG'
+import logo9 from '../team_subsc/logo/KDF.PNG'
+import logo10 from '../team_subsc/logo/BRO.PNG'
 
 const Team_info = () => {
-  const { team_idx } = useParams(); // URL 경로에서 idx 파라미터 가져오기
-  const [team, setTeam] = useState(null); // 팀 정보를 저장할 상태
-  const [isSubscribed, setIsSubscribed] = useState(null); // 구독 상태를 저장할 상태
+  const { team_idx } = useParams();
+  const [team, setTeam] = useState(null);
+  const [isSubscribed, setIsSubscribed] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     const fetchTeam = async () => {
       try {
-        setIsLoading(true); // Set loading to true at the start of your fetch
+        setIsLoading(true);
         const res = await axios.get(`http://localhost:5000/api/teaminfo/${team_idx}`);
-        setTeam(res.data[0]); // 응답받은 팀 정보를 상태에 저장
-        setIsLoading(false); // Set loading to false once the data has been set
+        setTeam(res.data[0]);
+        setIsLoading(false);
       } catch (err) {
         console.error('팀 정보를 가져오는 중 에러가 발생했습니다:', err);
-        setIsLoading(false); // Also set loading to false in case of error
+        setIsLoading(false);
       }
     };
     fetchTeam();
@@ -36,8 +44,8 @@ const Team_info = () => {
         setUserId(res.data.user_id);
 
         const resSub = await axios.get(`http://localhost:5000/api/subscription/${team_idx}/${res.data.user_id}`);
-        const subscription = resSub.data; // 서버에서 받은 구독 정보
-        setIsSubscribed(subscription.isSubscribed); // 구독 정보를 상태에 저장
+        const subscription = resSub.data;
+        setIsSubscribed(subscription.isSubscribed);
       } catch (err) {
         console.error('구독 정보를 가져오는 중 에러가 발생했습니다:', err);
       }
@@ -63,6 +71,20 @@ const Team_info = () => {
     }
   };
 
+  // Mapping team indexes to logo addresses
+  const teamLogoPaths = {
+    1: logo1,
+    2: logo2,
+    3: logo3,
+    4: logo4,
+    5: logo5,
+    6: logo6,
+    7: logo7,
+    8: logo8,
+    9: logo9,
+    10: logo10
+  };
+
   return (
     <div className='main_container'>
       <Sidebar />
@@ -78,8 +100,8 @@ const Team_info = () => {
                   {isSubscribed ? '구독중' : '구독'}
                 </button>
               </div>
-              {/* Apply CSS styles to center the logo and increase its size */}
-              <img src={logo} alt='Fetch API GraphQL Preview' style={{ width: '300px' }} />
+
+              <img src={teamLogoPaths[team.team_idx]} alt='Fetch API GraphQL Preview' style={{ width: '300px' }} />
             </div>
 
             <div className='team-info-text'>
@@ -96,11 +118,10 @@ const Team_info = () => {
               </div>
               <div>
                 <br />
-                <h2> ⭐⭐url 연결⭐⭐ ⭐⭐ </h2>
+                <h2> ⭐⭐⭐⭐⭐⭐ </h2>
                 <br />
                 <h3>
                   팀 공식 홈페이지 url:
-                  {/* team.team_page_url를 href에 동적으로 설정 */}
                   <a href={team.team_page_url}>Team website</a>
                   <br />
                   팀 인스타 url : <a href={team.team_instagram_url}>Team instagram</a>
