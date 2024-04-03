@@ -79,6 +79,18 @@ const Board_content = () => {
           </div>
 
         </div>
+
+
+        <Button variant="contained" id="board_delete" >
+          게시글 삭제
+        </Button>
+        <br></br>
+        <br></br>
+        <Button variant="contained" id="board_modify" >
+          게시글 수정
+        </Button>
+        <br></br>
+        <br></br>
         <Button variant="contained" id="clan_apply" >
           클랜 가입 신청
         </Button>
