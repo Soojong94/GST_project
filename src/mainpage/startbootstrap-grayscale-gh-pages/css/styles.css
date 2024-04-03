@@ -3308,10 +3308,10 @@ fieldset:disabled .btn {
 
 .btn-primary {
   --bs-btn-color: #fff;
-  --bs-btn-bg: #00d9ff;
-  --bs-btn-border-color: #00d9ff;
+  --bs-btn-bg: #5af700;
+  --bs-btn-border-color: #73ff00;
   --bs-btn-hover-color: #fff;
-  --bs-btn-hover-bg: #7ecbab;
+  --bs-btn-hover-bg: #00d9ff;
   --bs-btn-hover-border-color: #00d9ff;
   --bs-btn-focus-shadow-rgb: 123, 175, 172;
   --bs-btn-active-color: #fff;
@@ -3321,16 +3321,18 @@ fieldset:disabled .btn {
   --bs-btn-disabled-color: #fff;
   --bs-btn-disabled-bg: #00d9ff;
   --bs-btn-disabled-border-color: #00d9ff;
-  font-size: 30px !important;
+  font-size: 20px !important;
+  color: black;
+  font-weight: 700;
 }
 
 .btn-secondary {
   --bs-btn-color: #fff;
-  --bs-btn-bg: #7464a1;
+  --bs-btn-bg: #e5ff00;
   --bs-btn-border-color: #7464a1;
   --bs-btn-hover-color: #fff;
-  --bs-btn-hover-bg: #635589;
-  --bs-btn-hover-border-color: #5d5081;
+  --bs-btn-hover-bg: #00d9ff;
+  --bs-btn-hover-border-color: #00d9ff;
   --bs-btn-focus-shadow-rgb: 137, 123, 175;
   --bs-btn-active-color: #fff;
   --bs-btn-active-bg: #5d5081;
@@ -3339,6 +3341,9 @@ fieldset:disabled .btn {
   --bs-btn-disabled-color: #fff;
   --bs-btn-disabled-bg: #7464a1;
   --bs-btn-disabled-border-color: #7464a1;
+  font-size: 20px !important;
+  color: black;
+  font-weight: 700;
 }
 
 .btn-success {
@@ -3394,11 +3399,11 @@ fieldset:disabled .btn {
 
 .btn-danger {
   --bs-btn-color: #fff;
-  --bs-btn-bg: #a16468;
-  --bs-btn-border-color: #a16468;
+  --bs-btn-bg: #ff0011;
+  --bs-btn-border-color: #ff0011;
   --bs-btn-hover-color: #fff;
-  --bs-btn-hover-bg: #895558;
-  --bs-btn-hover-border-color: #815053;
+  --bs-btn-hover-bg: #00d9ff;
+  --bs-btn-hover-border-color: #00d9ff;
   --bs-btn-focus-shadow-rgb: 175, 123, 127;
   --bs-btn-active-color: #fff;
   --bs-btn-active-bg: #815053;
@@ -3407,6 +3412,9 @@ fieldset:disabled .btn {
   --bs-btn-disabled-color: #fff;
   --bs-btn-disabled-bg: #a16468;
   --bs-btn-disabled-border-color: #a16468;
+  font-size: 20px !important;
+  color: black;
+  font-weight: 700;
 }
 
 .btn-light {
@@ -13161,7 +13169,7 @@ body {
 
 /* gststart버튼 */
 .btn.btn-primary {
-  width: 150px; /* 너비 설정 */
+  width: 130px; /* 너비 설정 */
   height: 90px;
   display: flex;
   align-items: center;
@@ -13229,7 +13237,10 @@ body {
 }
 
 #Main_team_sub{
-  margin-left: 25%;
+  margin-left: 30%;
   width: 50%;
   
+}
+#Main_calendar{
+  width: 100%;
 }

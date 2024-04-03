@@ -127,7 +127,7 @@ const AddSchedule = ({ onScheduleAdded }) => {
             <div className="button-group mt-8">
               <button type="submit" className="btn btn-primary mr-2">등록</button>
               <button type="button" className="btn btn-secondary mr-2" onClick={handleReset}>초기화</button>
-              <button type="button" className="btn btn-secondary" onClick={handleCancel}>취소</button>
+              <button type="button" className="btn btn-danger" onClick={handleCancel}>취소</button>
             </div>
           </form>
         </div>

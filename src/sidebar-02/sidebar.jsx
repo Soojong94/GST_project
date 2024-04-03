@@ -10,6 +10,7 @@ import AnalyticsIcon from '@mui/icons-material/Analytics';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SettingsIcon from '@mui/icons-material/Settings';
 import axios from 'axios';
+import AirplayIcon from '@mui/icons-material/Airplay';
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -76,6 +77,13 @@ const Sidebar = () => {
               <span className="link hide">자유 게시판<br></br>(오픈 예정)</span>
             </Link>
           </li>
+          <li>
+            <Link to='/' title="Mainpage" >
+              <AirplayIcon />
+              <span className="link hide">메인페이지</span>
+            </Link>
+          </li>
+
         </ul>
       </div>
       <div className="sidebar-bottom">
