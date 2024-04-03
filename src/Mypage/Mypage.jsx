@@ -3,7 +3,6 @@ import axios from 'axios';
 import './Mypage.css';
 import Sidebar from '../sidebar-02/sidebar';
 import ClanMember from './ClanMember';
-import { C } from '@fullcalendar/core/internal-common';
 
 function Mypage() {
 
@@ -49,6 +48,7 @@ function Mypage() {
       const response = await axios.post('http://localhost:5000/api/updateUserInfo', { ...updatedUserInfo, user_id: userId });
       console.log(response.data); // 서버로부터의 응답 로그에 출력
       setIsEditing(false); // 수정 모드 종료
+      window.location.reload();
     } catch (error) {
       console.error('서버로 수정된 정보 전송 중 오류 발생:', error);
       // 오류 발생 시 사용자에게 알림을 추가할 수 있습니다.
@@ -64,10 +64,15 @@ function Mypage() {
         const userId = userinfo.user_id;
         console.log(userId)
         const confirmed = window.confirm("정말 탈퇴 하시겠습니까?");
-        const response = await axios.delete(`http://localhost:5000/api/userDelete/${userId}`);
-        console.log('회원 탈퇴 성공:', response.data);
-        window.location.reload();
-        // 성공적으로 회원 탈퇴한 경우, 사용자 목록에서 해당 사용자를 제거하는 작업 등을 수행할 수 있습니다.
+        if(confirmed){
+          const response = await axios.delete(`http://localhost:5000/api/userDelete/${userId}`);
+          console.log('회원 탈퇴 성공:', response.data);
+          window.location.reload();
+          // 성공적으로 회원 탈퇴한 경우, 사용자 목록에서 해당 사용자를 제거하는 작업 등을 수행할 수 있습니다.
+        } else{
+          console.log('탈퇴를 취소하셨습니다.')
+        }
+
       } else {
         console.log('사용자 정보가 없습니다.')
       }
@@ -110,10 +115,14 @@ function Mypage() {
         const userId = userinfo.user_id;
         console.log(userId)
         const confirmed = window.confirm("정말 클랜을 삭제 하시겠습니까?");
-        const response = await axios.delete(`http://localhost:5000/api/ClanDelete/${userId}`);
-        console.log('클랜 탈퇴 성공:', response.data);
-        // 성공적으로 회원 탈퇴한 경우, 사용자 목록에서 해당 사용자를 제거하는 작업 등을 수행할 수 있습니다.
-        window.location.reload();
+        if(confirmed){
+          const response = await axios.delete(`http://localhost:5000/api/ClanDelete/${userId}`);
+          console.log('클랜 탈퇴 성공:', response.data);
+          // 성공적으로 회원 탈퇴한 경우, 사용자 목록에서 해당 사용자를 제거하는 작업 등을 수행할 수 있습니다.
+          window.location.reload();
+        }else{
+          console.log('클랜 삭제를 취소하셨습니다.');
+        }
       } else {
         console.log('사용자 정보가 없습니다.')
       }
@@ -182,8 +191,8 @@ function Mypage() {
 
   return (
     <>
-      <div>
-        <div><Sidebar /></div>
+      <div id='Mypage_main'>
+        <div><Sidebar/></div>
         <div className="tabs-container" id='tabsContainer'>
           <ul className="tabs">
             <li>
@@ -217,7 +226,7 @@ function Mypage() {
           </ul>
           <div className="tab-content-wrapper">
             <section id="tab1-content" className="tab-content">
-              {userInfo ? (
+              {userInfo? (
                 <div>
                   <h2>아이디</h2>
                   <p>{userInfo.user_id}</p>
@@ -237,17 +246,19 @@ function Mypage() {
                   <p>{userInfo.clan}</p>
                   <h2>회원 가입날짜</h2>
                   <p>{userInfo.joined_at}</p>
-                </div>
-              ) : (<p>loading...</p>)}
-
-              {isEditing ? (
+                
+              
+              
+              { isEditing ? (
                 <button id='MpSave-btn' onClick={handleSave}>저장</button>
               ) : (
                 <button id='MpEdit-btn' onClick={handleEdit}>수정</button>
               )}
+              
 
               <button id='MpDel-btn' onClick={handleDelete}>회원 탈퇴</button>
-
+              </div>
+              ) : (<h2>로그인 후 이용 가능합니다</h2>)}
             </section>
 
             <section id="tab2-content" className="tab-content">
@@ -267,7 +278,7 @@ function Mypage() {
                 <div>
                   <h2>클랜원</h2>
                   <div className='clanMember'><ClanMember/></div>
-                  <button onClick={handleclanDelete}>클랜 삭제</button>
+                  <button id='clanDel-btn' onClick={handleclanDelete}>클랜 삭제</button>
                 </div>
               ) : (<h2>클랜이 없습니다.</h2>)}
             </section>
