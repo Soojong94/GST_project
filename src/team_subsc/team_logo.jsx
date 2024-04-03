@@ -54,29 +54,28 @@ function TeamSubscCard({ teamIdx, altText, title, content, link }) {
 
   );
 }
-
 function TeamSubsc() {
-  
   const [teams, setTeams] = useState([]);
 
   useEffect(() => {
     const fetchTeams = async () => {
       try {
         const res = await axios.get('/api/teams'); // 서버의 경로에 맞게 수정
-        const teamwithImages = res.data.map((team)=>({
+        const teamWithImages = res.data.map((team) => ({
           ...team,
           imgSrc: teamImageMap[team.team_idx],
-          link: `/Teaminfo/${team.team_idx}`
+          link: `/Teaminfo/${team.team_idx}`,
+          fontSize: team.fontSize + 2 // 폰트 크기에 2씩 더해주기
         }));
-          setTeams(teamwithImages);
-        } catch (err) {
+        setTeams(teamWithImages);
+      } catch (err) {
         console.error('팀 정보를 가져오는 중 에러가 발생했습니다:', err);
       }
     };
 
     fetchTeams();
   }, []);
-  
+
   return (
     <div className='main_container'>
       <Sidebar />
@@ -86,16 +85,16 @@ function TeamSubsc() {
           <TeamSubscCard
             key={team.team_idx}
             teamIdx={team.team_idx}
-            imgSrc={team.imgSrc} // 임포트한 이미지를 디비에서 받온 고유한 값과 일치 시켜 보여주고 싶어
+            imgSrc={team.imgSrc}
             altText={team.team_player}
             title={team.team_name}
             content={team.team_profile}
             link={team.link}
+            fontSize={team.fontSize} // 수정된 폰트 크기를 전달
           />
         ))}
       </div>
     </div>
-
   );
 }
 

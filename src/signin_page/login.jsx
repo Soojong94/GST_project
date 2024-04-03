@@ -123,7 +123,7 @@ const Signin = () => {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/SignUp" variant="body2">
+                <Link href="/Signup" variant="body2">
                   {"회원가입하기"}
                 </Link>
               </Grid>

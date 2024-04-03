@@ -1,36 +1,56 @@
 .team-info {
-  margin-left: 400px;
+  margin-left: 25%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-start;
   max-width: 800px;
   text-align: center;
+  border: 3px solid black;
+  padding: 20px;
 }
 
 @media (max-width: 768px) {
   .team-info {
-    max-width: none; /* Override max-width */
+    max-width: none;
+    margin-left: 0;
   }
 }
 
 .team-info-img {
-  margin-left: 240px; /* Move the logo further to the right */
+  margin-left: 25%;
   margin-bottom: 20px;
+  width: 50%;
+  height: auto;
 }
 
+.team-info-text {
+  text-align: center;
+  border: 3px solid black;
+  padding: 20px;
+  margin-top: 20px;
+  width: 100%;
+}
 
-  .team-info-text {
-    max-width: none;
-    text-align: center;
-  }
+#signUp_main_TI {
+  padding-top: 12%;
+  height: 100vh;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  align-items: center;
+}
 
+#team-info-img {
+  margin-left: 25%;
+  width: 50%;
+  height: 40%;
+  align-items: center;
+}
 
 .subscribe-area {
   display: flex;
   justify-content: flex-end;
   margin: 20px;
-  
 }
 
 .subscribe-button {
@@ -39,12 +59,11 @@
   border: none;
   padding: 10px 20px;
   cursor: pointer;
-
   transition: background-color 0.3s ease;
   font-weight: bold;
-  height: 40px; /* 높이 조정 */
+  height: 40px;
   width: 100px;
-  border-radius: 5px; /* 테두리의 꼭지점을 둥글게 조정 */
+  border-radius: 5px;
 }
 
 .subscribe-button:hover {
