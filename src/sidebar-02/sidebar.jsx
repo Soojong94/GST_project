@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import './style.css'; 
+import './style.css';
 import logo from '../signin_page/GST_logo.png';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
@@ -11,6 +11,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import SettingsIcon from '@mui/icons-material/Settings';
 import axios from 'axios';
 import AirplayIcon from '@mui/icons-material/Airplay';
+
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -53,13 +54,13 @@ const Sidebar = () => {
       <div className="sidebar-links">
         <ul>
           <li>
-            <Link to="/Calendar" title="Dashboard"  onClick={() => handleLinkClick('/Calendar')}>
+            <Link to="/Calendar" title="Dashboard" onClick={() => handleLinkClick('/Calendar')}>
               <CalendarMonthIcon />
               <span className="link hide">캘린더</span>
             </Link>
           </li>
           <li>
-            <Link to="/TeamSubscriptions" title="Project"  onClick={() => handleLinkClick('/TeamSubscriptions')}>
+            <Link to="/TeamSubscriptions" title="Project" onClick={() => handleLinkClick('/TeamSubscriptions')}>
               <SubscriptionsIcon />
               <span className="link hide">팀 구독 게시판</span>
             </Link>
@@ -70,19 +71,14 @@ const Sidebar = () => {
               <span className="link hide">클랜 게시판</span>
             </Link>
           </li>
-     
+
           <li>
             <Link title="freeBoard" >
               <AnalyticsIcon />
               <span className="link hide">자유 게시판<br></br>(오픈 예정)</span>
             </Link>
           </li>
-          <li>
-            <Link to='/' title="Mainpage" >
-              <AirplayIcon />
-              <span className="link hide">메인페이지</span>
-            </Link>
-          </li>
+
 
         </ul>
       </div>
@@ -90,13 +86,19 @@ const Sidebar = () => {
         <div className="sidebar-links">
           <ul>
             <li>
-              <Link to="/Mainpage" title="Logout"  onClick={handleLogout}>
+              <Link to='/' title="Mainpage" >
+                <AirplayIcon />
+                <span className="link hide">메인 페이지</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/Mainpage" title="Logout" onClick={handleLogout}>
                 <LogoutIcon />
                 <span className="link hide">로그아웃</span>
               </Link>
             </li>
             <li>
-              <Link to="/Mypage" title="Mypage"  onClick={() => handleLinkClick('/Mypage')}>
+              <Link to="/Mypage" title="Mypage" onClick={() => handleLinkClick('/Mypage')}>
                 <SettingsIcon />
                 <span className="link hide">세팅</span>
               </Link>
