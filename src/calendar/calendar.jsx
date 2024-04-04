@@ -24,7 +24,6 @@ const teamInfo = {
   10: 'BRO'
 };
 
-
 const Calendar = ({ initialEvents }) => {
   const navigate = useNavigate();
   let clickTimeout = null;
@@ -32,7 +31,6 @@ const Calendar = ({ initialEvents }) => {
   const [isAgendaVisible, setAgendaVisible] = useState(false);
   const [agendaEvents, setAgendaEvents] = useState([]);
   const [events, setEvents] = useState(initialEvents);
-  const [userInfo, setUserInfo] = useState(null);
 
 
 // 캘린더 페이지 컴포넌트 내에서 세션 체크 및 리다이렉션
@@ -49,56 +47,48 @@ useEffect(() => {
 }, []);
 
 
- useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const userinfo = JSON.parse(sessionStorage.getItem("user"))
-          console.log('session', userinfo.user_id);
-          if (userinfo) {
-            const userId = userinfo.user_id;
-            const dataSend = { user_id: userId };
-            const response = await axios.post('http://localhost:5000/UserInfo', dataSend)
-            setUserInfo(response.data[0]);
-            console.log(response.data[0]);
-          } else {
-            console.log('사용자 정보가 없습니다.')
-          }
-        } catch (error) {
-          console.error('회원정보 userid 전달 에러:', error);
-        }
-      };
+  useEffect(() => {
+    fetchSessionData(); // 페이지 진입 시 세션 정보 업데이트
+  }, []);
   
-      fetchData();
-    }, []);
+  const fetchSessionData = async () => {
+    try {
+      const response = await axios.get('/session');
+      const sessionData = response.data;
+      const { user_id, clan_boss } = sessionData;
   
+      // sessionStorage에 사용자 정보 저장
+      sessionStorage.setItem("user", JSON.stringify(sessionData));
+  
+      fetchScheduleData(user_id, clan_boss);
+    } catch (error) {
+      console.error('Error fetching session data:', error);
+    }
+  };
 
-    const fetchScheduleData = async () => {
-      try {
-        const userinfo = JSON.parse(sessionStorage.getItem("user"));
-        if (userinfo) {
-          const userId = userinfo.user_id;
-          const response = await axios.get(`/api/schedule/${userId}`);
-          const scheduleData = response.data;
+
+  const fetchScheduleData = async (userId, clanBoss) => {
+        try {
+          const response = await axios.get(`/api/schedule/${userId}`);
+          const scheduleData = response.data;
     
-          const newEvents = [
-            ...scheduleData.personal.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt, color: 'yellow', calendarType: 1, id: event.sche_idx, user_id: userId, clan_boss: userinfo.clan_boss, sche_idx: event.sche_idx })),
-            ...scheduleData.clan.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt, color: 'lightgreen', calendarType: 2, id: event.sche_idx, user_id: userId, clan_boss: userinfo.clan_boss, sche_idx: event.sche_idx })),
-            ...scheduleData.subscribedMatch.map(event => ({
-              title: `${teamInfo[event.team_1]} ${event.team_1_score} vs ${event.team_2_score} ${teamInfo[event.team_2]}`, start: event.matched_at, color: '#FF6347', sche_idx: event.sche_idx
-            }))
-          ];
-          setEvents(newEvents);
-        } else {
-          console.log('사용자 정보가 없습니다.');
-        }
-      } catch (error) {
-        console.error('Error fetching schedule data:', error);
-      }
-    };
+          const newEvents = [
+            ...scheduleData.personal.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt, color: 'yellow', calendarType: 1, id: event.sche_idx, user_id: userId, clan_boss: clanBoss, sche_idx: event.sche_idx })),
+            ...scheduleData.clan.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt, color: 'lightgreen', calendarType: 2, id: event.sche_idx, user_id: userId, clan_boss: clanBoss, sche_idx: event.sche_idx })),
+            ...scheduleData.subscribedMatch.map(event => ({
+              title: `${teamInfo[event.team_1]} ${event.team_1_score} vs ${event.team_2_score} ${teamInfo[event.team_2]}`, start: event.matched_at, color: '#FF6347', sche_idx: event.sche_idx
+            }))
+          ];
+          setEvents(newEvents);
     
-    useEffect(() => {
-      fetchScheduleData();
-    }, []);
+        } catch (error) {
+          console.error('Error fetching schedule data:', error);
+        }
+      };
+
+  useEffect(() => {
+    fetchSessionData();
+  }, []);
 
   const handleDateClick = (selectInfo) => {
     if (clickTimeout !== null) {
