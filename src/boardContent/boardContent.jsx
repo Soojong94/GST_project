@@ -203,16 +203,16 @@ const Board_content = () => {
         >
           {clanButtonText}
         </Button>
-
-        <hr />
-
-        <div className="board_comment">
+        <br/>
+        <br/>
+        <div className="board_comments">
           <Box mt={4}>
-            <CommentForm />
+            <CommentForm/>
           </Box>
           <Grid container spacing={2}>
+            
             {comments.map((comment, index) => (
-              <Grid item key={index} xs={12}>
+              <Grid item key={index} xs={12} >
                 <Box p={2} bgcolor="#f5f5f5" borderRadius={4}>
                   <Typography variant="body1">
                     {comment.user_nick}: {comment.cmt_content}

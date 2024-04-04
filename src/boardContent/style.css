@@ -8,6 +8,7 @@
     padding-bottom: 50px;
     margin-left: 30%;
     padding-left: 3%;
+    padding-right: 3%;
 }
 
 
@@ -82,16 +83,17 @@
     font-weight: 700;
 }
 
-.board_comment{
-    align-items: center;
-    text-align: center;
-    width : 300px
-    align-items-center;
+.board_comments{
+    align-items: flex-start;
+    justify-content: flex-start;
+    width : 100%;
+    border: 2px solid rgba(38, 40, 46, 0.06);;
+    border-radius: 20px;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-bottom: 10%;
+    background-color: whitesmoke;
 }
-
-.button-container {
- 
-  }
   
   #clan_apply {
     background-color: #4CAF50;
@@ -131,4 +133,7 @@
   }
   #board_modify:hover {
     background-color: #00aeff;
+  }
+  .css-qw1lk7-MuiFormControl-root-MuiTextField-root{
+    width: 100% !important;
   }
