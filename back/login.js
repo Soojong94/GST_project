@@ -511,36 +511,6 @@ app.post('/api/subscription', (req, res) => {
 });
 
 
-
-// '// 팀 구독 전체 가져오기
-// app.get('/api/subscription', (req, res) => {
-
-//   console.log('app get user')
-//   const userId = req.session.userId;
-
-//   if (!userId) {
-//     res.status(401).send('Unauthorized');
-//     return;
-//   }
-
-//   const query = `
-//     SELECT subscriptions.user_id, teams.team_name
-//     FROM subscriptions
-//     INNER JOIN teams ON subscriptions.team_idx = teams.team_idx
-//     WHERE subscriptions.user_id = ?
-//   `;
-
-//   connection.query(query, [userId], (error, results) => {
-//     if (error) {
-//       console.error('Error fetching user subscriptions:', error);
-//       res.status(500).send('Error fetching user subscriptions');
-//     } else {
-//       const userSubscriptions = results;
-//       res.json(userSubscriptions);
-//     }
-//   });
-// });'
-
 // 마이페이지에서 구독정보 가져오기
 app.get('/api/Mypagesubscription/:userId' ,(req, res) => {
 

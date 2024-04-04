@@ -28,7 +28,6 @@ const Team_info = () => {
       try {
         setIsLoading(true);
         const res = await axios.get(`http://localhost:5000/api/teaminfo/${team_idx}`);
-        console.log('팀정보:',res);
         setTeam(res.data[0]);
         setIsLoading(false);
       } catch (err) {
@@ -40,25 +39,46 @@ const Team_info = () => {
   }, [team_idx]);
 
   useEffect(() => {
-    const fetchSubscription = async () => {
-      try {
-        const res = await axios.get(`http://localhost:5000/session`, { withCredentials: true });
-        setUserId(res.data.user_id);
-        console.log('세션',res.data.user_id);
+    const fetchData = async () => {
+        try {
+            const userinfo = JSON.parse(sessionStorage.getItem("user"))
+            if (userinfo) {
+                const userId = userinfo.user_id;
+                const dataSend = { user_id: userId };
+                const response = await axios.post('http://localhost:5000/UserInfo', dataSend)
+                console.log(response.data[0]);
 
-        const resSub = await axios.post(`http://localhost:5000/api/subscription`, { user_id: res.data.user_id, team_idx: team_idx });
-        const subscription = resSub.data;
-        console.log('사용자 구독 정보:',subscription);
-
-        // Check if the user is subscribed to this team
-        setIsSubscribed(subscription.length > 0);
-      } catch (err) {
-        console.error('구독 정보를 가져오는 중 에러가 발생했습니다:', err);
-      }
+                // Set userId state
+                setUserId(userId);
+            } else {
+                console.log('사용자 정보가 없습니다.')
+            }
+        } catch (error) {
+            console.error('회원정보 userid 전달 에러:', error);
+        }
     };
-  
-    fetchSubscription();
-  }, [team_idx]);
+
+    fetchData();
+}, []);
+
+useEffect(() => {
+  const fetchSubscription = async () => {
+      try {
+          const resSub = await axios.post(`http://localhost:5000/api/subscription`, { user_id: userId, team_idx: team_idx });
+          const subscription = resSub.data;
+
+          // Check if the user is subscribed to this team
+          setIsSubscribed(subscription.length > 0);
+      } catch (err) {
+          console.error('구독 정보를 가져오는 중 에러가 발생했습니다:', err);
+      }
+  };
+
+  if (userId) {
+      fetchSubscription();
+  }
+}, [team_idx, userId]);
+
 
   const toggleSubscription = async () => {
     setIsSubscribed(!isSubscribed);
