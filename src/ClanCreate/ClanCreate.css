@@ -7,6 +7,7 @@
   height: 100vh;
   background-color: white;
   z-index: 1;
+  text-align: center;
   }
 /* 화면을 더 사용하기 위해 너비를 늘림 /
   / 콘텐츠 배경에 딥 스카이 블루 사용 /
