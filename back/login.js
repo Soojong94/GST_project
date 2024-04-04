@@ -667,7 +667,7 @@ app.post('/api/ClanMember', (req, res) => {
   const sql = 
   `SELECT user_nick
   FROM users
-  WHERE clan = (SELECT clan FROM users WHERE user_id = '${userId}'); `;
+  WHERE clan = (SELECT clan FROM users WHERE user_id = '${userId}') AND clan_boss = 'n';`;
   connection.query(sql, (err, result) => {
     if(err){
       console.error('클랜 멤버 가져오기 중 오류 발생:', err);
