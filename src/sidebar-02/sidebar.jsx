@@ -28,6 +28,8 @@ const Sidebar = () => {
     setActiveLink(href);
   };
 
+
+  
   const handleLogout = () => {
     axios.post('/logout')
       .then(response => {
