@@ -1,21 +1,22 @@
-/* ClanCreate.css */
-
-/* 전체 컨테이너에 대한 스카이 블루 배경 */
+/* clanCreate-container 스타일 */
 .clanCreate-container {
+  margin-left: 15%;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: rgba(117, 225, 227, 0.535);
-}
-
-/* 화면을 더 사용하기 위해 너비를 늘림 */
-/* 콘텐츠 배경에 딥 스카이 블루 사용 */
-/* 텍스트는 배경과 대비를 위해 흰색으로 설정 */
+  background-color: white;
+  z-index: 1;
+  text-align: center;
+  }
+/* 화면을 더 사용하기 위해 너비를 늘림 /
+  / 콘텐츠 배경에 딥 스카이 블루 사용 /
+  / 텍스트는 배경과 대비를 위해 흰색으로 설정 */
 .clanCreate-content {
-  width: 80%;
-  padding: 20px;
-  background-color: rgb(255, 255, 255);
+  width: 40%;
+  height: 95%;
+  padding: 6%;
+  background-color: whitesmoke;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   color: #000000;
@@ -25,28 +26,35 @@
 .clanCreateNames,
 .clanCreateText,
 .clanCreateFiles {
-  margin-bottom: 20px;
+  margin-bottom: 5%;
 }
 
-/* 제목에 대한 스타일 */
-/* 제목은 흰색으로 설정 */
+/* 제목에 대한 스타일 /
+  / 제목은 흰색으로 설정 */
 .clanCreateTitle {
   margin-bottom: 10px;
   font-size: 18px;
   color: #000000;
 }
-
+#sidebar_CC {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
 /* 텍스트 영역 스타일 */
 .clanCreate-inputs textarea {
-  width: 100%;
+  width: 80%;
+  height: 400px;
   padding: 10px;
-  border: 1px solid #000000;
+  border: 1px solid lightgray;
   border-radius: 5px;
 }
 
 /* 파일 입력 스타일 */
 .clanCreateFiles input[type='file'] {
   margin-top: 10px;
+  text-align: center;
 }
 
 /* 버튼 컨테이너 스타일 */
@@ -54,21 +62,57 @@
   position: relative;
 }
 
-/* 뒤로 가기 버튼 스타일 */
 #clanCreateBack-Btn {
   position: absolute;
+  top: 5%;
   right: 50%;
-
-  background-color: #ffffff;
+  
+  background-color: yellowgreen;
   color: black;
-}
-
-/* 등록 버튼 스타일 */
-/* 등록 버튼 텍스트는 흰색, 배경은 스카이 블루 */
+  border: 1px solid #000000;
+  border-radius: 5px;
+  }
+/* 등록 버튼 스타일 /
+  / 등록 버튼 텍스트는 흰색, 배경은 스카이 블루 */
 #clanCreateSub-Btn {
   position: absolute;
-  right: 20%;
-
-  background-color: #ffffff;
+  right: 30%;
+  top: 5%; 
+  background-color: red;
   color: black;
+  border: 1px solid #000000;
+  border-radius: 5px;
+}
+
+/* clanMembers 스타일 */
+#clanMembers {
+
+  right: 38%;
+
+  background-color: rgb(255, 247, 0);
+  color: black;
+  border: 1px solid #000000;
+  border-radius: 5px;
+
+  min-height: 20px;
+  min-width: 50px;
+}
+
+/* 다른 버튼들과 간격을 맞추기 위해 조정 */
+#clanCreateBack-Btn,
+#clanCreateSub-Btn,
+#clanMembers {
+  padding: 10PX;
+}
+#clanImage{
+  text-align: center;
+  margin-left: 25%;
+}
+
+#clanName-input{
+
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  background-color: white;
+
 }
