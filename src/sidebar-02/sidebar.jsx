@@ -104,7 +104,7 @@ const Sidebar = () => {
             <li>
               <Link to="/Mypage" title="Mypage" onClick={() => handleLinkClick('/Mypage')}>
                 <SettingsIcon />
-                <span className="link hide">세팅</span>
+                <span className="link hide">마이 페이지</span>
               </Link>
             </li>
           </ul>
