@@ -243,7 +243,9 @@ function Mypage() {
                     <p>{userInfo.user_phone}</p>
                   )}
                   <h2>클랜명</h2>
+                  {userInfo.clan? (
                   <p>{userInfo.clan}</p>
+                  ) : (<p>클랜이 없습니다.</p>)}
                   <h2>회원 가입날짜</h2>
                   <p>{userInfo.joined_at}</p>
                 
