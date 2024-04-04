@@ -12,8 +12,8 @@
   / 텍스트는 배경과 대비를 위해 흰색으로 설정 */
 .clanCreate-content {
   width: 40%;
-  height: 80%;
-  padding: 20px;
+  height: 100%;
+  padding: 6%;
   background-color: whitesmoke;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -24,7 +24,7 @@
 .clanCreateNames,
 .clanCreateText,
 .clanCreateFiles {
-  margin-bottom: 20px;
+  margin-bottom: 5%;
 }
 
 /* 제목에 대한 스타일 /
