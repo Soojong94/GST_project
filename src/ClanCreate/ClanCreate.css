@@ -46,13 +46,14 @@
   width: 80%;
   height: 400px;
   padding: 10px;
-  border: 1px solid #000000;
+  border: 1px solid lightgray;
   border-radius: 5px;
 }
 
 /* 파일 입력 스타일 */
 .clanCreateFiles input[type='file'] {
   margin-top: 10px;
+  text-align: center;
 }
 
 /* 버튼 컨테이너 스타일 */
@@ -62,8 +63,8 @@
 
 #clanCreateBack-Btn {
   position: absolute;
-  top: 15%;
-  right: 28%;
+  top: 5%;
+  right: 50%;
   
   background-color: yellowgreen;
   color: black;
@@ -75,7 +76,7 @@
 #clanCreateSub-Btn {
   position: absolute;
   right: 30%;
-
+  top: 5%; 
   background-color: red;
   color: black;
   border: 1px solid #000000;
@@ -84,11 +85,33 @@
 
 /* clanMembers 스타일 */
 #clanMembers {
-  right: 30%;
+
+  right: 38%;
+
   background-color: rgb(255, 247, 0);
   color: black;
   border: 1px solid #000000;
   border-radius: 5px;
+
+  min-height: 20px;
+  min-width: 50px;
 }
 
 /* 다른 버튼들과 간격을 맞추기 위해 조정 */
+#clanCreateBack-Btn,
+#clanCreateSub-Btn,
+#clanMembers {
+  padding: 10PX;
+}
+#clanImage{
+  text-align: center;
+  margin-left: 25%;
+}
+
+#clanName-input{
+
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  background-color: white;
+
+}

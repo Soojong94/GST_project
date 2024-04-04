@@ -104,6 +104,8 @@ function ClanCreate() {
             <MenuItem value={50}>50명</MenuItem>
           </Select>
           
+          <br></br>
+          
           <Button
             id="clanCreateSub-Btn"
             onClick={handleRegister}
