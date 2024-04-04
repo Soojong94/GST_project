@@ -10,6 +10,7 @@ import '../../src/App.css'; // 전역 스타일을 추가할 수도 있습니다
 // import Agenda from './../Agenda/Agenda';
 import axios from 'axios';
 
+
 const teamInfo = {
   1: 'T1',
   2: 'GenG',
@@ -32,27 +33,33 @@ const Calendar = ({ initialEvents }) => {
   const [events, setEvents] = useState(initialEvents);
 
 
+// 캘린더 페이지 컴포넌트 내에서 세션 체크 및 리다이렉션
+
+useEffect(() => {
+  // 세션 체크 로직
+  console.log("세션 체크 시작");
+  if (!sessionStorage.getItem("user")) {
+    console.log("세션이 없습니다. 메인 페이지로 리다이렉션합니다.");
+    
+  } else {
+    console.log("세션이 있습니다.");
+  }
+}, []);
+
+
   useEffect(() => {
-    console.log('메인 화면 세팅 완료')
-    // sessionStorage에 사용자 정보가 없을 때만 서버로부터 세션 정보를 가져옵니다.
-    if (!sessionStorage.getItem("user")) {
-      axios.get('/session')
-        .then(res => {
-          console.log('넘어온 세션', res.data)
-          sessionStorage.setItem("user", JSON.stringify(res.data));
-        })
-    }
-  }, [])
+    fetchSessionData(); // 페이지 진입 시 세션 정보 업데이트
+  }, []);
   
-
-
-
   const fetchSessionData = async () => {
     try {
       const response = await axios.get('/session');
       const sessionData = response.data;
       const { user_id, clan_boss } = sessionData;
-
+  
+      // sessionStorage에 사용자 정보 저장
+      sessionStorage.setItem("user", JSON.stringify(sessionData));
+  
       fetchScheduleData(user_id, clan_boss);
     } catch (error) {
       console.error('Error fetching session data:', error);

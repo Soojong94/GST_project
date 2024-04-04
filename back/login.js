@@ -153,8 +153,14 @@ app.get('/checkLogin', (req, res) => {
 // 세션 종료를 처리하는 엔드포인트(로그아웃)
 app.post('/logout', (req, res) => {
   req.session.user = null; // 세션 정보를 제거합니다.
-  console.log('세션바이');
-  return res.sendStatus(200);
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Error destroying session:', err);
+      return res.status(500).send('Error destroying session');
+    }
+    console.log('세션바이');
+    return res.sendStatus(200);
+  });
 });
 
 //=======================================================
