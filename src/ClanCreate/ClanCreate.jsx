@@ -58,7 +58,7 @@ function ClanCreate() {
 
   return (
     <div className="clanCreate-container">
-       <Sidebar />
+       <Sidebar id="sidebar_CC"/>
       <div className="clanCreate-content">
         <div className="clanCreateNames">
           <h2 className="clanCreateTitle">클랜 이름</h2>
