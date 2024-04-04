@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, TextField, Select, MenuItem } from '@mui/material';
 import './ClanCreate.css';
+import Sidebar from '../sidebar-02/sidebar';
 
 function ClanCreate() {
   const [title, setTitle] = useState('');
@@ -57,6 +58,7 @@ function ClanCreate() {
 
   return (
     <div className="clanCreate-container">
+       <Sidebar />
       <div className="clanCreate-content">
         <div className="clanCreateNames">
           <h2 className="clanCreateTitle">클랜 이름</h2>
@@ -86,6 +88,7 @@ function ClanCreate() {
           <input type="file" id="clanImage" onChange={(e) => setFile(e.target.files[0])} />
         </div>
         <div>
+          
           <h3>인원 제한</h3>
           <Select
             id="clanMembers"
@@ -100,6 +103,7 @@ function ClanCreate() {
             <MenuItem value={40}>40명</MenuItem>
             <MenuItem value={50}>50명</MenuItem>
           </Select>
+          
           <Button
             id="clanCreateSub-Btn"
             onClick={handleRegister}
