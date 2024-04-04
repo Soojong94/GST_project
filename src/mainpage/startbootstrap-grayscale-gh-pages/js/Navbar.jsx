@@ -25,20 +25,6 @@ const Navbar = ({ signup, login }) => {
     };
   }, []);
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get('/session');
-        const userData = response.data;
-        setUser(userData);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-
-    fetchUserData();
-  }, []);
-
   const handleMenuToggle = () => {
     setIsMenuOpen(!isMenuOpen);
   };

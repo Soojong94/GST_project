@@ -10,6 +10,7 @@ import '../../src/App.css'; // 전역 스타일을 추가할 수도 있습니다
 // import Agenda from './../Agenda/Agenda';
 import axios from 'axios';
 
+
 const teamInfo = {
   1: 'T1',
   2: 'GenG',
@@ -23,6 +24,7 @@ const teamInfo = {
   10: 'BRO'
 };
 
+
 const Calendar = ({ initialEvents }) => {
   const navigate = useNavigate();
   let clickTimeout = null;
@@ -30,58 +32,73 @@ const Calendar = ({ initialEvents }) => {
   const [isAgendaVisible, setAgendaVisible] = useState(false);
   const [agendaEvents, setAgendaEvents] = useState([]);
   const [events, setEvents] = useState(initialEvents);
+  const [userInfo, setUserInfo] = useState(null);
 
 
-  useEffect(() => {
-    console.log('메인 화면 세팅 완료')
-    // sessionStorage에 사용자 정보가 없을 때만 서버로부터 세션 정보를 가져옵니다.
-    if (!sessionStorage.getItem("user")) {
-      axios.get('/session')
-        .then(res => {
-          console.log('넘어온 세션', res.data)
-          sessionStorage.setItem("user", JSON.stringify(res.data));
-        })
-    }
-  }, [])
+// 캘린더 페이지 컴포넌트 내에서 세션 체크 및 리다이렉션
+
+useEffect(() => {
+  // 세션 체크 로직
+  console.log("세션 체크 시작");
+  if (!sessionStorage.getItem("user")) {
+    console.log("세션이 없습니다. 메인 페이지로 리다이렉션합니다.");
+    
+  } else {
+    console.log("세션이 있습니다.");
+  }
+}, []);
+
+
+ useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const userinfo = JSON.parse(sessionStorage.getItem("user"))
+          console.log('session', userinfo.user_id);
+          if (userinfo) {
+            const userId = userinfo.user_id;
+            const dataSend = { user_id: userId };
+            const response = await axios.post('http://localhost:5000/UserInfo', dataSend)
+            setUserInfo(response.data[0]);
+            console.log(response.data[0]);
+          } else {
+            console.log('사용자 정보가 없습니다.')
+          }
+        } catch (error) {
+          console.error('회원정보 userid 전달 에러:', error);
+        }
+      };
+  
+      fetchData();
+    }, []);
   
 
-
-
-  const fetchSessionData = async () => {
-    try {
-      const response = await axios.get('/session');
-      const sessionData = response.data;
-      const { user_id, clan_boss } = sessionData;
-
-      fetchScheduleData(user_id, clan_boss);
-    } catch (error) {
-      console.error('Error fetching session data:', error);
-    }
-  };
-
-
-  const fetchScheduleData = async (userId, clanBoss) => {
-        try {
-          const response = await axios.get(`/api/schedule/${userId}`);
-          const scheduleData = response.data;
+    const fetchScheduleData = async () => {
+      try {
+        const userinfo = JSON.parse(sessionStorage.getItem("user"));
+        if (userinfo) {
+          const userId = userinfo.user_id;
+          const response = await axios.get(`/api/schedule/${userId}`);
+          const scheduleData = response.data;
     
-          const newEvents = [
-            ...scheduleData.personal.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt, color: 'yellow', calendarType: 1, id: event.sche_idx, user_id: userId, clan_boss: clanBoss, sche_idx: event.sche_idx })),
-            ...scheduleData.clan.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt, color: 'lightgreen', calendarType: 2, id: event.sche_idx, user_id: userId, clan_boss: clanBoss, sche_idx: event.sche_idx })),
-            ...scheduleData.subscribedMatch.map(event => ({
-              title: `${teamInfo[event.team_1]} ${event.team_1_score} vs ${event.team_2_score} ${teamInfo[event.team_2]}`, start: event.matched_at, color: '#FF6347', sche_idx: event.sche_idx
-            }))
-          ];
-          setEvents(newEvents);
+          const newEvents = [
+            ...scheduleData.personal.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt, color: 'yellow', calendarType: 1, id: event.sche_idx, user_id: userId, clan_boss: userinfo.clan_boss, sche_idx: event.sche_idx })),
+            ...scheduleData.clan.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt, color: 'lightgreen', calendarType: 2, id: event.sche_idx, user_id: userId, clan_boss: userinfo.clan_boss, sche_idx: event.sche_idx })),
+            ...scheduleData.subscribedMatch.map(event => ({
+              title: `${teamInfo[event.team_1]} ${event.team_1_score} vs ${event.team_2_score} ${teamInfo[event.team_2]}`, start: event.matched_at, color: '#FF6347', sche_idx: event.sche_idx
+            }))
+          ];
+          setEvents(newEvents);
+        } else {
+          console.log('사용자 정보가 없습니다.');
+        }
+      } catch (error) {
+        console.error('Error fetching schedule data:', error);
+      }
+    };
     
-        } catch (error) {
-          console.error('Error fetching schedule data:', error);
-        }
-      };
-
-  useEffect(() => {
-    fetchSessionData();
-  }, []);
+    useEffect(() => {
+      fetchScheduleData();
+    }, []);
 
   const handleDateClick = (selectInfo) => {
     if (clickTimeout !== null) {

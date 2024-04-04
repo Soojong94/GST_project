@@ -98,8 +98,6 @@ app.post('/signup', async (req, res, next) => {
 });
 
 
-let user = {};
-
 // Endpoint for user login
 app.post('/login', async (req, res, next) => {
   const { userId, userPw } = req.body;
@@ -117,7 +115,6 @@ app.post('/login', async (req, res, next) => {
           clan: results[0].clan,
           clan_boss: results[0].clan_boss,
         };
-        user = req.session.user; // Save user data in global variable
         return res.status(200).send('Login Successful');
       } else {
         return res.status(401).send('Incorrect Password');
@@ -130,15 +127,11 @@ app.post('/login', async (req, res, next) => {
 
 // Endpoint to retrieve session data
 app.get('/session', (req, res) => {
-  console.log('session back 도착', user)
-  const { user_id, user_nick, clan_boss, clan } = user;
-  let sessionObj = {
-    user_id: user_id,
-    user_nick: user_nick,
-    clan_boss: clan_boss,
-    clan: clan,
+  if (req.session.user) {
+    res.json(req.session.user);
+  } else {
+    res.status(404).send('Session Not Found');
   }
-  res.json(sessionObj);
 });
 
 // Endpoint to check if user is logged in
@@ -152,9 +145,14 @@ app.get('/checkLogin', (req, res) => {
 
 // 세션 종료를 처리하는 엔드포인트(로그아웃)
 app.post('/logout', (req, res) => {
-  req.session.user = null; // 세션 정보를 제거합니다.
-  console.log('세션바이');
-  return res.sendStatus(200);
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Error destroying session:', err);
+      return res.status(500).send('Error destroying session');
+    }
+    console.log('세션바이');
+    return res.sendStatus(200);
+  });
 });
 
 //=======================================================

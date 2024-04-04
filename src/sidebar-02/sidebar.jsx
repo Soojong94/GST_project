@@ -32,17 +32,21 @@ const Sidebar = () => {
     axios.post('/logout')
       .then(response => {
         if (response.status === 200) {
-          setUser(null); // 로그아웃 성공 시 사용자 정보를 초기화합니다.
-          sessionStorage.removeItem("user"); // sessionStorage에서 사용자 정보를 제거합니다.
-          navigate('/'); // 홈페이지로 이동합니다.
+          setUser(null); // 사용자 정보 초기화
+          sessionStorage.removeItem("user"); // 세션 정보 제거
+          navigate('/'); // 메인 페이지로 리다이렉션
         } else {
-          console.log('Logout failed');
+          console.log('로그아웃 실패');
         }
       })
       .catch(error => {
-        console.log('Error occurred during logout', error);
+        console.log('로그아웃 중 에러 발생:', error);
+        setUser(null); // 사용자 정보 초기화
+        sessionStorage.removeItem("user"); // 세션 정보 제거
+        navigate('/'); // 메인 페이지로 리다이렉션
       });
   };
+  
   return (
     <nav className={isCollapsed ? 'collapsed' : ''}>
       <div className="sidebar-top">
