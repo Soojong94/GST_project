@@ -95,7 +95,7 @@
   border-radius: 5px;
 
   min-height: 20px;
-  min-width: 50px;
+  width: 60px;
 }
 
 /* 다른 버튼들과 간격을 맞추기 위해 조정 */
