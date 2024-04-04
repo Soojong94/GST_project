@@ -14,7 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import mainpage_logo from './GST_logo.png';
 import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
-import  './style.css';
+import './style.css';
 
 const theme = createTheme();
 
@@ -28,37 +28,35 @@ const Signin = () => {
     const { name, value } = e.target;
     setCredentials(prevState => ({ ...prevState, [name]: value }));
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(credentials)
     };
-  
+
     try {
       const response = await fetch('http://localhost:5000/login', requestOptions);
-  
+    
       if (response.ok) {
         const contentType = response.headers.get('content-type');
         if (contentType && contentType.includes('application/json')) {
           const userData = await response.json();
-          // Store user data in session storage
-          sessionStorage.setItem('userData', JSON.stringify(userData));
-        } else {
+          sessionStorage.setItem("user", JSON.stringify(userData));
           alert('로그인 성공');
           window.location.href = 'http://localhost:3000/Calendar';
+        } else {
+          const data = await response.text();
+          alert(data);
         }
-      } else {
-        const data = await response.text();
-        alert(data);
       }
     } catch (error) {
       console.error('에러가 발생했습니다!', error);
     }
   };
-  
 
   return (
     <ThemeProvider theme={theme}>
@@ -66,14 +64,13 @@ const Signin = () => {
         <CssBaseline />
         <Box
           sx={{
-        
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
           }}
         >
           <Link href='/'>
-          <img id='signIn_logo' src={mainpage_logo} alt="Logo" />
+            <img id='signIn_logo' src={mainpage_logo} alt="Logo" />
           </Link>
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <VideogameAssetIcon />

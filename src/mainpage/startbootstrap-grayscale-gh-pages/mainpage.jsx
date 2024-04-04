@@ -23,19 +23,44 @@ function Mainpage() {
         window.location.href = 'http://localhost:3000/SignIn';
     }
 
-       useEffect(() => {
-      console.log('메인 화면 세팅 완료')
-      // sessionStorage에 사용자 정보가 없을 때만 서버로부터 세션 정보를 가져옵니다.
-      if (!sessionStorage.getItem("user")) {
-        axios.get('/session')
-          .then(res => {
-            console.log('넘어온 세션', res.data)
-            sessionStorage.setItem("user", JSON.stringify(res.data));
-          })
-      }
-    }, [])
 
 
+    // useEffect(() => {
+    //     fetchSessionData(); // 페이지 진입 시 세션 정보 업데이트
+    //   }, []);
+      
+    //   const fetchSessionData = async () => {
+    //     try {
+    //       const response = await axios.get('/session');
+    //       const sessionData = response.data;
+      
+    //       // sessionStorage에 사용자 정보 저장
+    //       sessionStorage.setItem("user", JSON.stringify(sessionData));
+      
+    //     } catch (error) {
+    //       console.error('Error fetching session data:', error);
+    //     }
+    //   };
+    
+
+
+
+
+
+    //    useEffect(() => {
+    //   console.log('메인 화면 세팅 완료')
+    //   // sessionStorage에 사용자 정보가 없을 때만 서버로부터 세션 정보를 가져옵니다.
+    //   if (!sessionStorage.getItem("user")) {
+    //     axios.get('/session')
+    //       .then(res => {
+    //         console.log('넘어온 세션', res.data)
+    //         sessionStorage.setItem("user", JSON.stringify(res.data));
+    //       })
+    //   }
+    // }, [])
+
+
+  
     // 로그아웃 구현 하려면 이렇게.
     // setItem('user',{})
 

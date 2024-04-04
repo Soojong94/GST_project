@@ -6,10 +6,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../sidebar-02/sidebar';
-import '../../src/App.css'; // 전역 스타일을 추가할 수도 있습니다.
-// import Agenda from './../Agenda/Agenda';
 import axios from 'axios';
-
 
 const teamInfo = {
   1: 'T1',
@@ -31,64 +28,56 @@ const Calendar = ({ initialEvents }) => {
   const [isAgendaVisible, setAgendaVisible] = useState(false);
   const [agendaEvents, setAgendaEvents] = useState([]);
   const [events, setEvents] = useState(initialEvents);
+  const [userInfo, setUserInfo] = useState(null);
 
 
-// 캘린더 페이지 컴포넌트 내에서 세션 체크 및 리다이렉션
-
-useEffect(() => {
-  // 세션 체크 로직
-  console.log("세션 체크 시작");
-  if (!sessionStorage.getItem("user")) {
-    console.log("세션이 없습니다. 메인 페이지로 리다이렉션합니다.");
-    
-  } else {
-    console.log("세션이 있습니다.");
-  }
-}, []);
-
-
-  useEffect(() => {
-    fetchSessionData(); // 페이지 진입 시 세션 정보 업데이트
-  }, []);
-  
-  const fetchSessionData = async () => {
+  const fetchUserInfo = async () => {
     try {
-      const response = await axios.get('/session');
-      const sessionData = response.data;
-      const { user_id, clan_boss } = sessionData;
-  
-      // sessionStorage에 사용자 정보 저장
-      sessionStorage.setItem("user", JSON.stringify(sessionData));
-  
-      fetchScheduleData(user_id, clan_boss);
+      const userinfo = JSON.parse(sessionStorage.getItem("user"));
+      console.log('session', userinfo.user_id);
+      if (userinfo) {
+        const userId = userinfo.user_id;
+        const dataSend = { user_id: userId };
+        const response = await axios.post('http://localhost:5000/UserInfo', dataSend);
+        setUserInfo(response.data[0]); // 사용자 정보 설정
+        console.log(response.data[0]);
+      } else {
+        console.log('사용자 정보가 없습니다.');
+      }
     } catch (error) {
-      console.error('Error fetching session data:', error);
+      console.error('회원정보 userid 전달 에러:', error);
     }
   };
 
-
-  const fetchScheduleData = async (userId, clanBoss) => {
-        try {
-          const response = await axios.get(`/api/schedule/${userId}`);
-          const scheduleData = response.data;
-    
-          const newEvents = [
-            ...scheduleData.personal.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt, color: 'yellow', calendarType: 1, id: event.sche_idx, user_id: userId, clan_boss: clanBoss, sche_idx: event.sche_idx })),
-            ...scheduleData.clan.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt, color: 'lightgreen', calendarType: 2, id: event.sche_idx, user_id: userId, clan_boss: clanBoss, sche_idx: event.sche_idx })),
-            ...scheduleData.subscribedMatch.map(event => ({
-              title: `${teamInfo[event.team_1]} ${event.team_1_score} vs ${event.team_2_score} ${teamInfo[event.team_2]}`, start: event.matched_at, color: '#FF6347', sche_idx: event.sche_idx
-            }))
-          ];
-          setEvents(newEvents);
-    
-        } catch (error) {
-          console.error('Error fetching schedule data:', error);
-        }
-      };
-
+  const fetchScheduleData = async () => {
+    try {
+      const userinfo = JSON.parse(sessionStorage.getItem("user"));
+      if (userinfo) {
+        const userId = userinfo.user_id;
+        const response = await axios.get(`/api/schedule/${userId}`);
+        const scheduleData = response.data;
+  
+        const newEvents = [
+          ...scheduleData.personal.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt, color: 'yellow', calendarType: 1, id: event.sche_idx, user_id: userId, clan_boss: userinfo.clan_boss, sche_idx: event.sche_idx })),
+          ...scheduleData.clan.map(event => ({ title: event.sche_content, start: event.st_dt, end: event.ed_dt, color: 'lightgreen', calendarType: 2, id: event.sche_idx, user_id: userId, clan_boss: userinfo.clan_boss, sche_idx: event.sche_idx })),
+          ...scheduleData.subscribedMatch.map(event => ({
+            title: `${teamInfo[event.team_1]} ${event.team_1_score} vs ${event.team_2_score} ${teamInfo[event.team_2]}`, start: event.matched_at, color: '#FF6347', sche_idx: event.sche_idx
+          }))
+        ];
+        setEvents(newEvents);
+      } else {
+        console.log('사용자 정보가 없습니다.');
+      }
+    } catch (error) {
+      console.error('Error fetching schedule data:', error);
+    }
+  };
+  
   useEffect(() => {
-    fetchSessionData();
+    fetchScheduleData();
   }, []);
+  
+
 
   const handleDateClick = (selectInfo) => {
     if (clickTimeout !== null) {
@@ -141,6 +130,7 @@ useEffect(() => {
       console.log("클랜 일정 또는 개인 일정이 아니므로 삭제되지 않습니다.");
     }
   };
+
   return (
     <div className='main_container'>
       <Sidebar />

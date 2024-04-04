@@ -98,7 +98,7 @@ app.post('/signup', async (req, res, next) => {
 });
 
 
-let user = {};
+//let user = {};
 
 // Endpoint for user login
 app.post('/login', async (req, res, next) => {
@@ -118,7 +118,7 @@ app.post('/login', async (req, res, next) => {
           clan_boss: results[0].clan_boss,
         };
         user = req.session.user; // Save user data in global variable
-        return res.status(200).send('Login Successful');
+        return res.status(200).send(user);
       } else {
         return res.status(401).send('Incorrect Password');
       }
