@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 function BoardCard({ imgSrc, title, content, b_idx }) {
   return (
     <div className='main_container' id='board_container'>
-      <div id = 'board_page'>
+      <div className= 'board_page'>
         <Link to={`/Board/${b_idx}`} className="clan_board_card">
           <article>
             <figure>
@@ -48,7 +48,9 @@ function Board() {
         </button>
         </Link>
       </div>
+      <div>
       <Sidebar />
+      </div>
       <div className="articles">
         {boards.map((board, index) => (
           <div key={index} className={`article ${index % 1 === 0 ? 'even' : 'odd'}`}>
