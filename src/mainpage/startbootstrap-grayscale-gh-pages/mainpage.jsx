@@ -9,7 +9,7 @@ import MainImage from './assets/img/hinoon.png';
 import Main_team_img from './assets/img/mainpage_team_img.png';
 import Main_calendar from './assets/img/main_calendar.png';
 import Main_board_content from './assets/img/main_board_content.png';
-import chovy from './assets/img/mainpage_chovy.png'
+import BigFaker from './assets/img/bigFaker.png'
 
 
 function Mainpage() {
@@ -79,7 +79,7 @@ function Mainpage() {
 
                                     </div>
                                 </div>
-                                <img id ='Main_team_sub' src={chovy} />
+                                <img id ='Main_team_sub' src={BigFaker} />
                             </div>
                         </div>
                     </div>
@@ -102,6 +102,7 @@ function Mainpage() {
                 </div>
                 </div>
             </section>
+            <br></br>
 
         </div>
     );

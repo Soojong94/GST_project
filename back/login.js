@@ -437,7 +437,7 @@ app.delete('/api/userDelete/:userId', (req, res) => {
 
 // 게시판 리스트
 app.get("/api/boardList", (req, res) => {
-  const q = "SELECT * FROM boards";
+  const q = '';
   connection.query(q, (err, data) => {
     if (err) return res.json(err);
     return res.json(data);
