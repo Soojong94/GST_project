@@ -3,11 +3,13 @@ import './AddSchedule.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Sidebar from '../sidebar-02/sidebar';
-import '../App.css'
+import '../App.css';
 
 const AddSchedule = ({ onScheduleAdded }) => {
   const { date } = useParams();
   const navigate = useNavigate();
+  const [userInfo, setUserInfo] = useState(null);
+  const [userId, setUserId] = useState('');
 
   const [formData, setFormData] = useState({
     calendarType: '',
@@ -20,23 +22,32 @@ const AddSchedule = ({ onScheduleAdded }) => {
   });
 
   useEffect(() => {
-    const getSessionData = async () => {
+    const fetchUserInfo = async () => {
       try {
-        const response = await axios.get('/session', { withCredentials: true });
-        const { user_id, clan_boss } = response.data;
-        const calendarType = clan_boss === 'y' ? '2' : '1';
-        setFormData((prevState) => ({
-          ...prevState,
-          user_id: user_id,
-          calendarType: calendarType,
-        }));
+        const userinfo = JSON.parse(sessionStorage.getItem("user"));
+        if (userinfo && userinfo.user_id) {
+          setUserId(userinfo.user_id);
+          const dataSend = { user_id: userinfo.user_id };
+          const response = await axios.post('http://localhost:5000/UserInfo', dataSend);
+          setUserInfo(response.data[0]); // 사용자 정보 설정
+          console.log(response.data[0]);
+    
+          // 클랜 보스인지 확인하여 캘린더 타입 설정
+          const calendarType = userinfo.clan_boss === 'y' ? '2' : '1';
+          setFormData((prevState) => ({
+            ...prevState,
+            user_id: userinfo.user_id, // 유저 아이디 추가
+            calendarType: calendarType,
+          }));
+        } else {
+        }
       } catch (error) {
-        console.error('Error retrieving session data:', error);
       }
     };
+    
 
-    getSessionData();
-  }, []);
+    fetchUserInfo();
+  }, [date]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -97,11 +108,11 @@ const AddSchedule = ({ onScheduleAdded }) => {
             <div className="input-group mb-4">
               <label htmlFor="calendar-type" className="label">캘린더 종류</label>
               <select id="calendar-type" name="calendarType" className="input" value={formData.calendarType} onChange={handleChange}>
-                <option value="1">개인 일정</option>
-                {formData.calendarType === '2' && (
-                  <option value="2">클랜 일정</option>
-                )}
-              </select>
+  <option value="1">개인 일정</option>
+  {userInfo && userInfo.clan_boss === 'y' && ( // 클랜 보스인 경우에만 클랜 일정 옵션 표시
+    <option value="2">클랜 일정</option>
+  )}
+</select>
             </div>
             <input type="hidden" name="date" value={date} />
             <div className="input-group mb-4">
