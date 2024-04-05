@@ -98,7 +98,7 @@ const AddSchedule = ({ onScheduleAdded }) => {
               <label htmlFor="calendar-type" className="label">캘린더 종류</label>
               <select id="calendar-type" name="calendarType" className="input" value={formData.calendarType} onChange={handleChange}>
                 <option value="1">개인 일정</option>
-                {formData.calendarType === '2' && (
+                {formData.calendarType === '2'&& (
                   <option value="2">클랜 일정</option>
                 )}
               </select>
