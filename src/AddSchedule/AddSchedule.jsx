@@ -108,11 +108,11 @@ const AddSchedule = ({ onScheduleAdded }) => {
             <div className="input-group mb-4">
               <label htmlFor="calendar-type" className="label">캘린더 종류</label>
               <select id="calendar-type" name="calendarType" className="input" value={formData.calendarType} onChange={handleChange}>
-  <option value="1">개인 일정</option>
-  {userInfo && userInfo.clan_boss === 'y' && ( // 클랜 보스인 경우에만 클랜 일정 옵션 표시
-    <option value="2">클랜 일정</option>
-  )}
-</select>
+              <option value="1">개인 일정</option>
+              {userInfo && userInfo.clan_boss === 'y' && ( // 클랜 보스인 경우에만 클랜 일정 옵션 표시
+                <option value="2">클랜 일정</option>
+              )}
+              </select>
             </div>
             <input type="hidden" name="date" value={date} />
             <div className="input-group mb-4">
