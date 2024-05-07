@@ -32,6 +32,7 @@ function Board() {
     axios.get('/api/boardList')
       .then(response => {
         setBoards(response.data);
+        console.log(response.data)
 
       })
       .catch(error => {

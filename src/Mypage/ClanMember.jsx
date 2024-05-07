@@ -9,13 +9,11 @@ function ClanMember() {
         const fetchData = async () => {
             try {
                 const userinfo = JSON.parse(sessionStorage.getItem("user"))
-                console.log('session', userinfo.user_id);
                 if (userinfo) {
                     const userId = userinfo.user_id;
                     const dataSend = { user_id: userId };
                     const response = await axios.post('http://localhost:5000/api/ClanMember', dataSend)
                     setData(response.data);
-                    console.log(response.data);
                 } else {
                     console.log('클랜멤버가 없습니다.')
                 }

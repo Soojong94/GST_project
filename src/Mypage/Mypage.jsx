@@ -14,13 +14,11 @@ function Mypage() {
     const fetchData = async () => {
       try {
         const userinfo = JSON.parse(sessionStorage.getItem("user"))
-        console.log('session', userinfo.user_id);
         if (userinfo) {
           const userId = userinfo.user_id;
           const dataSend = { user_id: userId };
           const response = await axios.post('http://localhost:5000/UserInfo', dataSend)
-          setUserInfo(response.data[0]);
-          console.log(response.data[0]);
+          setUserInfo(response.data);
         } else {
           console.log('사용자 정보가 없습니다.')
         }
@@ -46,7 +44,6 @@ function Mypage() {
       const updatedUserInfo = { user_nick: editedNickname, user_phone: editedPhoneNumber };
       const userId = JSON.parse(sessionStorage.getItem("user")).user_id; // 세션 스토리지에서 사용자 ID 가져오기
       const response = await axios.post('http://localhost:5000/api/updateUserInfo', { ...updatedUserInfo, user_id: userId });
-      console.log(response.data); // 서버로부터의 응답 로그에 출력
       setIsEditing(false); // 수정 모드 종료
       window.location.reload();
     } catch (error) {
@@ -95,7 +92,6 @@ function Mypage() {
           const userId = userinfo.user_id;
           const response = await axios.get(`http://localhost:5000/api/Mypagesubscription/${userId}`)
           setUserSubscriptions(response.data);
-          console.log(response.data);
         } else {
           console.log('사용자 정보가 없습니다.')
         }

@@ -28,7 +28,7 @@ const Team_info = () => {
       try {
         setIsLoading(true);
         const res = await axios.get(`http://localhost:5000/api/teaminfo/${team_idx}`);
-        setTeam(res.data[0]);
+        setTeam(res.data);
         setIsLoading(false);
       } catch (err) {
         console.error('팀 정보를 가져오는 중 에러가 발생했습니다:', err);
@@ -85,7 +85,7 @@ useEffect(() => {
   
     const subscriptionData = {
       userId: userId,
-      teamIdx: team.team_idx,
+      teamIdx: team_idx,
       isSubscribed: !isSubscribed
     };
   
@@ -121,7 +121,7 @@ useEffect(() => {
           <>
             <div id='team-info-img' className='team-info-img'>
   
-              <img src={teamLogoPaths[team.team_idx]} alt='Fetch API GraphQL Preview' style={{ width: '300px' }} />
+              <img src={teamLogoPaths[team_idx]} alt='Fetch API GraphQL Preview' style={{ width: '300px' }} />
             </div>
   
               <div className='subscribe-area'>
