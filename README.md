@@ -14,3 +14,10 @@
 <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">
 <img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white"> 
 <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
+
+
+프로젝트 기간 : 2024 / 03 / 20 ~ 2024 / 04 / 05
+
+프로젝트 내용 : REACT, EXPRESS.JS 를 활용한 게임 시청자를 위한 일정관리 서비스
+
+ppt : https://url.kr/qjo4vw
